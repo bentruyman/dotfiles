@@ -14,13 +14,17 @@ set nocompatible
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'benjie/neomake-local-eslint.vim'
 Plug 'corntrace/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dracula/vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'ervandew/supertab'
 Plug 'fatih/vim-go'
 Plug 'junegunn/vim-easy-align'
+Plug 'neomake/neomake'
+Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
@@ -216,6 +220,9 @@ nnoremap <leader>wq :wqa!<cr>
 
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
+
+" Neomake
+autocmd! BufWritePost * Neomake
 
 " NERDTree
 let NERDTreeIgnore=[
