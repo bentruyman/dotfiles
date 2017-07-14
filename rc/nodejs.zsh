@@ -35,9 +35,4 @@ __() {
   [[ -s "$NVM_DIR/nvm.sh" ]] && {
     source $NVM_DIR/nvm.sh
   }
-
-  # Add global yarn bin to $PATH
-  (( $+commands[yarn] )) && {
-    _bt_prefix_path $(yarn global bin)
-  }
 } && __
