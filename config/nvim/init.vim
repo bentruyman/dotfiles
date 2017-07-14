@@ -26,6 +26,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'neomake/neomake'
 Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdtree'
+Plug 'rakr/vim-one'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
@@ -123,8 +124,13 @@ inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 " Set background color to dark
 set background=dark
 
+" Enable 24-bit color support
+set termguicolors
+set t_8f=^[[38;2;%lu;%lu;%lum
+set t_8b=^[[48;2;%lu;%lu;%lum
+
 " Set colorscheme
-colorscheme dracula
+colorscheme one
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
