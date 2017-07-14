@@ -16,16 +16,17 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'benjie/neomake-local-eslint.vim'
 Plug 'corntrace/bufexplorer'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dracula/vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'ervandew/supertab'
 Plug 'fatih/vim-go'
 Plug 'junegunn/vim-easy-align'
 Plug 'neomake/neomake'
 Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdtree'
+Plug 'Shougo/deoplete.nvim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -49,11 +50,15 @@ endif
 " User Interface
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Set clipboard to system
+set clipboard=unnamed
+
 " Draw a vertical ruler at column 80
 set colorcolumn=81
 
-" Set clipboard to system
-set clipboard=unnamed
+" Configure autocomplete window
+set completeopt=menu,preview
+set complete=.,w
 
 " Highlight current line
 set cursorline
@@ -108,6 +113,9 @@ set wildmode=longest:full
 " Wrap long lines
 set wrap
 
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -131,6 +139,9 @@ highlight OverLength ctermbg=red guibg=#5f0000 guifg=#cc6666
 
 " Highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=#5f0000 guifg=#cc6666
+
+" Autocomplete menu colors
+highlight Pmenu ctermfg=15 ctermbg=0 guifg=#ffffff guibg=#000000
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files, Backups, and Undo
@@ -217,6 +228,10 @@ nnoremap <leader>wq :wqa!<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
 
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
