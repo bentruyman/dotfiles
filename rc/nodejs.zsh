@@ -33,7 +33,7 @@ __() {
 
   # Load nvm
   [[ -s "$NVM_DIR/nvm.sh" ]] && {
-    source $NVM_DIR/nvm.sh --no-use
+    source $NVM_DIR/nvm.sh
   }
 
   # Add global yarn bin to $PATH
