@@ -1,3 +1,9 @@
+# Filesystem
+md() {
+  mkdir -p "$1"
+  cd "$1"
+}
+
 # Navigation
 alias ...='cd ../..'
 alias ....='cd ../../..'
