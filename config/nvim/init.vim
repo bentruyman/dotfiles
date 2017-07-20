@@ -62,6 +62,9 @@ set complete=.,w
 " Highlight current line
 set cursorline
 
+" Use taller vertical split separator character (reduces visible gaps)
+set fillchars+=vert:│
+
 " Hide buffers instead of closing them
 set hidden
 
