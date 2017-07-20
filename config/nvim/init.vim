@@ -15,31 +15,27 @@ set nocompatible
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'benjie/neomake-local-eslint.vim'
-Plug 'corntrace/bufexplorer'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+Plug 'corntrace/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dracula/vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'fatih/vim-go'
 Plug 'junegunn/vim-easy-align'
 Plug 'neomake/neomake'
-Plug 'posva/vim-vue'
 Plug 'rakr/vim-one'
 Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'pangloss/vim-javascript'
 
 call plug#end()
 
