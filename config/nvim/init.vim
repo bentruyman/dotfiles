@@ -259,6 +259,9 @@ noremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 noremap <silent> <LocalLeader>nr :NERDTree<CR>
 noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 
+" One
+let g:one_allow_italics = 1
+
 " TComment
 noremap <silent> <LocalLeader>cc :TComment<CR>
 
