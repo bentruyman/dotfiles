@@ -25,6 +25,7 @@ if ! brew cask &> /dev/null; then
   brew install brew-cask 2> /dev/null
 fi
 
+brew tap caskroom/fonts
 brew tap caskroom/versions
 
 brew install \
@@ -56,6 +57,7 @@ brew install \
 brew cask install \
      docker \
      flux \
+     font-liberationmono-nerd-font \
      google-chrome \
      google-drive \
      gpgtools \
@@ -145,9 +147,6 @@ done
 ###############################################################################
 # General                                                                     #
 ###############################################################################
-
-# Install fonts
-cp "$HOME/dotfiles/init/fonts/"* "$HOME/Library/Fonts"
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
@@ -270,8 +269,8 @@ defaults write com.apple.Safari AutoFillPasswords -int 0
 ###############################################################################
 
 # Install terminal theme
-if ! defaults read com.googlecode.iterm2 "Custom Color Presets" | grep "Dracula =" > /dev/null; then
-  open "$HOME/dotfiles/init/files/Dracula.itermcolors"
+if ! defaults read com.googlecode.iterm2 "Custom Color Presets" | grep "One Dark =" > /dev/null; then
+  open "$HOME/dotfiles/init/files/One Dark.itermcolors"
 fi
 
 ###############################################################################
