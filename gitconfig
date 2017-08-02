@@ -1,6 +1,9 @@
 [user]
   name = Ben Truyman
 
+[core]
+  excludesfile = ~/.gitignore_global
+
 [alias]
   # Lists the files changed given a hash/path
   fc = !"git diff-tree --no-commit-id --name-only -r"
