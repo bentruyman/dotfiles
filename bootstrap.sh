@@ -101,6 +101,7 @@ echo "                       by: Ben Truyman   "
 # Install
 report_header "Copying files..."
 copy_file "gitconfig"
+copy_file "gitignore_global"
 echo "$_copy_count files copied"
 
 report_header "Linking files..."
