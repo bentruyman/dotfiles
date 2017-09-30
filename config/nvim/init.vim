@@ -25,7 +25,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 Plug 'neomake/neomake'
-Plug 'rakr/vim-one'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim'
@@ -38,6 +37,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
+Plug 'w0ng/vim-hybrid'
 Plug 'wannesm/wmgraphviz.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -128,13 +128,8 @@ inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 " Set background color to dark
 set background=dark
 
-" Enable 24-bit color support
-set termguicolors
-set t_8f=^[[38;2;%lu;%lu;%lum
-set t_8b=^[[48;2;%lu;%lu;%lum
-
 " Set colorscheme
-colorscheme one
+colorscheme hybrid
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
