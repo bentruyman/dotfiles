@@ -61,7 +61,6 @@ brew cask install \
      google-chrome \
      google-drive \
      gpgtools \
-     iterm2-nightly \
      keepingyouawake \
      lastpass \
      spotify \
@@ -263,15 +262,6 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
 # Don't offer storing passwords
 defaults write com.apple.Safari AutoFillPasswords -int 0
-
-###############################################################################
-# iTerm                                                                       #
-###############################################################################
-
-# Install terminal theme
-if ! defaults read com.googlecode.iterm2 "Custom Color Presets" | grep "One Dark =" > /dev/null; then
-  open "$HOME/dotfiles/init/files/One Dark.itermcolors"
-fi
 
 ###############################################################################
 # Shell                                                                       #
