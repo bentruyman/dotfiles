@@ -16,7 +16,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
-Plug 'benjie/neomake-local-eslint.vim'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'corntrace/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -240,9 +239,6 @@ let g:deoplete#enable_smart_case = 1
 
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
-
-" Neomake
-autocmd! BufWritePost * Neomake
 
 " NERDTree
 let NERDTreeIgnore=[
