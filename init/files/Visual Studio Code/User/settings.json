@@ -1,4 +1,8 @@
 {
+  //////////////////////////////////////////////////////////////////////////////
+  // BUILT-INS /////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   // editor
   "editor.fontFamily": "'Knack Nerd Font', Menlo, Monaco, 'Courier New', monospace",
   "editor.formatOnPaste": true,
@@ -8,35 +12,40 @@
   ],
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
-  // eslint
-  "eslint.autoFixOnSave": true,
+
   // files
   "files.exclude": {
     "**/.vagrant": true,
-    "**/node_modules": true,
-    "**/*.css.d.ts": true
+    "**/node_modules": true
   },
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  // project-manager
-  "projectManager.git.ignoredFolders": [
-    "dist",
-    "node_modules",
-    "test"
+
+  // workbench
+  "workbench.colorTheme": "Material Theme",
+  "workbench.iconTheme": "material-icon-theme",
+
+  //////////////////////////////////////////////////////////////////////////////
+  // PLUG-INS //////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  // eslint
+  "eslint.autoFixOnSave": true,
+
+  // git project manager
+  "gitProjectManager.baseProjectsFolders": [
+    "~/dotfiles",
+    "~/Development/src"
   ],
-  "projectManager.vscode.ignoredFolders": [
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  // stylelint
-  "css.validate": false, // must be disabled
-  "scss.validate": false, // must be disabled
-  // tslint
-  "tslint.autoFixOnSave": true,
-  "tslint.ignoreDefinitionFiles": false,
+  "gitProjectManager.ignoredFolders": ["node_modules"],
+  "gitProjectManager.storeRepositoriesBetweenSessions": true,
+
+  // material icon theme
+  "material-icon-theme.showUpdateMessage": false,
+
   // vim
   "vim.easymotion": true,
+  "vim.disableAnnoyingNeovimMessage": true,
   "vim.leader": "<space>",
   "vim.useSystemClipboard": true,
   "vim.handleKeys": {
@@ -45,7 +54,4 @@
     "<C-k>": false,
     "<C-l>": false
   },
-  // workbench
-  "workbench.colorTheme": "Dracula",
-  "workbench.iconTheme": "vscode-icons"
 }

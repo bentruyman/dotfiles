@@ -122,20 +122,20 @@ for file in ${VSCODE_CONFIGS[@]}; do
 done
 
 VSCODE_EXTENSIONS=(
+  Equinusocio.vsc-material-theme
+  PKief.material-icon-theme
   PeterJausovec.vscode-docker
-  aeschli.vscode-css-formatter
-  alefragnani.project-manager
-  clinyong.vscode-css-modules
+  akamud.vscode-theme-onedark
+  christian-kohler.npm-intellisense
   dbaeumer.vscode-eslint
-  dracula-theme.theme-dracula
-  eg2.tslint
+  donjayamanne.githistory
+  eg2.vscode-npm-script
   fallenwood.vimL
-  gamunu.vscode-yarn
+  felipecaputo.git-project-manager
+  keyring.Lua
   lukehoban.Go
   minhthai.vscode-todo-parser
-  robertohuertasm.vscode-icons
-  shinnn.stylelint
-  stkb.rewrap
+  ms-vscode.azure-account
   vscodevim.vim
 )
 
