@@ -28,6 +28,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
 Plug 'neomake/neomake'
+Plug 'rakr/vim-one'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -41,7 +42,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
-Plug 'w0ng/vim-hybrid'
 Plug 'wannesm/wmgraphviz.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -134,11 +134,14 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Colors and Fonts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Enable Truecolor support
+set termguicolors
+
 " Set background color to dark
 set background=dark
 
-" Set colorscheme
-colorscheme hybrid
+" Set color scheme
+colorscheme one
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
