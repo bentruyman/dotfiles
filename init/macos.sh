@@ -122,10 +122,8 @@ for file in ${VSCODE_CONFIGS[@]}; do
 done
 
 VSCODE_EXTENSIONS=(
-  Equinusocio.vsc-material-theme
   PKief.material-icon-theme
   PeterJausovec.vscode-docker
-  akamud.vscode-theme-onedark
   christian-kohler.npm-intellisense
   dbaeumer.vscode-eslint
   donjayamanne.githistory
@@ -137,6 +135,7 @@ VSCODE_EXTENSIONS=(
   minhthai.vscode-todo-parser
   ms-vscode.azure-account
   vscodevim.vim
+  zhuangtongfa.Material-theme
 )
 
 for EXTENSION in ${VSCODE_EXTENSIONS[@]}; do
