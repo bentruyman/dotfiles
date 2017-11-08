@@ -122,6 +122,7 @@ for file in ${VSCODE_CONFIGS[@]}; do
 done
 
 VSCODE_EXTENSIONS=(
+  EditorConfig.EditorConfig
   PKief.material-icon-theme
   PeterJausovec.vscode-docker
   christian-kohler.npm-intellisense
@@ -130,11 +131,12 @@ VSCODE_EXTENSIONS=(
   eg2.vscode-npm-script
   fallenwood.vimL
   felipecaputo.git-project-manager
-  keyring.Lua
   lukehoban.Go
   minhthai.vscode-todo-parser
   ms-vscode.azure-account
+  timonwong.shellcheck
   vscodevim.vim
+  wayou.vscode-todo-highlight
   zhuangtongfa.Material-theme
 )
 
