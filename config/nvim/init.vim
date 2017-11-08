@@ -9,6 +9,10 @@ let maplocalleader = "\<Space>"
 " Make Vim more useful
 set nocompatible
 
+" Set path to Python executables
+let g:python_host_prog  = '/usr/local/bin/python2'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
