@@ -157,19 +157,14 @@ highlight OverLength ctermbg=red guibg=#5f0000 guifg=#cc6666
 " Highlight trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=#5f0000 guifg=#cc6666
 
-" Autocomplete menu colors
-highlight Pmenu ctermfg=15 ctermbg=0 guifg=#ffffff guibg=#000000
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files, Backups, and Undo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-if exists("&undodir")
-  set undodir=~/.vim/undo
-endif
+set backupdir=~/.config/nvim/backups
+set directory=~/.config/nvim/swaps
+set undodir=~/.config/nvim/undo
 
 " Don't add empty newlines at the end of files
 set noeol
