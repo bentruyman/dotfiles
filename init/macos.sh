@@ -122,21 +122,32 @@ for file in ${VSCODE_CONFIGS[@]}; do
 done
 
 VSCODE_EXTENSIONS=(
-  EditorConfig.EditorConfig
+  AlanWalk.markdown-toc
+  Orta.vscode-jest
   PKief.material-icon-theme
   PeterJausovec.vscode-docker
+  bbenoist.vagrant
+  bierner.markdown-preview-github-styles
   christian-kohler.npm-intellisense
   dbaeumer.vscode-eslint
   donjayamanne.githistory
+  eg2.tslint
   eg2.vscode-npm-script
   fallenwood.vimL
   felipecaputo.git-project-manager
+  haaaad.ansible
+  joelday.docthis
+  korekontrol.saltstack
   lukehoban.Go
   minhthai.vscode-todo-parser
   ms-vscode.azure-account
-  timonwong.shellcheck
+  octref.vetur
+  rbbit.typescript-hero
+  rebornix.Ruby
+  shinnn.stylelint
+  timonwong.ansible-autocomplete
+  trixnz.vscode-lua
   vscodevim.vim
-  wayou.vscode-todo-highlight
   zhuangtongfa.Material-theme
 )
 
