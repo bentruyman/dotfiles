@@ -13,6 +13,9 @@
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
 
+  // explorer
+  "explorer.confirmDragAndDrop": false,
+
   // files
   "files.exclude": {
     "**/.vagrant": true,
@@ -21,14 +24,14 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
 
-  // linting
-  "css.validate": false,
-  "scss.validate": false,
-
   // workbench
   "workbench.colorTheme": "One Dark Pro",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "newUntitledFile",
+
+  // validators
+  "css.validate": false,
+  "scss.validate": false,
 
   //////////////////////////////////////////////////////////////////////////////
   // PLUG-INS //////////////////////////////////////////////////////////////////
@@ -36,36 +39,59 @@
 
   // eslint
   "eslint.autoFixOnSave": true,
-
-  // git lens
-  "gitlens.advanced.messages": {
-    "suppressCommitHasNoPreviousCommitWarning": false,
-    "suppressCommitNotFoundWarning": false,
-    "suppressFileNotUnderSourceControlWarning": false,
-    "suppressGitVersionWarning": false,
-    "suppressLineUncommittedWarning": false,
-    "suppressNoRepositoryWarning": false,
-    "suppressUpdateNotice": true,
-    "suppressWelcomeNotice": true
+  "eslint.options": {
+    "extensions": [
+      ".html",
+      ".js",
+      ".jsx",
+      ".vue"
+    ]
   },
+  "eslint.validate": [
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "javascriptreact",
+      "autoFix": true
+    }
+  ],
 
   // git project manager
   "gitProjectManager.baseProjectsFolders": [
     "~/dotfiles",
     "~/Development/src"
   ],
-  "gitProjectManager.ignoredFolders": ["node_modules"],
+  "gitProjectManager.ignoredFolders": [
+    "node_modules"
+  ],
   "gitProjectManager.storeRepositoriesBetweenSessions": true,
+
+  // lua
+  "lua.format.indentCount": 2,
+
+  // markdown toc
+  "markdown-toc.depthFrom": 2,
 
   // material icon theme
   "material-icon-theme.showUpdateMessage": false,
 
   // stylelint
   "stylelint.enable": true,
+  "stylelint.additionalDocumentSelectors": [
+    "vue"
+  ],
+
+  // tslint
+  "tslint.autoFixOnSave": true,
 
   // vim
   "vim.easymotion": true,
-  "vim.disableAnnoyingNeovimMessage": true,
   "vim.leader": "<space>",
   "vim.useSystemClipboard": true,
   "vim.handleKeys": {
