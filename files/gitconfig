@@ -1,0 +1,22 @@
+[core]
+  excludesfile = ~/.gitignore_global
+
+[branch]
+  # Rebases automatically when pulling
+  autosetuprebase = always
+
+[color]
+  ui = auto
+
+[commit]
+  gpgsign = true
+
+[diff]
+	renames = copies
+
+[github]
+  user = bentruyman
+
+[push]
+  default = simple
+  followTags = true

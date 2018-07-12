@@ -1,6 +1,1 @@
-.vagrant
-vim/*
-!vim/autoload/
-!vim/backups/
-!vim/swaps/
-!vim/undo/
+backups/

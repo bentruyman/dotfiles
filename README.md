@@ -6,69 +6,9 @@
 
 ## Installation
 
-    git clone --recursive https://github.com/bentruyman/dotfiles.git \
+    git clone https://github.com/bentruyman/dotfiles.git \
      && cd dotfiles \
-     && source bootstrap.sh
-
-## Usage
-
-These dotfiles add/configure the following:
-
-- go
-- iTerm2
-- macOS
-- node/nvm
-- tmux
-- vim
-- zsh
-
-The above list is not exhaustive of the programs installed as part of these
-dotfiles. Please review the programs installed in the
-[init](https://github.com/bentruyman/dotfiles/tree/master/init) directory.
-
-### Directories
-
-This dotfiles repository contains several directories. Below are
-descriptions for the intention/purpose for each of them.
-
-#### `/backups`
-
-When running `bootstrap.sh`, any conflicting files will be backed up here in
-the case of accidental overwrites.
-
-#### `/bin`
-
-Executable scripts that will appear first in a user's `$PATH`.
-
-#### `/init`
-
-Contains scripts that should initialize certain platforms after the dotfiles
-have been installed.
-
-#### `/local`
-
-Each script, named `<script>.zsh`, found in this directory will be executed
-during shell login after the below `/rc` scripts. The only difference between
-these and the `rc` scripts are that these scripts are ignored from Git, so any
-sensitive information won't accidentally be committed.
-
-#### `/rc`
-
-Each script, named `<script>.zsh`, found in this directory will be executed
-during shell login.
-
-### Manual Steps
-
-Due to automation limitations, some system provisioning steps must be completed
-manually.
-
-#### macOS
-
-To configure macOS, run the `init/macos.sh` script.
-
-#### Ubuntu
-
-To configure Ubuntu, run the `init/ubuntu.sh` script.
+     && bash bootstrap.sh
 
 ## Special Thanks
 
@@ -80,5 +20,5 @@ My dotfiles are the result of inspiration or outright stealing from:
 
 ## License
 
-Copyright (c) 2016 Ben Truyman<br>
+Copyright (c) 2018 Ben Truyman<br>
 Licensed under the [MIT license](https://github.com/bentruyman/dotfiles/blob/master/LICENSE-MIT).
