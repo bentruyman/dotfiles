@@ -1,5 +1,8 @@
-REPO_USER=bentruyman
-REPO_NAME=dotfiles
+DOCKER_USERNAME = ${DOCKER_USERNAME}
+DOCKER_PASSWORD = ${DOCKER_PASSWORD}
+
+REPO_USER = bentruyman
+REPO_NAME = dotfiles
 
 default: build
 
@@ -10,7 +13,7 @@ debug: build
 	docker run -it --rm ${REPO_USER}/${REPO_NAME} bash
 
 push:
-	echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 	docker push ${REPO_USER}/${REPO_NAME}
 
 test: build
