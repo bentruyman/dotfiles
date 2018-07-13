@@ -6,9 +6,12 @@
 
 ## Installation
 
-    git clone https://github.com/bentruyman/dotfiles.git \
-     && cd dotfiles \
-     && bash bootstrap.sh
+```
+$ cd \
+  && git clone https://github.com/bentruyman/dotfiles.git \
+  && cd dotfiles \
+  && bash bootstrap.sh
+```
 
 ## Try It Out!
 
@@ -16,7 +19,7 @@ If you want to try these dotfiles on but don't want it to mess up your
 existing environment, try out the
 [Docker image](https://hub.docker.com/r/bentruyman/dotfiles/) I put together:
 
-```sh
+```
 $ docker run -it --rm bentruyman/dotfiles
 ```
 
