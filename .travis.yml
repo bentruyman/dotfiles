@@ -3,4 +3,11 @@ sudo: required
 services:
   - docker
 
-script: make test
+script:
+  - make test
+
+deploy:
+  provider: script
+  script: bash scripts/push.sh
+  on:
+    branch: master

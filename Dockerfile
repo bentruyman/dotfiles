@@ -16,6 +16,6 @@ ADD --chown=test-user . /home/test-user/dotfiles
 
 RUN bash -c "/home/test-user/dotfiles/bootstrap.sh --with-system"
 
-CMD /home/linuxbrew/.linuxbrew/bin/zsh
+CMD ["/home/linuxbrew/.linuxbrew/bin/zsh"]
 
 WORKDIR /home/test-user/dotfiles
