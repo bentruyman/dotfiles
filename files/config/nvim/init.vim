@@ -29,6 +29,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
@@ -129,10 +130,6 @@ colorscheme onedark
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
-" Highlight trailing whitespace
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Highlight lines longer than 100 characters
 autocmd BufRead,InsertEnter,InsertLeave * 2match OverLength /\%100v.*/
