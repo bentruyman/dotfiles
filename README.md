@@ -10,6 +10,29 @@
      && cd dotfiles \
      && bash bootstrap.sh
 
+## Try It Out!
+
+If you want to try these dotfiles on but don't want it to mess up your
+existing environment, try out the
+[Docker image](https://hub.docker.com/r/bentruyman/dotfiles/) I put together:
+
+```sh
+$ docker run -it --rm bentruyman/dotfiles
+```
+
+Running this will drop you into a shell as `test-user` in an Ubuntu
+environment.
+
+## Terminal Theme
+
+My current personal favorite terminal theme is [Atom One
+Dark](https://github.com/nathanbuchar/atom-one-dark-terminal) by
+@nathanbuchar. It's clean, colorful, yet calm. You can download it in a
+couple flavors:
+
+- [iTerm2](https://github.com/nathanbuchar/atom-one-dark-terminal/blob/master/scheme/iterm/One%20Dark.itermcolors)
+- [Terminal](https://github.com/nathanbuchar/atom-one-dark-terminal/blob/master/scheme/terminal/One%20Dark.terminal)
+
 ## Special Thanks
 
 My dotfiles are the result of inspiration or outright stealing from:
