@@ -8,6 +8,6 @@ script:
 
 deploy:
   provider: script
-  script: bash scripts/push.sh
+  script: make push
   on:
     branch: master
