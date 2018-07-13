@@ -139,11 +139,6 @@ highlight OverLength ctermbg=red guibg=#5f0000 guifg=#cc6666
 " Files, Backups, and Undo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Centralize backups, swapfiles and undo history
-set backupdir=~/.config/nvim/backups
-set directory=~/.config/nvim/swaps
-set undodir=~/.config/nvim/undo
-
 " Don't add empty newlines at the end of files
 set noeol
 
