@@ -27,6 +27,7 @@ Plug 'corntrace/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
+Plug 'joshdick/onedark.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree'
 Plug 'tomtom/tcomment_vim'
@@ -124,7 +125,7 @@ set wrap
 set background=dark
 
 " Set color scheme
-" colorscheme one
+colorscheme onedark
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
