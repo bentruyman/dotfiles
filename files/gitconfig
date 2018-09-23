@@ -14,8 +14,8 @@
 [diff]
   renames = copies
 
-[github]
-  user = bentruyman
+[include]
+  path = ~/.gitconfig_user
 
 [push]
   default = simple
