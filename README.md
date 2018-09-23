@@ -46,5 +46,4 @@ My dotfiles are the result of inspiration or outright stealing from:
 
 ## License
 
-Copyright (c) 2018 Ben Truyman<br>
-Licensed under the [MIT license](https://github.com/bentruyman/dotfiles/blob/master/LICENSE-MIT).
+MIT © Ben Truyman
