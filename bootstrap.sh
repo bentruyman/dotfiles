@@ -211,5 +211,13 @@ task_repos
   echo "$backup_dir"
 }
 
+report_header "Checking git configuration..."
+set +e
+git_email=$(git config user.email)
+git_name=$(git config user.name)
+set -e
+[[ -z $git_email ]] && echo "Ensure that you set user.email: git config -f ~/.gitconfig_user user.email 'user@host.com'"
+[[ -z $git_name ]] && echo "Ensure that you set user.name: git config -f ~/.gitconfig_user user.name 'Your Name'"
+
 # Fin
 report_header "Done!"
