@@ -135,6 +135,58 @@ if [[ "$SHELL" != "$ZSH_BIN" ]]; then
 fi
 
 ###############################################################################
+# Visual Studio Code
+###############################################################################
+
+# TODO: this should work cross-platform
+VSCODE_EXTS=(
+  AlanWalk.markdown-toc
+  EditorConfig.EditorConfig
+  Stephanvs.dot
+  bierner.emojisense
+  bierner.markdown-emoji
+  bierner.markdown-preview-github-styles
+  christian-kohler.npm-intellisense
+  christian-kohler.path-intellisense
+  CoenraadS.bracket-pair-colorizer
+  dbaeumer.vscode-eslint
+  dustinsanders.an-old-hope-theme-vscode
+  eamodio.gitlens
+  EFanZh.graphviz-preview
+  eg2.vscode-npm-script
+  Equinusocio.vsc-material-theme
+  fallenwood.vimL
+  felipecaputo.git-project-manager
+  formulahendry.auto-rename-tag
+  Gruntfuggly.todo-tree
+  joelday.docthis
+  minhthai.vscode-todo-parser
+  ms-vscode.Go
+  octref.vetur
+  Orta.vscode-jest
+  PeterJausovec.vscode-docker
+  PKief.material-icon-theme
+  pmneo.tsimporter
+  quicktype.quicktype
+  rebornix.ruby
+  robinbentley.sass-indented
+  shinnn.stylelint
+  streetsidesoftware.code-spell-checker
+  timonwong.shellcheck
+  vscodevim.vim
+  WallabyJs.quokka-vscode
+  wayou.vscode-todo-highlight
+  xabikos.JavaScriptSnippets
+  yzhang.markdown-all-in-one
+  zamerick.vscode-caddyfile-syntax
+  zhuangtongfa.Material-theme
+)
+
+for ext in "${VSCODE_EXTS[@]}"; do
+  code --install-extension "$ext"
+done
+
+###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
