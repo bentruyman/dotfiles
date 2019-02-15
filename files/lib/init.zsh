@@ -7,6 +7,8 @@ _::import "shell"
 _::import "util"
 _::import "path"
 
+_::import "local"
+
 _::import "docker"
 _::import "editor"
 _::import "fzf"
