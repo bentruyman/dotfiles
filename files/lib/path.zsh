@@ -3,6 +3,7 @@ __() {
   local p
   desired=(
     $GOPATH/bin
+    $HOME/.bin
     /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/sbin /usr/local/bin
     /usr/sbin /usr/bin
