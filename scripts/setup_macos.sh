@@ -27,6 +27,14 @@ brew bundle install --file="$SCRIPT_DIR/brew/macos/Brewfile"
 brew cleanup
 
 ###############################################################################
+# Node.js
+###############################################################################
+
+if ! hash fnm &> /dev/null; then
+  curl https://raw.githubusercontent.com/Schniz/fnm/master/.ci/install.sh | bash -s --skip-shell
+fi
+
+###############################################################################
 # General                                                                     #
 ###############################################################################
 
