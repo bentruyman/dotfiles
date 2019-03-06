@@ -24,13 +24,17 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
 Plug 'corntrace/bufexplorer'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdtree'
+Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -39,6 +43,7 @@ Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'w0rp/ale'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
@@ -211,18 +216,76 @@ nnoremap <leader>wq :wqa!<cr>
 " Plugin Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" NERDTree
-let NERDTreeIgnore=[
-      \'^coverage$',
-      \'^dist$',
-      \'^node_modules$',
-      \'^tmp$',
-      \'^vendor$'
-      \]
-let NERDTreeHijackNetrw = 0
-noremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
-noremap <silent> <LocalLeader>nr :NERDTree<CR>
-noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
+" Ale
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+      \'*': ['remove_trailing_lines', 'trim_whitespace'],
+      \'javascript': ['eslint'],
+      \'typescript': ['eslint'],
+      \}
+let g:ale_linters = {
+      \'javascript': ['eslint'],
+      \'typescript': ['eslint'],
+      \}
+
+" Defx
+
+function! DefxToggle()
+  if bufwinnr('defx') > 0
+    execute "bdelete " . bufnr('defx')
+  else
+    leftabove vert split
+    Defx
+    vert resize 35
+  endif
+endfun
+
+noremap <F2> :call DefxToggle()<CR>
+noremap <LocalLeader>nt :call DefxToggle()<CR>
+
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+        \ defx#do_action('open')
+  nnoremap <silent><buffer><expr> c
+        \ defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m
+        \ defx#do_action('move')
+  nnoremap <silent><buffer><expr> p
+        \ defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l
+        \ defx#do_action('open')
+  nnoremap <silent><buffer><expr> E
+        \ defx#do_action('open', 'vsplit')
+  nnoremap <silent><buffer><expr> P
+        \ defx#do_action('open', 'pedit')
+  nnoremap <silent><buffer><expr> K
+        \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N
+        \ defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> d
+        \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+        \ defx#do_action('rename')
+  nnoremap <silent><buffer><expr> yy
+        \ defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .
+        \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> h
+        \ defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~
+        \ defx#do_action('cd')
+  nnoremap <silent><buffer> q :bd<CR>
+endfunction
+
+" Denite
+noremap <C-p> :Denite file/rec<CR>
+
+call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+call denite#custom#var('file/rec/git', 'command',
+      \ ['git', 'ls-files', '-co', '--exclude-standard'])
+nnoremap <silent> <C-p> :<C-u>Denite
+      \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
 
 " TComment
 noremap <silent> <LocalLeader>cc :TComment<CR>
