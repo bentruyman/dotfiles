@@ -180,9 +180,11 @@ task_link() {
 
 task_system() {
   report_header "Executing platform setup scripts..."
+  bash "$dotfiles_dir/scripts/presetup.sh"
   for script in "$dotfiles_dir/scripts/"setup_*.sh; do
     bash "$script"
   done
+  bash "$dotfiles_dir/scripts/postsetup.sh"
 }
 
 task_repos() {
