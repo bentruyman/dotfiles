@@ -30,8 +30,8 @@ brew cleanup
 # Node.js
 ###############################################################################
 
-if ! hash fnm &> /dev/null; then
-  curl https://raw.githubusercontent.com/Schniz/fnm/master/.ci/install.sh | bash -s --skip-shell
+if [[ ! -d "${HOME}/.fnm" ]] &> /dev/null; then
+  curl https://raw.githubusercontent.com/Schniz/fnm/master/.ci/install.sh | bash -s -- --skip-shell
 fi
 
 ###############################################################################

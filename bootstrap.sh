@@ -187,7 +187,6 @@ task_system() {
 
 task_repos() {
   report_header "Installing repositories..."
-  clone_repo https://github.com/creationix/nvm.git "$HOME/.nvm"
   clone_repo https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
   clone_repo https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/plugins/zsh-syntax-highlighting"
