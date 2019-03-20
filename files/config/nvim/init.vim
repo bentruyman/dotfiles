@@ -229,19 +229,7 @@ let g:ale_linters = {
       \}
 
 " Defx
-
-function! DefxToggle()
-  if bufwinnr('defx') > 0
-    execute "bdelete " . bufnr('defx')
-  else
-    leftabove vert split
-    Defx
-    vert resize 35
-  endif
-endfun
-
-noremap <F2> :call DefxToggle()<CR>
-noremap <LocalLeader>nt :call DefxToggle()<CR>
+noremap <F1> :Defx<CR>
 
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
