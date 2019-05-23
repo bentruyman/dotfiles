@@ -23,18 +23,22 @@ set nocompatible
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'corntrace/bufexplorer'
 Plug 'easymotion/vim-easymotion'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
+Plug 'junegunn/fzf'
 Plug 'junegunn/vim-easy-align'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdtree'
+Plug 'shime/vim-livedown'
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -66,6 +70,8 @@ set colorcolumn=81
 " Configure autocomplete window
 set completeopt=longest,menuone,preview
 set complete=.,w
+set omnifunc=LanguageClient#complete
+set completefunc=LanguageClient#complete
 
 " Highlight current line
 set cursorline
@@ -275,5 +281,33 @@ call denite#custom#var('file/rec/git', 'command',
 nnoremap <silent> <C-p> :<C-u>Denite
       \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
 
+" Language Server
+
+let g:LanguageClient_serverCommands = {
+    \ 'dockerfile': ['docker-langserver --stdio'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'yaml': ['yaml-language-server'],
+    \ }
+
+" Livedown
+nnoremap <leader>p :LivedownPreview<cr>
+
+" NERDTree
+
+let NERDTreeIgnore=[
+      \'^coverage$',
+      \'^dist$',
+      \'^node_modules$',
+      \'^tmp$',
+      \'^vendor$'
+      \]
+let NERDTreeHijackNetrw = 0
+noremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
+noremap <silent> <LocalLeader>nr :NERDTree<CR>
+noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
+
+" TComment
+noremap <silent> <LocalLeader>cc :TComment<CR>
 " TComment
 noremap <silent> <LocalLeader>cc :TComment<CR>
