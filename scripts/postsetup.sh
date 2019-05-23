@@ -13,6 +13,7 @@ fi
 npm install -g \
   dockerfile-language-server-nodejs \
   javascript-typescript-langserver \
+  livedown \
   neovim \
   yaml-language-server
 
