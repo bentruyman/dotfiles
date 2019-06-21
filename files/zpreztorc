@@ -32,6 +32,7 @@ zstyle ':prezto:load' pmodule "$prezto_modules[@]"
 
 # Module Settings
 
+zstyle ':prezto:module:prompt' pwd-length 'short'
 zstyle ':prezto:module:prompt' theme 'pure'
 
 # Paths
