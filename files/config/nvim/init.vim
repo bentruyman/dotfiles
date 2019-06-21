@@ -47,6 +47,7 @@ Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
+Plug 'w0ng/vim-hybrid'
 Plug 'w0rp/ale'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -137,7 +138,7 @@ set wrap
 set background=dark
 
 " Set color scheme
-colorscheme onedark
+colorscheme hybrid
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
