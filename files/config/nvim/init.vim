@@ -23,6 +23,7 @@ set nocompatible
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+Plug 'aklt/plantuml-syntax'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'corntrace/bufexplorer'
 Plug 'easymotion/vim-easymotion'
@@ -34,6 +35,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/vim-easy-align'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdtree'
 Plug 'shime/vim-livedown'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
