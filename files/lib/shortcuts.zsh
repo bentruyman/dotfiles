@@ -24,4 +24,3 @@ alias vclean='rm "$HOME"/.local/share/nvim/swap/*'
 
 # Vagrant
 alias vagrunt='vagrant destroy -f; vagrant up'
-
