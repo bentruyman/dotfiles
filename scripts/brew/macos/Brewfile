@@ -6,24 +6,22 @@ brew "mackup"
 brew "mas"
 brew "reattach-to-user-namespace"
 
+cask "alacritty"
 cask "authy"
 cask "bartender"
-cask "dashlane"
 cask "discord"
 cask "docker"
-cask "flux"
 cask "font-fira-code"
 cask "google-chrome"
+cask "gpg-suite"
 cask "imageoptim"
-cask "iterm2-nightly"
 cask "keepingyouawake"
 cask "lastpass"
 cask "osxfuse"
 cask "qbittorrent"
 cask "qlmarkdown"
+cask "sketch"
 cask "spotify"
-cask "ubersicht"
-cask "unetbootin"
 cask "vagrant"
 cask "veracrypt"
 cask "virtualbox"
@@ -43,7 +41,6 @@ mas "MindNode", id: 1289197285
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Pixelmator", id: 407963104
-mas "Quiver", id: 866773894
 mas "The Unarchiver", id: 425424353
 mas "Transmit", id: 1436522307
 mas "Wunderlist", id: 410628904
