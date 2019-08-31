@@ -163,10 +163,10 @@ VSCODE_EXTS=(
   Gruntfuggly.todo-tree
   joelday.docthis
   minhthai.vscode-todo-parser
+  ms-azuretools.vscode-docker
   ms-vscode.Go
   octref.vetur
   Orta.vscode-jest
-  PeterJausovec.vscode-docker
   PKief.material-icon-theme
   pmneo.tsimporter
   quicktype.quicktype
