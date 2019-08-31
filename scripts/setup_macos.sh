@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-[[ "$OSTYPE" =~ ^darwin ]] || exit 0
+[[ "$OSTYPE" =~ ^darwin ]] || return 0
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
@@ -133,6 +133,8 @@ fi
 if [[ "$SHELL" != "$ZSH_BIN" ]]; then
   sudo chsh -s "$ZSH_BIN" "$USER"
 fi
+
+$ZSH_BIN -i "${SCRIPT_DIR}/postsetup.zsh"
 
 ###############################################################################
 # Visual Studio Code

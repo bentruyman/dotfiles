@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -e
+set -o errexit
+
+echo $0
 
 # Private
 _did_backup=
@@ -182,9 +184,8 @@ task_system() {
   report_header "Executing platform setup scripts..."
   bash "$dotfiles_dir/scripts/presetup.sh"
   for script in "$dotfiles_dir/scripts/"setup_*.sh; do
-    bash "$script"
+    . "$script"
   done
-  bash "$dotfiles_dir/scripts/postsetup.sh"
 }
 
 task_repos() {
@@ -192,6 +193,20 @@ task_repos() {
   clone_repo https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
   clone_repo https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/plugins/zsh-syntax-highlighting"
+}
+
+task_verify() {
+  report_header "Checking git configuration..."
+  set +e
+  git_email=$(git config user.email)
+  git_name=$(git config user.name)
+  set -e
+  [[ -z $git_email ]] && echo "Ensure that you set user.email: git config -f ~/.gitconfig_user user.email 'user@host.com'"
+  [[ -z $git_name ]] && echo "Ensure that you set user.name: git config -f ~/.gitconfig_user user.name 'Your Name'"
+
+  echo "You may need to log into your shell again to take advantage of
+  updates:"
+  echo "$ZSH_BIN"
 }
 
 # Let's go!
@@ -203,22 +218,13 @@ parse_args "$@"
 [[ $skip_intro -eq 0 ]] && show_intro
 task_copy
 task_link
-[[ $skip_system -eq 0 ]] && task_system
-task_repos
+[[ $skip_system -eq 0 ]] && { task_system; task_repos; task_verify; }
 
 # Backup Results
 [[ _did_backup -eq 1 ]] && {
   report_header "Backed up some files to:"
   echo "$backup_dir"
 }
-
-report_header "Checking git configuration..."
-set +e
-git_email=$(git config user.email)
-git_name=$(git config user.name)
-set -e
-[[ -z $git_email ]] && echo "Ensure that you set user.email: git config -f ~/.gitconfig_user user.email 'user@host.com'"
-[[ -z $git_name ]] && echo "Ensure that you set user.name: git config -f ~/.gitconfig_user user.name 'Your Name'"
 
 # Fin
 report_header "Done!"

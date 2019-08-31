@@ -12,5 +12,8 @@ npms() {
   npm search --registry=https://registry.npmjs.org "$@"
 }
 
-# yarn
-_::path::prefix "${HOME}/.config/yarn/global/node_modules/.bin"
+# volta
+export VOLTA_HOME="$HOME/.volta"
+[[ -s "$VOLTA_HOME/load.sh" ]] && . "$VOLTA_HOME/load.sh"
+
+_::path::prefix "${VOLTA_HOME}/bin"

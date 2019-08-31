@@ -1,18 +1,22 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 set -e
 
 ###############################################################################
 # Node.js
 ###############################################################################
 
-if ! hash fnm &> /dev/null; then
-  curl https://raw.githubusercontent.com/Schniz/fnm/master/.ci/install.sh | bash -s --skip-shell
+if [[ ! -d "${HOME}/.volta/bin" ]]; then
+  curl https://get.volta.sh | bash
+  . "${HOME}/.volta/load.sh"
 fi
 
-# TODO: need to use the globally installed version of npm
-npm install -g \
+(( $+commands[node] )) && { volta install node; }
+(( $+commands[yarn] )) && { volta install yarn; }
+
+volta install \
   dockerfile-language-server-nodejs \
   javascript-typescript-langserver \
+  jay-repl \
   livedown \
   neovim \
   yaml-language-server
