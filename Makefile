@@ -6,8 +6,9 @@ default: build
 build:
 	docker build -t ${REPO_USER}/${REPO_NAME} .
 
-debug: build
-	docker run -it --rm ${REPO_USER}/${REPO_NAME} bash
+debug:
+	docker build --build-arg BOOTSTRAP_FLAGS="" -t ${REPO_USER}/${REPO_NAME}-debug .
+	docker run -it --rm -v $(PWD):/home/test-user/dotfiles ${REPO_USER}/${REPO_NAME}-debug bash
 
 push:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin

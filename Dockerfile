@@ -1,5 +1,8 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 LABEL maintainer="Ben Truyman <ben@truyman.com>"
+
+ARG BOOTSTRAP_FLAGS=--with-system
+ENV BOOTSTRAP_FLAGS $BOOTSTRAP_FLAGS
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends locales sudo \
@@ -14,7 +17,7 @@ ENV USER=test-user
 
 ADD --chown=test-user . /home/test-user/dotfiles
 
-RUN bash -c "/home/test-user/dotfiles/bootstrap.sh --with-system"
+RUN bash -c "/home/test-user/dotfiles/bootstrap.sh ${BOOTSTRAP_FLAGS}"
 
 CMD ["/home/linuxbrew/.linuxbrew/bin/zsh"]
 
