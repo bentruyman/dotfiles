@@ -141,7 +141,7 @@ set wrap
 set background=dark
 
 " Set color scheme
-colorscheme hybrid
+colorscheme onedark
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
