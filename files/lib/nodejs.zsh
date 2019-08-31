@@ -1,10 +1,3 @@
-# fnm
-_::path::prefix "${HOME}/.fnm"
-
-(( $+commands[fnm] )) && {
-  eval "`fnm env --multi`"
-}
-
 # shortcuts
 alias npmp="npm --always-auth false --registry https://registry.npmjs.com"
 
