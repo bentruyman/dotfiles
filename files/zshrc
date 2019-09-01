@@ -7,8 +7,3 @@ fi
 if [[ -s "$DOTFILES_LIB/init.zsh" ]]; then
   source "$DOTFILES_LIB/init.zsh"
 fi
-
-export VOLTA_HOME="$HOME/.volta"
-[ -s "$VOLTA_HOME/load.sh" ] && . "$VOLTA_HOME/load.sh"
-
-export PATH="$VOLTA_HOME/bin:$PATH"
