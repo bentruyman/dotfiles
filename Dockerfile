@@ -19,6 +19,6 @@ ADD --chown=test-user . /home/test-user/dotfiles
 
 RUN bash -c "/home/test-user/dotfiles/bootstrap.sh ${BOOTSTRAP_FLAGS}"
 
-CMD ["/usr/bin/zsh"]
-
 WORKDIR /home/test-user/dotfiles
+
+CMD ["/usr/bin/zsh"]
