@@ -185,7 +185,7 @@ VSCODE_EXTS=(
 )
 
 for ext in "${VSCODE_EXTS[@]}"; do
-  code --install-extension "$ext"
+  code --force --install-extension "$ext"
 done
 
 ###############################################################################
