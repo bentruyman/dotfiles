@@ -3,3 +3,4 @@
 
 # config directory whitelist
 !nvim
+!starship.toml
