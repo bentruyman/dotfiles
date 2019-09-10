@@ -313,5 +313,3 @@ noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
 
 " TComment
 noremap <silent> <LocalLeader>cc :TComment<CR>
-" TComment
-noremap <silent> <LocalLeader>cc :TComment<CR>
