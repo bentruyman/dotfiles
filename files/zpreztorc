@@ -26,14 +26,7 @@ if [[ -z "$INSIDE_EMACS" ]]; then
   )
 fi
 
-prezto_modules+=(prompt)
-
 zstyle ':prezto:load' pmodule "$prezto_modules[@]"
-
-# Module Settings
-
-zstyle ':prezto:module:prompt' pwd-length 'short'
-zstyle ':prezto:module:prompt' theme 'pure'
 
 # Paths
 
@@ -52,3 +45,6 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+# Prompt
+eval "$(starship init zsh)"
