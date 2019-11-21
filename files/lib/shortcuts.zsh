@@ -16,6 +16,9 @@ alias gdc='git diff --cached'
 alias gst='git status'
 
 # Misc
+function $ () {
+  eval "$@"
+}
 unalias rm 2> /dev/null
 
 # Neovim
