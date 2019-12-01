@@ -36,6 +36,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
+Plug 'prettier/vim-prettier'
 Plug 'scrooloose/nerdtree'
 Plug 'shime/vim-livedown'
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -293,9 +294,6 @@ let g:LanguageClient_serverCommands = {
     \ 'typescript': ['javascript-typescript-stdio'],
     \ 'yaml': ['yaml-language-server'],
     \ }
-
-" Livedown
-nnoremap <leader>p :LivedownPreview<cr>
 
 " NERDTree
 
