@@ -171,7 +171,6 @@ VSCODE_EXTS=(
   pmneo.tsimporter
   quicktype.quicktype
   rebornix.ruby
-  shinnn.stylelint
   streetsidesoftware.code-spell-checker
   syler.sass-indented
   timonwong.shellcheck
