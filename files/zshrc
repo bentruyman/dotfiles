@@ -1,9 +1,0 @@
-export DOTFILES_LIB="$HOME/.lib"
-
-if [[ -s "$HOME/.zprezto/init.zsh" ]]; then
-  source "$HOME/.zprezto/init.zsh"
-fi
-
-if [[ -s "$DOTFILES_LIB/init.zsh" ]]; then
-  source "$DOTFILES_LIB/init.zsh"
-fi

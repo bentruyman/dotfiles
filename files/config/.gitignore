@@ -1,7 +1,0 @@
-*
-!.gitignore
-
-# config directory whitelist
-!alacritty
-!nvim
-!starship.toml
