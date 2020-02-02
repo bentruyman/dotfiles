@@ -9,10 +9,10 @@ brew "reattach-to-user-namespace"
 cask "alacritty"
 cask "authy"
 cask "bartender"
+cask "brave-browser"
 cask "discord"
 cask "docker"
 cask "font-fira-code"
-cask "google-chrome"
 cask "gpg-suite"
 cask "imageoptim"
 cask "keepingyouawake"
@@ -21,27 +21,18 @@ cask "osxfuse"
 cask "qbittorrent"
 cask "qlmarkdown"
 cask "sketch"
-cask "spotify"
-cask "vagrant"
 cask "veracrypt"
-cask "virtualbox"
 cask "visual-studio-code"
 
-mas "Affinity Designer", id: 824171161
-mas "Affinity Photo", id: 824183456
 mas "Compressor", id: 424390742
 mas "Deliveries", id: 924726344
 mas "ExifPurge", id: 784466108
-mas "FileZilla Pro", id: 1298486723
 mas "Final Cut Pro", id: 424389933
 mas "Keynote", id: 409183694
 mas "Logic Pro X", id: 634148309
-mas "Magnet", id: 441258766
-mas "MindNode", id: 1289197285
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Pixelmator", id: 407963104
 mas "The Unarchiver", id: 425424353
 mas "Transmit", id: 1436522307
-mas "Wunderlist", id: 410628904
 mas "Xcode", id: 497799835
