@@ -1,0 +1,10 @@
+{
+  "name": "@bentruyman/macos",
+  "version": "1.0.0",
+  "main": "dist/src",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  }
+}

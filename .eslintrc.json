@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "standard-with-typescript",
+    "plugin:unicorn/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/standard"
+  ],
+  "ignorePatterns": ["**/lib"],
+  "parserOptions": {
+    "project": "packages/*/tsconfig.json"
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", { "semi": false, "trailingComma": "es5" }]
+  }
+}
