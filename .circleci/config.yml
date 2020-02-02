@@ -1,7 +1,38 @@
 version: 2.1
-orbs:
-  welcome: circleci/welcome-orb@0.4.1
-workflows:
-  welcome:
-    jobs:
-      - welcome/run
+jobs:
+  build:
+    working_directory: ~/mern-starter
+    docker:
+      - image: circleci/node:13.7.0
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: ~/results
+      JEST_JUNIT_OUTPUT_NAME: jest.xml
+    steps:
+      - checkout
+      - run:
+          name: install yarn
+          command: "curl -o- -L https://yarnpkg.com/install.sh | bash"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: install dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: create reports directory
+          command: mkdir -p ~/reports
+      - run:
+          name: lint
+          command: yarn lint --format junit --output-file ~/reports/eslint.xml
+          when: always
+      - run:
+          name: test
+          command: yarn test --ci --reporters=default --reporters=jest-junit
+          when: always
+      - store_test_results:
+          path: ~/results
+      - store_artifacts:
+          path: ~/results

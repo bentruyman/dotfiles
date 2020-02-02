@@ -4,9 +4,12 @@
   "license": "MIT",
   "scripts": {
     "build": "lerna run --stream build",
+    "ci": "yarn ci:prepare && yarn ci:execute",
+    "ci:execute": "circleci local execute --config .circleci/config.processed.yml",
+    "ci:prepare": "circleci config process .circleci/config.yml > .circleci/config.processed.yml",
     "format": "yarn lint --fix",
     "lint": "eslint --ext .ts .",
-    "test": "lerna run test"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^25.1.1",
@@ -23,6 +26,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-unicorn": "^16.0.0",
     "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
     "lerna": "^3.20.2",
     "prettier": "^1.19.1",
     "ts-jest": "^25.1.0",
