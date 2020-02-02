@@ -3,9 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:13.7.0
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: ~/results
-      JEST_JUNIT_OUTPUT_NAME: jest.xml
     steps:
       - checkout
       - run:
@@ -22,16 +19,20 @@ jobs:
             - ~/.cache/yarn
       - run:
           name: Create results directory
-          command: mkdir -p ~/results
+          command: mkdir -p /tmp/results
       - run:
           name: Lint code
-          command: yarn lint --format junit --output-file ~/results/eslint.xml
+          command:
+            yarn lint --format junit --output-file /tmp/results/eslint.xml
           when: always
       - run:
           name: Run tests
           command: yarn test --ci --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: /tmp/results
+            JEST_JUNIT_OUTPUT_NAME: jest.xml
           when: always
       - store_test_results:
-          path: ~/results
+          path: /tmp/results
       - store_artifacts:
-          path: ~/results
+          path: /tmp/results
