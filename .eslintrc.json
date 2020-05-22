@@ -1,5 +1,6 @@
 {
   "extends": [
+    "plugin:jest/all",
     "standard-with-typescript",
     "plugin:unicorn/recommended",
     "prettier",

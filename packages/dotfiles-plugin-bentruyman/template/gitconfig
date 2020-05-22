@@ -1,0 +1,21 @@
+[core]
+  excludesfile = ~/.gitignore_global
+
+[branch]
+  autosetuprebase = always
+
+[color]
+  ui = auto
+
+[commit]
+  gpgsign = true
+
+[diff]
+  renames = copies
+
+[include]
+  path = ~/.gitconfig_user
+
+[push]
+  default = simple
+  followTags = true

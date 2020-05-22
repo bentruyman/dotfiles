@@ -1,5 +1,5 @@
 {
-  "name": "@bentruyman/macos",
+  "name": "@bentruyman/dotfiles-plugin",
   "version": "1.0.0",
   "main": "dist/src",
   "license": "MIT",
