@@ -9,6 +9,7 @@ _::import "path"
 
 _::import "local"
 
+_::import "deno"
 _::import "docker"
 _::import "editor"
 _::import "fzf"
