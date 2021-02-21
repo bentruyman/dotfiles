@@ -5,10 +5,6 @@ npms() {
   npm search --registry=https://registry.npmjs.org "$@"
 }
 
-# deno
-export DENO_INSTALL="${HOME}/.deno"
-[[ -d "${DENO_INSTALL}" ]] && _::path::prefix "${DENO_INSTALL}/bin"
-
 # volta
 export VOLTA_HOME="${HOME}/.volta"
 [[ -s "${VOLTA_HOME}/load.sh" ]] && . "${VOLTA_HOME}/load.sh"
