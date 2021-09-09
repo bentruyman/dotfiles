@@ -7,8 +7,6 @@ npms() {
 
 # volta
 export VOLTA_HOME="${HOME}/.volta"
-[[ -s "${VOLTA_HOME}/load.sh" ]] && . "${VOLTA_HOME}/load.sh"
-
 _::path::prefix "${VOLTA_HOME}/bin"
 
 # yarn
