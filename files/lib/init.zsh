@@ -13,6 +13,7 @@ _::import "deno"
 _::import "docker"
 _::import "editor"
 _::import "fzf"
+_::import "git"
 _::import "kubernetes"
 _::import "nodejs"
 _::import "rust"
@@ -22,3 +23,5 @@ _::import "travis"
 
 _::env::is_macos && _::import "macos"
 _::env::is_ubuntu && _::import "ubuntu"
+
+_::import "prompt"

@@ -8,12 +8,7 @@ md() {
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias l='ls -al'
-
-# Git
-alias ga='git add -Av'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gst='git status'
+alias j="z"
 
 # Misc
 function $ () {
@@ -22,7 +17,6 @@ function $ () {
 unalias rm 2> /dev/null
 
 # Neovim
-
 alias vclean='rm "$HOME"/.local/share/nvim/swap/*'
 
 # Coding
