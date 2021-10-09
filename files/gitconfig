@@ -2,7 +2,6 @@
   excludesfile = ~/.gitignore_global
 
 [branch]
-  # Rebases automatically when pulling
   autosetuprebase = always
 
 [color]
