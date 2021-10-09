@@ -1,1 +1,1 @@
-_::path::prefix "${HOME}/.cargo/bin"
+. "$HOME/.cargo/env"
