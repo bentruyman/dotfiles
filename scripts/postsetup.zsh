@@ -19,9 +19,7 @@ fi
 (( $+commands[node] )) && { volta install node; }
 (( $+commands[yarn] )) && { volta install yarn; }
 
-volta install \
-  livedown \
-  neovim
+volta install neovim
 
 ###############################################################################
 # Python/pip
