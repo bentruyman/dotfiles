@@ -1,6 +1,7 @@
 alias g='git'
 alias ga='git add -Av'
 alias gc='git commit'
+alias gco='git checkout'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gfr='git pull --rebase'
