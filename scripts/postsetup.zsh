@@ -7,19 +7,14 @@ set -e
 
 if [[ ! -d "${HOME}/.volta/bin" ]]; then
   curl https://get.volta.sh | bash
-  . "${HOME}/.volta/load.sh"
 fi
 
 (( $+commands[node] )) && { volta install node; }
 (( $+commands[yarn] )) && { volta install yarn; }
 
 volta install \
-  dockerfile-language-server-nodejs \
-  javascript-typescript-langserver \
-  jay-repl \
   livedown \
-  neovim \
-  yaml-language-server
+  neovim
 
 ###############################################################################
 # Python/pip
