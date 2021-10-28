@@ -220,7 +220,7 @@ parse_args "$@"
 [[ $skip_intro -eq 0 ]] && show_intro
 task_copy
 task_link
-[[ $skip_system -eq 0 ]] && { task_system; task_repos; task_verify; }
+[[ $skip_system -eq 0 ]] && { task_repos; task_system; task_verify; }
 
 # Backup Results
 [[ _did_backup -eq 1 ]] && {
