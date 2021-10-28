@@ -4,7 +4,6 @@ if !filereadable(vim_plug_path)
   execute 'silent !curl -fLo '.fnameescape(vim_plug_path).' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   execute 'source '.fnameescape(vim_plug_path)
 endif
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -23,7 +22,7 @@ set nocompatible
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'APZelos/blamer.nvim'
 Plug 'corntrace/bufexplorer'
 Plug 'easymotion/vim-easymotion'
 Plug 'HerringtonDarkholme/yats.vim'
@@ -31,14 +30,11 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/vim-easy-align'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'prettier/vim-prettier'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
-Plug 'shime/vim-livedown'
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -47,8 +43,6 @@ Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-Plug 'w0ng/vim-hybrid'
-Plug 'w0rp/ale'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
@@ -68,17 +62,11 @@ set clipboard=unnamed
 " Draw a vertical ruler at column 80
 set colorcolumn=81
 
-" Configure autocomplete window
-set completeopt=longest,menuone,preview
-set complete=.,w
-set omnifunc=LanguageClient#complete
-set completefunc=LanguageClient#complete
+" Give more space for displaying messages
+set cmdheight=2
 
 " Highlight current line
 set cursorline
-
-" Use taller vertical split separator character (reduces visible gaps)
-set fillchars+=vert:│
 
 " Hide buffers instead of closing them
 set hidden
@@ -89,10 +77,8 @@ set iskeyword-=-
 " Don't redraw while executing macros
 set lazyredraw
 
-" Highlight unwanted whitespace
-set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-
 " Show whitespace
+set listchars=eol:¬,extends:›,precedes:‹,nbsp:_,space:·,tab:▸\ ,trail:·
 set list
 
 " Disables annoying sound on errors
@@ -104,11 +90,8 @@ set tm=500
 " Show line numbers
 set number
 
-" Minimum of 5 lines above and below cursor must be visible
-set scrolloff=5
-
 " Don't show short message when starting Vim
-set shortmess=atI
+set shortmess=actI
 
 " Show matching brackets
 set showmatch
@@ -123,6 +106,9 @@ set splitright
 
 " Optimize for fast terminals
 set ttyfast
+
+" Lower update time to increase perceived performance
+set updatetime=300
 
 " Enables autocomplete menu
 set wildmode=longest:full
@@ -150,6 +136,10 @@ highlight OverLength ctermbg=red guibg=#5f0000 guifg=#cc6666
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Files, Backups, and Undo
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Don't use backups
+set nobackup
+set nowritebackup
 
 " Don't add empty newlines at the end of files
 set noeol
@@ -223,76 +213,78 @@ nnoremap <leader>wq :wqa!<cr>
 " Plugin Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Ale
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-      \'*': ['remove_trailing_lines', 'trim_whitespace'],
-      \'javascript': ['eslint'],
-      \'typescript': ['eslint'],
-      \}
-let g:ale_linters = {
-      \'javascript': ['eslint'],
-      \'typescript': ['eslint'],
-      \}
+" Blamer
+let g:blamer_enabled = 1
+let g:blamer_delay = 300
 
-" Defx
-noremap <F1> :Defx<CR>
+" CoC
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-autocmd FileType defx call s:defx_my_settings()
-function! s:defx_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-        \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> c
-        \ defx#do_action('copy')
-  nnoremap <silent><buffer><expr> m
-        \ defx#do_action('move')
-  nnoremap <silent><buffer><expr> p
-        \ defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l
-        \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> E
-        \ defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P
-        \ defx#do_action('open', 'pedit')
-  nnoremap <silent><buffer><expr> K
-        \ defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N
-        \ defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> d
-        \ defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r
-        \ defx#do_action('rename')
-  nnoremap <silent><buffer><expr> yy
-        \ defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> .
-        \ defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> h
-        \ defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> ~
-        \ defx#do_action('cd')
-  nnoremap <silent><buffer> q :bd<CR>
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Use <TAB> to skip through suggestions
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Denite
-noremap <C-p> :Denite file/rec<CR>
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-call denite#custom#var('file/rec/git', 'command',
-      \ ['git', 'ls-files', '-co', '--exclude-standard'])
-nnoremap <silent> <C-p> :<C-u>Denite
-      \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Language Server
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
-let g:LanguageClient_serverCommands = {
-    \ 'dockerfile': ['docker-langserver --stdio'],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'yaml': ['yaml-language-server'],
-    \ }
+" Use CTRL-S for selections ranges.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add :Format command
+command! -nargs=0 Format :call CocAction('format')
+"
+" Add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+" Format selected code
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" Rename symbols
+map <F3> <Plug>(coc-rename)
+
+" Show available CoC commands
+map <F5> :CocList commands<CR>
+
+" FZF
+noremap <C-p> :FZF<CR>
+set rtp+=/opt/homebrew/opt/fzf
+
+if exists('$TMUX')
+  let g:fzf_layout = { 'tmux': '-p90%,60%' }
+else
+  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+endif
 
 " NERDTree
-
 let NERDTreeIgnore=[
       \'^coverage$',
       \'^dist$',
@@ -301,6 +293,7 @@ let NERDTreeIgnore=[
       \'^vendor$'
       \]
 let NERDTreeHijackNetrw = 0
+let g:NERDTreeWinPos = "right"
 noremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 noremap <silent> <LocalLeader>nr :NERDTree<CR>
 noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
