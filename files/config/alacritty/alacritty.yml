@@ -87,9 +87,6 @@ mouse:
 
   hide_when_typing: false
 
-  url:
-    launcher: open
-
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
