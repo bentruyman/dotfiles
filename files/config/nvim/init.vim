@@ -81,6 +81,9 @@ set lazyredraw
 set listchars=eol:¬,extends:›,precedes:‹,nbsp:_,space:·,tab:▸\ ,trail:·
 set list
 
+" Enable mouse control
+set mouse=a
+
 " Disables annoying sound on errors
 set noerrorbells
 set novisualbell
