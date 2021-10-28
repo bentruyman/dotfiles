@@ -12,7 +12,8 @@ go install golang.org/x/tools/gopls@latest
 ###############################################################################
 
 if [[ ! -d "${HOME}/.volta/bin" ]]; then
-  curl https://get.volta.sh | bash
+  curl https://get.volta.sh | bash -s -- --skip-setup
+  export PATH="${HOME}/.volta/bin:${PATH}"
 fi
 
 (( $+commands[node] )) && { volta install node; }
