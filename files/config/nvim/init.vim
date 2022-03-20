@@ -22,19 +22,23 @@ set nocompatible
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'airblade/vim-gitgutter'
+Plug 'alampros/vim-styled-jsx'
+Plug 'alvan/vim-closetag'
+Plug 'kyazdani42/nvim-web-devicons' | Plug 'akinsho/bufferline.nvim'
 Plug 'APZelos/blamer.nvim'
 Plug 'corntrace/bufexplorer'
 Plug 'easymotion/vim-easymotion'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/vim-easy-align'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'navarasu/onedark.nvim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
-Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
@@ -44,6 +48,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'yuezk/vim-js'
 
 call plug#end()
 
@@ -78,7 +83,7 @@ set iskeyword-=-
 set lazyredraw
 
 " Show whitespace
-set listchars=eol:¬,extends:›,precedes:‹,nbsp:_,space:·,tab:▸\ ,trail:·
+set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¬,precedes:«,extends:»
 set list
 
 " Enable mouse control
@@ -206,10 +211,11 @@ noremap <leader>pp :setlocal paste!<cr>
 " Fast saving
 nnoremap <leader>w :w!<cr>
 
-" Fast quitting
-nnoremap <leader>q :q<cr>
+" Fast closing buffers
+nnoremap <leader>q :bd<cr>
 
-" Fast save + quit
+" Fast quitting
+nnoremap <leader>x :x<cr>
 nnoremap <leader>wq :wqa!<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -219,6 +225,22 @@ nnoremap <leader>wq :wqa!<cr>
 " Blamer
 let g:blamer_enabled = 1
 let g:blamer_delay = 300
+
+" BufferLine
+lua << EOF
+require("bufferline").setup{}
+EOF
+nnoremap <silent>[b :BufferLineCycleNext<CR>
+nnoremap <silent>]b :BufferLineCyclePrev<CR>
+nnoremap <silent><leader>1 :BufferLineGoToBuffer 1<CR>
+nnoremap <silent><leader>2 :BufferLineGoToBuffer 2<CR>
+nnoremap <silent><leader>3 :BufferLineGoToBuffer 3<CR>
+nnoremap <silent><leader>4 :BufferLineGoToBuffer 4<CR>
+nnoremap <silent><leader>5 :BufferLineGoToBuffer 5<CR>
+nnoremap <silent><leader>6 :BufferLineGoToBuffer 6<CR>
+nnoremap <silent><leader>7 :BufferLineGoToBuffer 7<CR>
+nnoremap <silent><leader>8 :BufferLineGoToBuffer 8<CR>
+nnoremap <silent><leader>9 :BufferLineGoToBuffer 9<CR>
 
 " CoC
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -295,11 +317,17 @@ let NERDTreeIgnore=[
       \'^tmp$',
       \'^vendor$'
       \]
-let NERDTreeHijackNetrw = 0
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1 " Hide 'Press ? for help'
+let NERDTreeHijackNetrw = 1
 let g:NERDTreeWinPos = "right"
 noremap <silent> <LocalLeader>nt :NERDTreeToggle<CR>
 noremap <silent> <LocalLeader>nr :NERDTree<CR>
 noremap <silent> <LocalLeader>nf :NERDTreeFind<CR>
+
+" Prettier
+noremap <leader>P :Prettier<cr>
+
 
 " TComment
 noremap <silent> <LocalLeader>cc :TComment<CR>
