@@ -13,8 +13,11 @@
 [diff]
   renames = copies
 
-[include]
+[includeIf "gitdir/i:~/Development/src/github.com/"]
   path = ~/.gitconfig_user
+
+[include]
+  path = ~/.gitconfig_work
 
 [init]
   defaultBranch = main
