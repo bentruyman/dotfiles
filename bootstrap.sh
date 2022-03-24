@@ -175,6 +175,8 @@ task_link() {
   link_file "mackup.cfg"
   link_file "tmux.conf"
   link_file "zlogin"
+  link_file "zlogout"
+  link_file "zpreztorc"
   link_file "zshenv"
   link_file "zshrc"
   echo "$_link_count files linked"
@@ -192,9 +194,7 @@ task_repos() {
   report_header "Installing repositories..."
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
   clone_repo https://github.com/agkozak/zsh-z.git "$HOME/.zsh/plugins/zsh-z"
-  clone_repo https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.zsh/plugins/zsh-autosuggestions"
-  clone_repo https://github.com/zsh-users/zsh-history-substring-search.git "$HOME/.zsh/plugins/zsh-history-substring-search"
-  clone_repo https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh/plugins/zsh-syntax-highlighting"
+  clone_repo https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 }
 
 task_verify() {
