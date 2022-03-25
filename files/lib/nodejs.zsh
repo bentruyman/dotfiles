@@ -1,4 +1,5 @@
 # shortcuts
+alias npj="nice-package-json --write"
 alias npmp="npm --always-auth false --registry https://registry.npmjs.com"
 
 npms() {
