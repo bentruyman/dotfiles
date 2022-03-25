@@ -1,5 +1,6 @@
 [core]
   excludesfile = ~/.gitignore_global
+  pager = delta
 
 [branch]
   autosetuprebase = always
@@ -10,7 +11,11 @@
 [commit]
   gpgsign = true
 
+[delta]
+  navigate = true
+
 [diff]
+  colorMoved = default
   renames = copies
 
 [includeIf "gitdir/i:~/Development/src/github.com/"]
@@ -21,6 +26,12 @@
 
 [init]
   defaultBranch = main
+
+[interactive]
+  diffFilter = delta --color-only
+
+[merge]
+  conflictstyle = diff3
 
 [push]
   default = simple
