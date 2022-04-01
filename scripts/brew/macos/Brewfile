@@ -9,10 +9,12 @@ brew "reattach-to-user-namespace"
 cask "alacritty"
 cask "discord"
 cask "docker"
+cask "font-bitstream-vera-sans-mono-nerd-font"
 cask "font-fira-code-nerd-font"
 cask "gpg-suite"
 cask "imageoptim"
 cask "keepingyouawake"
+cask "kitty"
 cask "macfuse"
 cask "qbittorrent"
 cask "qlmarkdown"
@@ -21,14 +23,21 @@ cask "veracrypt"
 cask "visual-studio-code"
 cask "vivaldi"
 
+mas "BetterJSON", id: 1511935951
+mas "Boop", id: 1518425043
+mas "Codye", id: 1516894961
 mas "Compressor", id: 424390742
 mas "Deliveries", id: 924726344
 mas "ExifPurge", id: 784466108
+mas "Gifski", id: 1351639930
+mas "HTTPBot", id: 1232603544
 mas "Keynote", id: 409183694
-mas "Magnet", id: 41258766
+mas "Magnet", id: 441258766
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
+mas "Pixelmator Pro", id: 1289583905
 mas "Pixelmator", id: 407963104
+mas "Tampermonkey", id: 1482490089
 mas "The Unarchiver", id: 425424353
 mas "Transmit", id: 1436522307
 mas "Xcode", id: 497799835
