@@ -5,11 +5,6 @@ set -e
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-sudo -v
-
-# Prevent from asking for sudo password again until process ends
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
 ###############################################################################
 # System
 ###############################################################################
