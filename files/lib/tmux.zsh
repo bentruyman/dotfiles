@@ -3,7 +3,7 @@
   alias tmk="tmux kill-session -t"
   alias tml="tmux list-sessions"
 
-  tmn() {
+  tmx() {
     if [[ ! -z "$1" ]]; then
       name=$1
     else
@@ -11,6 +11,6 @@
     fi
     echo $name
 
-    tmux new -s "$name"
+    tmux attach -t "$name" || tmux new -s "$name"
   }
 }
