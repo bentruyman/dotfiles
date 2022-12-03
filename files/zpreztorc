@@ -13,5 +13,3 @@ zstyle ':prezto:load' pmodule \
   'history-substring-search' \
   'autosuggestions' \
   'prompt'
-
-zstyle ':prezto:module:editor' key-bindings 'vi'
