@@ -18,10 +18,8 @@
   colorMoved = default
   renames = copies
 
-[includeIf "gitdir/i:~/Development/src/github.com/"]
-  path = ~/.gitconfig_user
-
 [include]
+  path = ~/.gitconfig_user
   path = ~/.gitconfig_work
 
 [init]
