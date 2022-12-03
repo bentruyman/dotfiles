@@ -58,27 +58,27 @@ sudo systemsetup -setrestartfreeze on
 ###############################################################################
 
 # Use dark menu bar and Dock
-defaults write NSGlobalDomain AppleInterfaceStyle -string Dark;
+defaults write -g AppleInterfaceStyle -string Dark;
 
 ###############################################################################
 # Input                                                                       #
 ###############################################################################
 
 # Disable press-and-hold and just repeat key presses
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Set a fast key repeat
-defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
+defaults write -g InitialKeyRepeat -int 15
 
 # Remove text shortcuts
-defaults write NSGlobalDomain NSUserDictionaryReplacementItems -array
+defaults write -g NSUserDictionaryReplacementItems -array
 
 # Disable automatic period substitution
-defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
 
 # Enable Tab focus for all controls
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
+defaults write -g AppleKeyboardUIMode -int 2
 
 ###############################################################################
 # Screen                                                                      #
