@@ -129,9 +129,6 @@ defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 # Show Develop menu
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
-# Don't offer storing passwords
-defaults write com.apple.Safari AutoFillPasswords -int 0
-
 ###############################################################################
 # Shell                                                                       #
 ###############################################################################
