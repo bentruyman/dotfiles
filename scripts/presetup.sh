@@ -11,9 +11,9 @@ fi
 
 PATH="${HOME}/.volta/bin:${PATH}"
 
-volta setup
+volta setup > /dev/null
 
-! type node && volta install node
+! type node > /dev/null && volta install node
 
 ###############################################################################
 # Rust
