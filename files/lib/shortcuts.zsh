@@ -21,7 +21,7 @@ alias vclean='rm "$HOME"/.local/share/nvim/swap/*'
 
 # Coding
 (( $+commands[prettier] )) && {
-  alias pretty="prettier --write '**/*.{js,json,scss,ts,vue}'"
+  alias pretty="prettier --write '**/*.{js,json,md,scss,ts,vue}'"
 }
 
 # Vagrant
