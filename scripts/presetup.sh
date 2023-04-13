@@ -11,10 +11,9 @@ fi
 
 PATH="${HOME}/.volta/bin:${PATH}"
 
-[ hash node &> /dev/null ] || volta install node
-[ hash yarn &> /dev/null ] || volta install yarn
+volta setup
 
-volta install neovim
+! type node && volta install node
 
 ###############################################################################
 # Rust
