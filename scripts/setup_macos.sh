@@ -47,9 +47,6 @@ sudo xcodebuild -license accept
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
 
-# Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
-
 ###############################################################################
 # UI                                                                          #
 ###############################################################################
