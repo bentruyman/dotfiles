@@ -1,7 +1,6 @@
 *
 !.gitignore
 
-# config directory whitelist
+# config directory allow list
 !alacritty
-!nvim
 !starship.toml
