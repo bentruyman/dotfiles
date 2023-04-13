@@ -37,7 +37,7 @@ backup_file() {
 
 clone_repo() {
   if [[ ! -d "$2" ]]; then
-    mkdir -p $(dirname $2)
+    mkdir -p "$(dirname $2)"
     git clone --recursive "$1" "$2"
   fi
 }
@@ -114,7 +114,6 @@ parse_args() {
         exit
         ;;
       --skip-intro)
-          no_introduction=1
           skip_intro=1
           ;;
       --with-system)
