@@ -38,7 +38,7 @@ backup_file() {
 clone_repo() {
   if [[ ! -d "$2" ]]; then
     mkdir -p "$(dirname $2)"
-    git clone --recursive "$1" "$2"
+    git clone --depth 1 --recursive "$1" "$2"
   fi
 }
 
@@ -199,6 +199,7 @@ task_system() {
 
 task_repos() {
   report_header "Installing repositories..."
+  clone_repo https://github.com/AstroNvim/AstroNvim.git "$HOME/.config/nvim"
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
   clone_repo https://github.com/agkozak/zsh-z.git "$HOME/.zsh/plugins/zsh-z"
   clone_repo https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
