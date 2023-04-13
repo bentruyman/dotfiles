@@ -10,7 +10,9 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 ###############################################################################
 
 # Installl Rosetta
-softwareupdate --install-rosetta --agree-to-license
+if [ ! "$(/usr/bin/pgrep oahd)" ]; then
+  softwareupdate --install-rosetta --agree-to-license
+fi
 
 ###############################################################################
 # Homebrew                                                                    *
