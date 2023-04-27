@@ -4,11 +4,11 @@ tap "homebrew/cask-versions"
 
 brew "mackup"
 brew "mas"
+brew "pinentry-mac"
 brew "reattach-to-user-namespace"
 
 cask "discord"
 cask "docker"
-cask "gpg-suite"
 cask "imageoptim"
 cask "keepingyouawake"
 cask "kitty"
