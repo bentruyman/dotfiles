@@ -15,6 +15,19 @@ if [ ! "$(/usr/bin/pgrep oahd)" ]; then
 fi
 
 ###############################################################################
+# Environment
+###############################################################################
+
+# Copy launch agents
+cp -R "$SCRIPT_DIR/launch_agents/"* "$HOME/Library/LaunchAgents/"
+
+# Load any launch agents that were copied
+for agent in "$HOME/Library/LaunchAgents/"*; do
+  launchctl unload "$agent"
+  launchctl load "$agent"
+done
+
+###############################################################################
 # Homebrew                                                                    *
 ###############################################################################
 
