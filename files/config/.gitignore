@@ -1,6 +1,5 @@
-*
-!.gitignore
+/*
 
 # config directory allow list
-!alacritty
-!starship.toml
+!/kitty
+!/starship.toml
