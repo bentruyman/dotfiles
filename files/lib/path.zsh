@@ -2,9 +2,7 @@ __() {
   local -a current_path desired
   local p
   desired=(
-    $GOPATH/bin
     $HOME/.bin
-    /usr/local/opt/coreutils/libexec/gnubin
     /opt/homebrew/bin
     /usr/local/sbin /usr/local/bin
     /usr/sbin /usr/bin
