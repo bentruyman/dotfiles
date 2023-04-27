@@ -169,6 +169,7 @@ task_copy() {
 task_link() {
   report_header "Linking files..."
   link_file "config"
+  link_file "gnupg"
   link_file "hyper.js"
   link_file "lib"
   link_file "mackup.cfg"
