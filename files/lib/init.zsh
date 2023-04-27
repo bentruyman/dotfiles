@@ -20,7 +20,6 @@ _::import "nodejs"
 _::import "rust"
 _::import "shortcuts"
 _::import "tmux"
-_::import "travis"
 
 _::env::is_macos && _::import "macos"
 _::env::is_ubuntu && _::import "ubuntu"
