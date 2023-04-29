@@ -14,6 +14,12 @@ if [ ! "$(/usr/bin/pgrep oahd)" ]; then
   softwareupdate --install-rosetta --agree-to-license
 fi
 
+# Check if Xcode Command Line Tools are installed
+if ! xcode-select -p &> /dev/null || [ ! -d "$(xcode-select -p)" ]; then
+  echo "Installing Xcode Command Line Tools..."
+  xcode-select --install
+fi
+
 ###############################################################################
 # Environment
 ###############################################################################
@@ -32,7 +38,7 @@ done
 ###############################################################################
 
 if ! hash brew &> /dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "NONINTERACTIVE=1 $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   [[ -d /opt/homebrew ]] && {
     export PATH=/opt/homebrew/bin:$PATH

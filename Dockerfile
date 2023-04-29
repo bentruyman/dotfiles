@@ -17,7 +17,7 @@ ENV USER=test-user
 
 ADD --chown=test-user . /home/test-user/dotfiles
 
-RUN bash -c "/home/test-user/dotfiles/bootstrap.sh ${BOOTSTRAP_FLAGS}"
+# RUN bash -c "/home/test-user/dotfiles/bootstrap.sh ${BOOTSTRAP_FLAGS}"
 
 WORKDIR /home/test-user/dotfiles
 

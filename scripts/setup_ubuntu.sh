@@ -26,7 +26,7 @@ sudo apt-get install -y \
 ###############################################################################
 
 if ! hash brew &> /dev/null; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+  /bin/bash -c "$(NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   sudo chown $USER "$HOME/.cache"
 fi
 

@@ -4,7 +4,7 @@ REPO_NAME = dotfiles
 default: build
 
 build:
-	docker build -t ${REPO_USER}/${REPO_NAME} .
+	docker build --platform linux/amd64 -t ${REPO_USER}/${REPO_NAME} .
 
 debug:
 	docker build --build-arg BOOTSTRAP_FLAGS="" -t ${REPO_USER}/${REPO_NAME}-debug .
