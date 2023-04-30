@@ -25,9 +25,8 @@ sudo apt-get install -y \
 # Linuxbrew
 ###############################################################################
 
-if ! hash brew &> /dev/null; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-  sudo chown $USER "$HOME/.cache"
+if ! command -v brew &>/dev/null; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 brew update
