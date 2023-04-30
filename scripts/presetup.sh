@@ -13,15 +13,15 @@ fi
 # Node.js
 ###############################################################################
 
-if [[ ! -d "${HOME}/.volta/bin" ]]; then
+if [ ! -d "${HOME}/.volta/bin" ]; then
   curl https://get.volta.sh | bash -s -- --skip-setup
 fi
 
-PATH="${HOME}/.volta/bin:${PATH}"
+export PATH="${HOME}/.volta/bin:${PATH}"
 
-volta setup > /dev/null
-
-! type node > /dev/null && volta install node
+if ! command -v node > /dev/null; then
+  volta install node
+fi
 
 ###############################################################################
 # Rust

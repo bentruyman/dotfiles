@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -e
 
 [[ "$OSTYPE" =~ ^darwin ]] || return 0
@@ -34,13 +33,14 @@ done
 # Homebrew                                                                    *
 ###############################################################################
 
-if ! hash brew &> /dev/null; then
+if ! command -v brew &> /dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  [[ -d /opt/homebrew ]] && {
+  if [[ -d /opt/homebrew ]]; then
     export PATH=/opt/homebrew/bin:$PATH
-  }
+  fi
 fi
+
 
 brew update
 brew upgrade
@@ -89,6 +89,9 @@ defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
 
 # Enable Tab focus for all controls
 defaults write -g AppleKeyboardUIMode -int 2
+
+# Disable the dictation prompt
+defaults write com.apple.speech.recognition.AppleSpeechRecognition.prefs DictationIMPromptedForEnhancedDictation -bool false
 
 ###############################################################################
 # Screen                                                                      #
@@ -177,6 +180,11 @@ echo
 # Restore application settings
 ###############################################################################
 
-# mackup restore
-echo "If necessary, restore application settings:"
-echo "$ mackup restore"
+mackup_diffs=$(mackup restore -n | awk '{print " - " substr($0, 11, length()-13)}')
+
+if [[ -n "$mackup_diffs" ]]; then
+  echo "The following application settings differ from the backup:"
+  echo "$mackup_diffs"
+  echo
+  echo "Run 'mackup restore' or 'mackup backup' to commit these changes."
+fi

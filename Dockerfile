@@ -1,7 +1,7 @@
 FROM ubuntu:bionic
 LABEL maintainer="Ben Truyman <ben@truyman.com>"
 
-ARG BOOTSTRAP_FLAGS=--with-system
+ARG BOOTSTRAP_FLAGS="--with-system"
 ENV BOOTSTRAP_FLAGS $BOOTSTRAP_FLAGS
 
 RUN apt-get update \
@@ -13,12 +13,11 @@ RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
  && echo 'test-user ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
 
 USER test-user
-ENV USER=test-user
 
-ADD --chown=test-user . /home/test-user/dotfiles
-
-RUN bash -c "/home/test-user/dotfiles/bootstrap.sh ${BOOTSTRAP_FLAGS}"
+COPY --chown=test-user . /home/test-user/dotfiles
 
 WORKDIR /home/test-user/dotfiles
+
+RUN bash -c "./bootstrap.sh ${BOOTSTRAP_FLAGS}"
 
 CMD ["/usr/bin/zsh"]
