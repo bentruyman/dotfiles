@@ -19,12 +19,15 @@ fi
 ###############################################################################
 
 # Copy launch agents
-cp -R "$SCRIPT_DIR/launch_agents/"* "$HOME/Library/LaunchAgents/"
 
 # Load any launch agents that were copied
-for agent in "$HOME/Library/LaunchAgents/"*; do
-  launchctl unload "$agent"
-  launchctl load "$agent"
+for agent in "$SCRIPT_DIR/launch_agents/"*.plist; do
+  dest_file="$HOME/Library/LaunchAgents/${agent##*/}"
+
+  if [[ ! -f "$dest_file" ]]; then
+    ln -sf "$agent" "$dest_file"
+    launchctl load "$dest_file"
+  fi
 done
 
 ###############################################################################
