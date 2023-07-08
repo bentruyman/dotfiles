@@ -24,5 +24,22 @@ alias vclean='rm "$HOME"/.local/share/nvim/swap/*'
   alias pretty="prettier --write '**/*.{js,json,md,scss,ts,vue}'"
 }
 
+spike() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: spike <name>"
+    exit 1
+  fi
+
+  name=$1
+
+  mkdir -p ~/Desktop/${name}
+
+  if [[ -n $VISUAL ]]; then
+      $VISUAL ~/Desktop/${name}
+  else
+      $EDITOR ~/Desktop/${name}
+  fi
+}
+
 # Vagrant
 alias vagrunt='vagrant destroy -f; vagrant up'
