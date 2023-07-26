@@ -3,7 +3,8 @@
   pager = delta
 
 [alias]
-  down = !git-down
+	checkpoint = commit --no-verify -m "chore: checkpoint"
+	down = commit --amend --no-edit --no-verify
 
 [branch]
   autosetuprebase = always
@@ -37,3 +38,4 @@
 [push]
   default = simple
   followTags = true
+
