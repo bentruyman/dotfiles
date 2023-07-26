@@ -87,6 +87,9 @@ defaults write -g NSUserDictionaryReplacementItems -array
 # Disable automatic period substitution
 defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
 
+# Disable automatic spelling correction
+defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
 # Enable Tab focus for all controls
 defaults write -g AppleKeyboardUIMode -int 2
 
