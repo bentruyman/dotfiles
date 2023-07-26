@@ -2,6 +2,9 @@
   excludesfile = ~/.gitignore_global
   pager = delta
 
+[alias]
+  down = !git-down
+
 [branch]
   autosetuprebase = always
 
