@@ -26,7 +26,7 @@ sudo apt-get install -y \
 ###############################################################################
 
 if ! command -v brew &>/dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 brew update
@@ -36,15 +36,3 @@ brew bundle install --file="${SCRIPT_DIR}/brew/agnostic/Brewfile"
 brew bundle install --file="${SCRIPT_DIR}/brew/ubuntu/Brewfile"
 
 brew cleanup
-
-###############################################################################
-# Shell
-###############################################################################
-
-# Change shell to ZSH
-ZSH_BIN="/usr/bin/zsh"
-if [[ "$SHELL" != "$ZSH_BIN" ]]; then
-  sudo chsh -s "$ZSH_BIN" "$USER"
-fi
-
-$ZSH_BIN -i "${SCRIPT_DIR}/postsetup.zsh"
