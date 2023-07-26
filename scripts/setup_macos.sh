@@ -17,9 +17,6 @@ fi
 # Environment
 ###############################################################################
 
-# Copy launch agents
-
-# Load any launch agents that were copied
 for agent in "$SCRIPT_DIR/launch_agents/"*.plist; do
   dest_file="$HOME/Library/LaunchAgents/${agent##*/}"
 
@@ -34,7 +31,7 @@ done
 ###############################################################################
 
 if ! command -v brew &> /dev/null; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   if [[ -d /opt/homebrew ]]; then
     export PATH=/opt/homebrew/bin:$PATH
@@ -147,24 +144,6 @@ defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Show Develop menu
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
-
-###############################################################################
-# Shell                                                                       #
-###############################################################################
-
-ZSH_BIN=$(command -v zsh 2> /dev/null)
-
-# Add ZSH to list of valid shells
-if [[ -x "$ZSH_BIN" ]] && ! grep -q "$ZSH_BIN" /etc/shells; then
-  echo "$ZSH_BIN" | sudo tee -a /etc/shells &> /dev/null
-fi
-
-# Change shell to ZSH
-if [[ "$SHELL" != "$ZSH_BIN" ]]; then
-  sudo chsh -s "$ZSH_BIN" "$USER"
-fi
-
-$ZSH_BIN -i "${SCRIPT_DIR}/postsetup.zsh"
 
 ###############################################################################
 # Kill affected applications                                                  #
