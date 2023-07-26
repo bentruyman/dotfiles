@@ -161,8 +161,8 @@ show_intro() {
 
 task_copy() {
   report_header "Copying files..."
-  copy_file "gitconfig"
-  copy_file "gitignore_global"
+  link_file "gitconfig"
+  link_file "gitignore_global"
   echo "$_copy_count files copied"
 }
 
