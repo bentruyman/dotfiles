@@ -6,6 +6,11 @@ npms() {
   npm search --registry=https://registry.npmjs.org "$@"
 }
 
+# bun
+[ -s "/Users/bentruyman/.bun/_bun" ] && source "/Users/bentruyman/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+_::path::prefix "${BUN_INSTALL}/bin"
+
 # volta
 export VOLTA_HOME="${HOME}/.volta"
 _::path::prefix "${VOLTA_HOME}/bin"
