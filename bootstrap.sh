@@ -200,7 +200,7 @@ task_system() {
 
 task_repos() {
   report_header "Installing repositories..."
-  clone_repo https://github.com/AstroNvim/AstroNvim.git "$HOME/.config/nvim"
+  clone_repo https://github.com/LazyVim/starter "$HOME/.config/nvim"
   clone_repo https://github.com/junegunn/fzf.git "$HOME/.fzf"
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
   clone_repo https://github.com/agkozak/zsh-z.git "$HOME/.zsh/plugins/zsh-z"
