@@ -1,10 +1,11 @@
 [core]
   excludesfile = ~/.gitignore_global
   pager = delta
+  ignorecase = false
 
 [alias]
-	checkpoint = commit --no-verify -m "chore: checkpoint"
-	down = commit --amend --no-edit --no-verify
+  checkpoint = commit --no-verify -m "chore: checkpoint"
+  down = commit --amend --no-edit --no-verify
 
 [branch]
   autosetuprebase = always
@@ -27,7 +28,7 @@
   path = ~/.gitconfig_work
 
 [init]
-  defaultBranch = main
+  defaultbranch = main
 
 [interactive]
   diffFilter = delta --color-only
@@ -38,4 +39,3 @@
 [push]
   default = simple
   followTags = true
-
