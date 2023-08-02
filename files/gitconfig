@@ -25,6 +25,8 @@
 
 [include]
   path = ~/.gitconfig_user
+
+[includeIf "hasconfig:remote.*.url:**.apple.com:**/**"]
   path = ~/.gitconfig_work
 
 [init]
