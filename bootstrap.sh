@@ -174,11 +174,6 @@ task_link() {
   link_file "lib"
   link_file "mackup.cfg"
   link_file "tmux.conf"
-  link_file "zlogin"
-  link_file "zlogout"
-  link_file "zpreztorc"
-  link_file "zshenv"
-  link_file "zshrc"
   echo "$_link_count files linked"
 }
 
@@ -196,6 +191,7 @@ task_system() {
   for script in "$dotfiles_dir/scripts/"setup_*.sh; do
     . "$script"
   done
+  . "$dotfiles_dir/scripts/postsetup.sh"
 }
 
 task_repos() {
@@ -203,8 +199,6 @@ task_repos() {
   clone_repo https://github.com/LazyVim/starter "$HOME/.config/nvim"
   clone_repo https://github.com/junegunn/fzf.git "$HOME/.fzf"
   clone_repo https://github.com/tmux-plugins/tpm.git "$HOME/.tmux/plugins/tpm"
-  clone_repo https://github.com/agkozak/zsh-z.git "$HOME/.zsh/plugins/zsh-z"
-  clone_repo https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 }
 
 task_verify() {
@@ -218,7 +212,7 @@ task_verify() {
 
   echo "You may need to log into your shell again to take advantage of
   updates:"
-  echo "$ZSH_BIN"
+  echo "$FISH_BIN"
 }
 
 # Let's go!
