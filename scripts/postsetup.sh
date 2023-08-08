@@ -6,7 +6,7 @@ set -e
 ###############################################################################
 
 if [[ ! -f "${HOME}/.fzf.zsh" ]]; then
-  $HOME/.fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+  $HOME/.fzf/install --key-bindings --completion --no-update-rc --no-bash --no-zsh
 fi
 
 ###############################################################################
@@ -35,14 +35,14 @@ fi
 # Shell
 ###############################################################################
 
-ZSH_BIN=$(command -v zsh 2> /dev/null)
+FISH_BIN=$(command -v fish 2> /dev/null)
 
-# Add ZSH to list of valid shells
-if [[ -x "$ZSH_BIN" ]] && ! grep -q "$ZSH_BIN" /etc/shells; then
-  echo "$ZSH_BIN" | sudo tee -a /etc/shells &> /dev/null
+# Add FISH to list of valid shells
+if [[ -x "$FISH_BIN" ]] && ! grep -q "$FISH_BIN" /etc/shells; then
+  echo "$FISH_BIN" | sudo tee -a /etc/shells &> /dev/null
 fi
 
-# Change shell to ZSH
-if [[ "$SHELL" != "$ZSH_BIN" ]]; then
-  sudo chsh -s "$ZSH_BIN" "$USER"
+# Change shell to Fish
+if [[ "$SHELL" != "$FISH_BIN" ]]; then
+  sudo chsh -s "$FISH_BIN" "$USER"
 fi

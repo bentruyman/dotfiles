@@ -140,10 +140,10 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 ###############################################################################
 
 # Show debug menu
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+# defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Show Develop menu
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
+# defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
 ###############################################################################
 # Kill affected applications                                                  #
