@@ -13,9 +13,7 @@ _::import docker
 _::import editor
 _::import git
 _::import gpg
-_::import python
 _::import nodejs
-_::import python
 _::import rust
 _::import shortcuts
 _::import tmux

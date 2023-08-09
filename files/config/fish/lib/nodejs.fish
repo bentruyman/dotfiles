@@ -6,12 +6,6 @@ function npms
     npm search --registry=https://registry.npmjs.org $argv
 end
 
-if test -e "$HOME/.bun/_bun"
-    source "$HOME/.bun/_bun"
-    set -gx BUN_INSTALL "$HOME/.bun"
-    fish_add_path $BUN_INSTALL/bin
-end
-
 # volta
 if test -e "$HOME/.volta"
     set -gx VOLTA_HOME "$HOME/.volta"
