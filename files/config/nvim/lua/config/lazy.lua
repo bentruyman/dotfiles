@@ -19,7 +19,8 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.lang.typescript" },
 		{ import = "lazyvim.plugins.extras.lang.yaml" },
 		{ import = "lazyvim.plugins.extras.linting.eslint" },
-		-- { import = "plugins" },
+		{ import = "lazyvim.plugins.extras.test.core" },
+		{ import = "plugins" },
 		defaults = {},
 		lazy = false,
 		version = false, -- always use the latest git commit
