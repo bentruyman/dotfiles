@@ -4,4 +4,5 @@ return {
 		"nvim-neotest/neotest",
 		opts = { adapters = { "neotest-vitest" } },
 	},
+	{ "David-Kunz/jester" },
 }
