@@ -18,5 +18,8 @@ _::import rust
 _::import shortcuts
 _::import tmux
 
-_::env::is_macos and _::import macos
-_::env::is_ubuntu and _::import ubuntu
+if _::env::is_macos
+    _::import macos
+else if _::env::is_ubuntu
+    _::import ubuntu
+end
