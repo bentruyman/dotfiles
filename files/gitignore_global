@@ -1,5 +1,3 @@
-*.iml
 .DS_Store
 .idea
 .scratch
-.tern-port
