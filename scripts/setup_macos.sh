@@ -8,9 +8,16 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # System
 ###############################################################################
 
-# Installl Rosetta
+# Install Rosetta
 if [ ! "$(/usr/bin/pgrep oahd)" ]; then
   softwareupdate --install-rosetta --agree-to-license
+fi
+
+# Enable Touch ID for sudo
+if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
+  sudo sed -i '' '2i\
+auth       sufficient     pam_tid.so\
+' /etc/pam.d/sudo
 fi
 
 ###############################################################################
