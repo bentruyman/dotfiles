@@ -168,10 +168,7 @@ task_copy() {
 
 task_link() {
   report_header "Linking files..."
-  link_file "bin"
   link_file "config"
-  link_file "gnupg"
-  link_file "lib"
   link_file "mackup.cfg"
   link_file "tmux.conf"
   echo "$_link_count files linked"
