@@ -30,14 +30,13 @@ done
 # Homebrew                                                                    *
 ###############################################################################
 
-if ! command -v brew &> /dev/null; then
+if ! command -v brew &>/dev/null; then
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   if [[ -d /opt/homebrew ]]; then
     export PATH=/opt/homebrew/bin:$PATH
   fi
 fi
-
 
 brew update
 brew upgrade
@@ -54,18 +53,11 @@ brew cleanup
 sudo xcodebuild -license accept
 
 ###############################################################################
-# General                                                                     #
-###############################################################################
-
-# Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
-
-###############################################################################
 # UI                                                                          #
 ###############################################################################
 
 # Use dark menu bar and Dock
-defaults write -g AppleInterfaceStyle -string Dark;
+defaults write -g AppleInterfaceStyle -string Dark
 
 ###############################################################################
 # Input                                                                       #
@@ -140,10 +132,10 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 ###############################################################################
 
 # Show debug menu
-# defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Show Develop menu
-# defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
 
 ###############################################################################
 # Kill affected applications                                                  #
@@ -151,7 +143,7 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 
 for app in "cfprefsd" "Dashboard" "Dock" "Finder" "Safari" "SystemUIServer"; do
   set +e
-  killall "$app" > /dev/null 2>&1
+  killall "$app" >/dev/null 2>&1
   set -e
 done
 echo

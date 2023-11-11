@@ -19,7 +19,7 @@ fi
 
 export PATH="${HOME}/.volta/bin:${PATH}"
 
-if ! command -v node > /dev/null; then
+if ! command -v node >/dev/null; then
   volta install node
 fi
 
@@ -35,11 +35,11 @@ fi
 # Shell
 ###############################################################################
 
-FISH_BIN=$(command -v fish 2> /dev/null)
+FISH_BIN=$(command -v fish 2>/dev/null)
 
 # Add FISH to list of valid shells
 if [[ -x "$FISH_BIN" ]] && ! grep -q "$FISH_BIN" /etc/shells; then
-  echo "$FISH_BIN" | sudo tee -a /etc/shells &> /dev/null
+  echo "$FISH_BIN" | sudo tee -a /etc/shells &>/dev/null
 fi
 
 # Change shell to Fish

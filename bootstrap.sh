@@ -91,11 +91,11 @@ link_file() {
 ################################################################################
 
 report_header() {
-  echo -e "\n\033[1m$*\033[0m";
+  echo -e "\n\033[1m$*\033[0m"
 }
 
 report_success() {
-  echo -e " \033[1;32m✔\033[0m  $*";
+  echo -e " \033[1;32m✔\033[0m  $*"
 }
 
 report_install() {
@@ -109,26 +109,27 @@ report_install() {
 parse_args() {
   while :; do
     case $1 in
-      -h|--help)
-        show_help
-        exit
-        ;;
-      --skip-intro)
-          skip_intro=1
-          ;;
-      --with-system)
-          skip_system=0
-          ;;
-      --)
-          shift
-          break
-          ;;
-      -?*)
-          printf 'Unknown option: %s\n' "$1" >&2
-          exit
-          ;;
-      *)
-          break
+    -h | --help)
+      show_help
+      exit
+      ;;
+    --skip-intro)
+      skip_intro=1
+      ;;
+    --with-system)
+      skip_system=0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -?*)
+      printf 'Unknown option: %s\n' "$1" >&2
+      exit
+      ;;
+    *)
+      break
+      ;;
     esac
 
     shift
@@ -178,7 +179,11 @@ get_root() {
   sudo -v
 
   # Prevent from asking for sudo password again until process ends
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 }
 
 task_system() {
@@ -221,7 +226,11 @@ parse_args "$@"
 [[ $skip_intro -eq 0 ]] && show_intro
 task_copy
 task_link
-[[ $skip_system -eq 0 ]] && { task_repos; task_system; task_verify; }
+[[ $skip_system -eq 0 ]] && {
+  task_repos
+  task_system
+  task_verify
+}
 
 # Backup Results
 [[ _did_backup -eq 1 ]] && {
