@@ -1,7 +1,3 @@
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-
 brew "mackup"
 brew "mas"
 brew "pinentry-mac"
@@ -21,7 +17,6 @@ cask "visual-studio-code"
 
 mas "BetterJSON", id: 1511935951
 mas "Boop", id: 1518425043
-mas "Codye", id: 1516894961
 mas "Compressor", id: 424390742
 mas "Deliveries", id: 924726344
 mas "ExifPurge", id: 784466108
