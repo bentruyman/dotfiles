@@ -20,6 +20,12 @@ auth       sufficient     pam_tid.so\
 ' /etc/pam.d/sudo
 fi
 
+if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
+  echo "Full Disk Access is not enabled for this Terminal."
+  echo "Please enable it in System Preferences > Security & Privacy > Privacy > Full Disk Access."
+  exit 1
+fi
+
 ###############################################################################
 # Environment
 ###############################################################################
