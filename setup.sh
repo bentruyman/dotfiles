@@ -1,21 +1,46 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-[[ "$OSTYPE" =~ ^darwin ]] || return 0
+dotfiles_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+clone_repo() {
+  [ -d "$2" ] || git clone --depth 1 --recursive "$1" "$2"
+}
+
+report() { echo -e "\033[1;34m$*\033[0m"; }
+
+###############################################################################
+# Dotfiles
+###############################################################################
+
+report "Linking dotfiles..."
+for file in config gitconfig gitignore_global mackup.cfg tmux.conf; do
+  ln -sf "${dotfiles_dir}/files/${file}" "${HOME}/.$file"
+done
+
+report "Installing repositories..."
+clone_repo https://github.com/LazyVim/starter "${HOME}/.config/nvim"
+clone_repo https://github.com/junegunn/fzf.git "${HOME}/.fzf"
+clone_repo https://github.com/tmux-plugins/tpm.git "${HOME}/.tmux/plugins/tpm"
 
 ###############################################################################
 # System
 ###############################################################################
 
-# Install Rosetta
+if ! xcode-select -p &>/dev/null; then
+  report "Installing Xcode Command Line Tools..."
+  xcode-select --install
+  until xcode-select -p &>/dev/null; do sleep 5; done
+  sudo xcodebuild -license accept
+fi
+
 if [ ! "$(/usr/bin/pgrep oahd)" ]; then
+  report "Installing Rosetta..."
   softwareupdate --install-rosetta --agree-to-license
 fi
 
-# Enable Touch ID for sudo
 if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
+  report "Enabling TouchID for sudo calls..."
   sudo sed -i '' '2i\
 auth       optional       /opt/homebrew/lib/pam/pam_reattach.so\
 auth       sufficient     pam_tid.so\
@@ -33,8 +58,9 @@ fi
 # Environment
 ###############################################################################
 
-for agent in "$SCRIPT_DIR/launch_agents/"*.plist; do
-  dest_file="$HOME/Library/LaunchAgents/${agent##*/}"
+report "Linking launch agents..."
+for agent in "${dotfiles_dir}/files/launch_agents/"*.plist; do
+  dest_file="${HOME}/Library/LaunchAgents/${agent##*/}"
   mkdir -p "$(dirname "$dest_file")"
 
   if [[ ! -f "$dest_file" ]]; then
@@ -48,6 +74,7 @@ done
 ###############################################################################
 
 if ! command -v brew &>/dev/null; then
+  report "Installing Homebrew..."
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   if [[ -d /opt/homebrew ]]; then
@@ -58,8 +85,8 @@ fi
 brew update
 brew upgrade
 
-brew bundle install --file="$SCRIPT_DIR/brew/agnostic/Brewfile"
-brew bundle install --file="$SCRIPT_DIR/brew/macos/Brewfile"
+brew bundle install --file="${dotfiles_dir}/files/brew/agnostic/Brewfile"
+brew bundle install --file="${dotfiles_dir}/files/brew/macos/Brewfile"
 
 brew cleanup
 
@@ -68,14 +95,30 @@ brew cleanup
 ###############################################################################
 
 if ! grep -q "fzf_key_bindings" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
+  report "Installing FZF..."
   "${HOME}/.fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-zsh
 fi
+
+###############################################################################
+# Git
+###############################################################################
+
+configure_git_user() {
+  if [[ -z $(git config user."$1") ]]; then
+    read -rp "Enter your git user $1: " config_value
+    git config -f ~/.gitconfig_user user."$1" "$config_value"
+  fi
+}
+configure_git_user "email"
+configure_git_user "name"
+
 
 ###############################################################################
 # GPG
 ###############################################################################
 
 if [[ ! -d "${HOME}/.gnupg" ]]; then
+  report "Setting up Pinentry..."
   mkdir "${HOME}/.gnupg"
   echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >"${HOME}/.gnupg/gpg-agent.conf"
   echo 'use-agent' >"${HOME}/.gnupg/gpg.conf"
@@ -95,12 +138,14 @@ fi
 ###############################################################################
 
 if [ ! -d "${HOME}/.volta/bin" ]; then
+  report "Installing Volta..."
   curl https://get.volta.sh | bash -s -- --skip-setup
 fi
 
 export PATH="${HOME}/.volta/bin:${PATH}"
 
 if ! node -v &>/dev/null; then
+  report "Installing Node.js..."
   volta install node
 fi
 
@@ -108,6 +153,7 @@ fi
 # Python
 ###############################################################################
 
+report "Installing pip packages..."
 pip3 install --upgrade neovim-remote
 
 ###############################################################################
@@ -115,6 +161,7 @@ pip3 install --upgrade neovim-remote
 ###############################################################################
 
 if [[ ! -f "${HOME}/.cargo/env" ]]; then
+  report "Installing Rust..."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 fi
 
@@ -156,7 +203,7 @@ defaults write com.apple.speech.recognition.AppleSpeechRecognition.prefs Dictati
 ###############################################################################
 
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "$HOME/Desktop"
+defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
@@ -170,8 +217,8 @@ defaults write com.apple.screencapture disable-shadow -bool true
 # Hide all Desktop icons
 defaults write com.apple.finder CreateDesktop false
 
-# Open new windows in the $HOME directory
-defaults write com.apple.finder NewWindowTargetPath -string "file://$HOME/"
+# Open new windows in the ${HOME} directory
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
 defaults write com.apple.finder NewWindowTarget -string "PfHm"
 
 # Open new windows using list view
@@ -258,11 +305,13 @@ FISH_BIN=$(command -v fish 2>/dev/null)
 
 # Add FISH to list of valid shells
 if [[ -x "$FISH_BIN" ]] && ! grep -q "$FISH_BIN" /etc/shells; then
+  report "Adding Fish to list of valid shells..."
   echo "$FISH_BIN" | sudo tee -a /etc/shells &>/dev/null
 fi
 
 # Change shell to Fish
 if [[ "$SHELL" != "$FISH_BIN" ]]; then
+  report "Changing shell to Fish..."
   sudo chsh -s "$FISH_BIN" "$USER"
 
   echo "You may need to log into your shell again to take advantage of
@@ -276,6 +325,7 @@ fi
 
 # Generate SSH keys
 if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
+  report "Generating SSH keys..."
   ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
 
   # Copy the puplic key to clipboard
