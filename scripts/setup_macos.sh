@@ -147,6 +147,9 @@ defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 # Automatically hide the Dock
 defaults write com.apple.dock autohide -bool true
 
+# Resize Dock icons
+defaults write com.apple.dock tilesize -int 48
+
 # Disable Hot Corners
 defaults write com.apple.dock wvous-tl-corner -int 0
 defaults write com.apple.dock wvous-tl-modifier -int 0
@@ -154,6 +157,25 @@ defaults write com.apple.dock wvous-tr-corner -int 0
 defaults write com.apple.dock wvous-tr-modifier -int 0
 defaults write com.apple.dock wvous-bl-corner -int 0
 defaults write com.apple.dock wvous-bl-modifier -int 0
+
+# Set Dock items
+defaults delete com.apple.dock persistent-apps
+defaults delete com.apple.dock persistent-others
+defaults delete com.apple.dock recent-apps
+
+dock_item() {
+  printf '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>%s</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>', "$1"
+}
+
+defaults write com.apple.dock persistent-apps -array \
+  "$(dock_item /System/Applications/Music.app)" \
+  "$(dock_item /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app)" \
+  "$(dock_item /System/Applications/Mail.app)" \
+  "$(dock_item /System/Applications/Calendar.app)" \
+  "$(dock_item /Applications/Slack.app)" \
+  "$(dock_item /Applications/Visual\ Studio\ Code.app)" \
+  "$(dock_item /Applications/kitty.app)" \
+  "$(dock_item /System/Applications/System\ Settings.app)"
 
 ###############################################################################
 # Safari                                                                      #
@@ -169,7 +191,7 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 # Kill affected applications                                                  #
 ###############################################################################
 
-for app in "cfprefsd" "Dashboard" "Dock" "Finder" "Safari" "SystemUIServer"; do
+for app in "cfprefsd" "Dashboard" "Dock" "Finder" "SystemUIServer"; do
   set +e
   killall "$app" >/dev/null 2>&1
   set -e
