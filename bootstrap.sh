@@ -217,6 +217,18 @@ task_verify() {
   echo "$FISH_BIN"
 }
 
+task_xcode() {
+  if ! xcode-select -p &>/dev/null; then
+    report_header "Installing Xcode Command Line Tools..."
+    xcode-select --install
+    echo "Waiting until Xcode Command Line Tools are installed..."
+    until xcode-select -p &>/dev/null; do
+      sleep 5
+    done
+    sudo xcodebuild -license accept
+  fi
+}
+
 # Let's go!
 skip_intro=0
 skip_system=1
@@ -224,6 +236,7 @@ skip_system=1
 parse_args "$@"
 
 [[ $skip_intro -eq 0 ]] && show_intro
+task_xcode
 task_copy
 task_link
 [[ $skip_system -eq 0 ]] && {
