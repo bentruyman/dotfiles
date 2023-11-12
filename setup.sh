@@ -3,10 +3,6 @@ set -euo pipefail
 
 dotfiles_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-clone_repo() {
-  [ -d "$2" ] || git clone --depth 1 --recursive "$1" "$2"
-}
-
 report() { echo -e "\033[1;34m$*\033[0m"; }
 
 ###############################################################################
@@ -15,10 +11,17 @@ report() { echo -e "\033[1;34m$*\033[0m"; }
 
 report "Linking dotfiles..."
 for file in config gitconfig gitignore_global mackup.cfg tmux.conf; do
-  ln -sf "${dotfiles_dir}/files/${file}" "${HOME}/.$file"
+  if [ -d "${HOME}/.$file" ]; then
+    echo "${HOME}/.$file is a directory. Skipping..."
+  else
+    ln -sf "${dotfiles_dir}/${file}" "${HOME}/.$file"
+  fi
 done
 
 report "Installing repositories..."
+clone_repo() {
+  [ -d "$2" ] || git clone --depth 1 --recursive "$1" "$2"
+}
 clone_repo https://github.com/LazyVim/starter "${HOME}/.config/nvim"
 clone_repo https://github.com/junegunn/fzf.git "${HOME}/.fzf"
 clone_repo https://github.com/tmux-plugins/tpm.git "${HOME}/.tmux/plugins/tpm"
@@ -59,7 +62,7 @@ fi
 ###############################################################################
 
 report "Linking launch agents..."
-for agent in "${dotfiles_dir}/files/launch_agents/"*.plist; do
+for agent in "${dotfiles_dir}/launch_agents/"*.plist; do
   dest_file="${HOME}/Library/LaunchAgents/${agent##*/}"
   mkdir -p "$(dirname "$dest_file")"
 
@@ -82,12 +85,10 @@ if ! command -v brew &>/dev/null; then
   fi
 fi
 
+report "Installing Homebrew packages..."
 brew update
 brew upgrade
-
-brew bundle install --file="${dotfiles_dir}/files/brew/agnostic/Brewfile"
-brew bundle install --file="${dotfiles_dir}/files/brew/macos/Brewfile"
-
+brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
 
 ###############################################################################
@@ -96,7 +97,7 @@ brew cleanup
 
 if ! grep -q "fzf_key_bindings" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
   report "Installing FZF..."
-  "${HOME}/.fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-zsh
+  "${HOME}/.fzf/install" --key-bindings --completion --no-{update-rc,bash,zsh}
 fi
 
 ###############################################################################
@@ -111,7 +112,6 @@ configure_git_user() {
 }
 configure_git_user "email"
 configure_git_user "name"
-
 
 ###############################################################################
 # GPG
@@ -329,7 +329,7 @@ if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
   ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
 
   # Copy the puplic key to clipboard
-  pbcopy < "${HOME}/.ssh/id_rsa.pub"
+  pbcopy <"${HOME}/.ssh/id_rsa.pub"
 
   # Open up GitHub.com
   open "https://github.com/settings/ssh/new"
