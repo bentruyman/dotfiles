@@ -17,6 +17,7 @@ fi
 # Enable Touch ID for sudo
 if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
   sudo sed -i '' '2i\
+auth       optional       /opt/homebrew/lib/pam/pam_reattach.so\
 auth       sufficient     pam_tid.so\
 ' /etc/pam.d/sudo
 fi
@@ -63,6 +64,14 @@ brew bundle install --file="$SCRIPT_DIR/brew/macos/Brewfile"
 brew cleanup
 
 ###############################################################################
+# FZF
+###############################################################################
+
+if ! grep -q "fzf_key_bindings" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
+  "${HOME}/.fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-zsh
+fi
+
+###############################################################################
 # GPG
 ###############################################################################
 
@@ -74,11 +83,40 @@ if [[ ! -d "${HOME}/.gnupg" ]]; then
   killall gpg-agent
 fi
 
+# Check if any GPG keys exist already
+if ! gpg --list-keys >/dev/null 2>&1; then
+  # Ask user to paste a private key in
+  echo "No GPG keys found. Please paste your private key:"
+  read -r -d '' | gpg --import
+fi
+
+###############################################################################
+# Node.js
+###############################################################################
+
+if [ ! -d "${HOME}/.volta/bin" ]; then
+  curl https://get.volta.sh | bash -s -- --skip-setup
+fi
+
+export PATH="${HOME}/.volta/bin:${PATH}"
+
+if ! node -v &>/dev/null; then
+  volta install node
+fi
+
 ###############################################################################
 # Python
 ###############################################################################
 
 pip3 install --upgrade neovim-remote
+
+###############################################################################
+# Rust
+###############################################################################
+
+if [[ ! -f "${HOME}/.cargo/env" ]]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+fi
 
 ###############################################################################
 # UI                                                                          #
@@ -122,7 +160,6 @@ defaults write com.apple.screencapture location -string "$HOME/Desktop"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
-
 # Disable shadow in screenshots
 defaults write com.apple.screencapture disable-shadow -bool true
 
@@ -181,7 +218,7 @@ defaults write com.apple.dock persistent-apps -array \
 # Safari                                                                      #
 ###############################################################################
 
-# Show debug menu
+# Show Debug menu
 defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # Show Develop menu
@@ -211,4 +248,39 @@ if [[ -n "$mackup_diffs" ]]; then
   echo "$mackup_diffs"
   echo
   echo "Run 'mackup restore' or 'mackup backup' to commit these changes."
+fi
+
+###############################################################################
+# Shell
+###############################################################################
+
+FISH_BIN=$(command -v fish 2>/dev/null)
+
+# Add FISH to list of valid shells
+if [[ -x "$FISH_BIN" ]] && ! grep -q "$FISH_BIN" /etc/shells; then
+  echo "$FISH_BIN" | sudo tee -a /etc/shells &>/dev/null
+fi
+
+# Change shell to Fish
+if [[ "$SHELL" != "$FISH_BIN" ]]; then
+  sudo chsh -s "$FISH_BIN" "$USER"
+
+  echo "You may need to log into your shell again to take advantage of
+  updates:"
+  echo "$FISH_BIN"
+fi
+
+###############################################################################
+# SSH
+###############################################################################
+
+# Generate SSH keys
+if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
+  ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
+
+  # Copy the puplic key to clipboard
+  pbcopy < "${HOME}/.ssh/id_rsa.pub"
+
+  # Open up GitHub.com
+  open "https://github.com/settings/ssh/new"
 fi

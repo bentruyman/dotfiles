@@ -189,11 +189,7 @@ get_root() {
 task_system() {
   report_header "Executing platform setup scripts..."
   get_root
-  . "$dotfiles_dir/scripts/presetup.sh"
-  for script in "$dotfiles_dir/scripts/"setup_*.sh; do
-    . "$script"
-  done
-  . "$dotfiles_dir/scripts/postsetup.sh"
+  . "$dotfiles_dir/scripts/setup.sh"
 }
 
 task_repos() {
@@ -209,12 +205,16 @@ task_verify() {
   git_email=$(git config user.email)
   git_name=$(git config user.name)
   set -e
-  [[ -z $git_email ]] && echo "Ensure that you set user.email: git config -f ~/.gitconfig_user user.email 'user@host.com'"
-  [[ -z $git_name ]] && echo "Ensure that you set user.name: git config -f ~/.gitconfig_user user.name 'Your Name'"
-
-  echo "You may need to log into your shell again to take advantage of
-  updates:"
-  echo "$FISH_BIN"
+  if [[ -z $git_email ]]; then
+    echo "Enter your git user email address:"
+    read git_email
+    git config -f ~/.gitconfig_user user.email "$git_email"
+  fi
+  if [[ -z $git_name ]]; then
+    echo "Enter your git user name:"
+    read git_name
+    git config -f ~/.gitconfig_user user.name "$git_name"
+  fi
 }
 
 task_xcode() {

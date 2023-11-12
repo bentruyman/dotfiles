@@ -2,6 +2,7 @@ tap "homebrew/cask-fonts"
 
 brew "mackup"
 brew "mas"
+brew "pam-reattach"
 brew "pinentry-mac"
 brew "reattach-to-user-namespace"
 
