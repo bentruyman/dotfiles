@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -e
 
 [[ "$OSTYPE" =~ ^darwin ]] || return 0
@@ -23,7 +24,8 @@ fi
 if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
   echo "Full Disk Access is not enabled for this Terminal."
   echo "Please enable it in System Preferences > Security & Privacy > Privacy > Full Disk Access."
-  exit 1
+  open "x-apple.systempreferences:com.apple.preference.security"
+  read -rp "Press any key to continue..."
 fi
 
 ###############################################################################
@@ -32,6 +34,7 @@ fi
 
 for agent in "$SCRIPT_DIR/launch_agents/"*.plist; do
   dest_file="$HOME/Library/LaunchAgents/${agent##*/}"
+  mkdir -p "$(dirname "$dest_file")"
 
   if [[ ! -f "$dest_file" ]]; then
     ln -sf "$agent" "$dest_file"
@@ -58,12 +61,6 @@ brew bundle install --file="$SCRIPT_DIR/brew/agnostic/Brewfile"
 brew bundle install --file="$SCRIPT_DIR/brew/macos/Brewfile"
 
 brew cleanup
-
-###############################################################################
-# Xcode
-###############################################################################
-
-sudo xcodebuild -license accept
 
 ###############################################################################
 # GPG

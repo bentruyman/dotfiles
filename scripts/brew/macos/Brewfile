@@ -1,3 +1,5 @@
+tap "homebrew/cask-fonts"
+
 brew "mackup"
 brew "mas"
 brew "pinentry-mac"
@@ -5,6 +7,7 @@ brew "reattach-to-user-namespace"
 
 cask "discord"
 cask "docker"
+cask "font-caskaydia-cove-nerd-font"
 cask "imageoptim"
 cask "keepingyouawake"
 cask "kitty"
@@ -19,7 +22,6 @@ mas "BetterJSON", id: 1511935951
 mas "Boop", id: 1518425043
 mas "Compressor", id: 424390742
 mas "Deliveries", id: 924726344
-mas "ExifPurge", id: 784466108
 mas "Keynote", id: 409183694
 mas "Magnet", id: 441258766
 mas "Numbers", id: 409203825
