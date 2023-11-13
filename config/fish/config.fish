@@ -142,7 +142,6 @@ if type -q tmux
     alias tml "tmux list-sessions"
 
     function tmx
-        # If first argument is not empty, use it. Otherwise, use the name of the current directory.
         if test -n "$argv[1]"
             set name $argv[1]
         else
