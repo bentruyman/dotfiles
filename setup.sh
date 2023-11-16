@@ -147,7 +147,7 @@ fi
 ###############################################################################
 
 report "Installing pip packages..."
-pip3 install --upgrade neovim-remote
+pip3 install --upgrade neovim-remote pip
 
 ###############################################################################
 # Rust
