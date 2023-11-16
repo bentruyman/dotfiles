@@ -126,13 +126,6 @@ if [[ ! -d "${HOME}/.gnupg" ]]; then
   killall gpg-agent
 fi
 
-# Check if any GPG keys exist already
-if ! gpg --list-keys >/dev/null 2>&1; then
-  # Ask user to paste a private key in
-  echo "No GPG keys found. Please paste your private key:"
-  read -r -d '' | gpg --import
-fi
-
 ###############################################################################
 # Node.js
 ###############################################################################
