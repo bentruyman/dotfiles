@@ -69,6 +69,13 @@ function gpc
     git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
 end
 
+# Godot
+set GODOT_CLI "/Applications/Godot.app/Contents/MacOS/Godot"
+if test -f $GODOT_CLI
+    alias godot $GODOT_CLI
+    alias gut 'godot --debug-collisions --path $PWD -d -s addons/gut/gut_cmdln.gd'
+end
+
 # GPG
 set -gx GPG_TTY (tty)
 
