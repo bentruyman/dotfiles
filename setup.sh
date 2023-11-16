@@ -247,19 +247,24 @@ defaults delete com.apple.dock persistent-apps
 defaults delete com.apple.dock persistent-others
 defaults delete com.apple.dock recent-apps
 
-dock_item() {
-  printf '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>%s</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>', "$1"
-}
+DOCK_APPS=(
+  "/Applications/Discord.app"
+  "/Applications/Slack.app"
+  "/System/Applications/Music.app"
+  "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+  "/System/Applications/Mail.app"
+  "/System/Applications/Calendar.app"
+  "/Applications/Visual Studio Code.app"
+  "/Applications/kitty.app"
+  "/System/Applications/System Settings.app"
+)
 
-defaults write com.apple.dock persistent-apps -array \
-  "$(dock_item /System/Applications/Music.app)" \
-  "$(dock_item /System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app)" \
-  "$(dock_item /System/Applications/Mail.app)" \
-  "$(dock_item /System/Applications/Calendar.app)" \
-  "$(dock_item /Applications/Slack.app)" \
-  "$(dock_item /Applications/Visual\ Studio\ Code.app)" \
-  "$(dock_item /Applications/kitty.app)" \
-  "$(dock_item /System/Applications/System\ Settings.app)"
+for app in "${DOCK_APPS[@]}"; do
+  if [[ -d "$app" ]]; then
+    defaults write com.apple.dock persistent-apps -array-add \
+      "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>${app}</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
+  fi
+done
 
 ###############################################################################
 # Safari                                                                      #
