@@ -42,17 +42,27 @@ alias gs "git stash"
 alias gsp "git stash pop"
 alias gst "git status"
 
-function clone
-  set -l url $argv[1]
-  set -l repo_dir (string replace -r '^(https|git@)([^:/]+)[/:](.*)\.git$' '$2/$3' -- $url)
-  set -l target_dir "$HOME/Development/src/$repo_dir"
+function clone -d "Quickly clone git repos in a conventional way"
+    set -l url $argv[1]
 
-  if not test -d "$target_dir"
-    mkdir -p "$target_dir"
-    git clone "$url" "$target_dir"
-  else
-    echo "Directory $target_dir already exists."
-  end
+    # Validate the URL format
+    if not string match -qr '^(https|git@)([^:/]+)[/:](.*)\.git$' -- $url
+        echo "Invalid repository URL: $url"
+        echo "Please provide a valid git repository URL."
+        return 1
+    end
+
+    set -l repo_dir (string replace -r '^(https|git@)([^:/]+)[/:](.*)\.git$' '$2/$3' -- $url)
+    set -l target_dir "$HOME/Development/src/$repo_dir"
+
+    if not test -d "$target_dir"
+        mkdir -p "$target_dir"
+        git clone "$url" "$target_dir"
+    else
+        echo "Directory $target_dir already exists."
+    end
+
+    cd $target_dir
 end
 
 function gpc
