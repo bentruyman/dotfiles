@@ -254,7 +254,10 @@ DOCK_APPS=(
   "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
   "/System/Applications/Mail.app"
   "/System/Applications/Calendar.app"
+  "/Applications/Obsidian.app"
+  "/Applications/Godot.app"
   "/Applications/Visual Studio Code.app"
+  "/Applications/Visual Studio Code - Insiders.app"
   "/Applications/kitty.app"
   "/System/Applications/System Settings.app"
 )
