@@ -95,8 +95,10 @@ brew cleanup
 # Deno
 ###############################################################################
 
-deno install --allow-{read,write} -n nice-package-json \
-  https://deno.land/x/nice_package_json/cli.ts
+if ! command -v nice-package-json &>/dev/null; then
+  deno install --allow-{read,write} -n nice-package-json \
+    https://deno.land/x/nice_package_json/cli.ts
+fi
 
 ###############################################################################
 # FZF

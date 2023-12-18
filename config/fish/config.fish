@@ -104,7 +104,7 @@ if test -e "$HOME/.volta"
 end
 
 # Path
-fish_add_path -g \
+fish_add_path --append --global \
     $HOME/.bin \
     /opt/homebrew/bin \
     /usr/local/sbin /usr/local/bin \
@@ -116,7 +116,7 @@ fish_add_path $HOME/.cargo/bin
 
 # Shell
 if type -q bat
-    set -gx BAT_THEME OneHalfDark
+    set -gx BAT_THEME Catppuccin-mocha
 end
 
 if type -q kitty
