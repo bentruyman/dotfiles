@@ -101,7 +101,7 @@ alias npj "nice-package-json --write"
 
 if test -e "$HOME/.volta"
     set -gx VOLTA_HOME "$HOME/.volta"
-    fish_add_path $VOLTA_HOME/bin
+    fish_add_path --prepend $VOLTA_HOME/bin
 end
 
 # Path
