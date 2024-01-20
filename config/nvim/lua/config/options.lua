@@ -4,7 +4,7 @@ o.title = true
 
 o.completeopt:append("noinsert")
 
-o.conceallevel = 0
+o.conceallevel = 2
 o.fillchars:append({ fold = " ", foldclose = "▶", foldopen = "" })
 o.iskeyword:append("-")
 o.listchars:append({
