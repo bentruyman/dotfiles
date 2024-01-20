@@ -4,6 +4,7 @@ return {
     opts = {
       servers = {
         cssls = {},
+        denols = {},
         html = {},
         marksman = {},
         tsserver = {
