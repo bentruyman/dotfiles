@@ -1,3 +1,8 @@
+#
+# If issues occur with $PATH not being in the expected order, check the
+# `fish_variables` file for the `fish_user_paths` variable.
+#
+
 set fish_greeting
 
 # Deno
@@ -101,11 +106,11 @@ alias npj "nice-package-json --write"
 
 if test -e "$HOME/.volta"
     set -gx VOLTA_HOME "$HOME/.volta"
-    fish_add_path --prepend $VOLTA_HOME/bin
+    fish_add_path $VOLTA_HOME/bin
 end
 
 # Path
-fish_add_path --append --global \
+fish_add_path -a \
     $HOME/.bin \
     /opt/homebrew/bin \
     /usr/local/sbin /usr/local/bin \
