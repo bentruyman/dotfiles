@@ -1,30 +1,51 @@
-local o = vim.opt
+-- Set <space> as the leader key
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-o.title = true
+-- Enable break indent
+vim.o.breakindent = true
 
-o.completeopt:append("noinsert")
+-- Case-insensitive searching
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-o.conceallevel = 2
-o.fillchars:append({ fold = " ", foldclose = "▶", foldopen = "" })
-o.iskeyword:append("-")
-o.listchars:append({
-  extends = "▶",
-  nbsp = "∙",
-  precedes = "◀",
-  space = "·",
-  tab = "▎ ",
-  trail = "∙",
-})
+-- Sync clipboard between OS and Neovim
+vim.o.clipboard = 'unnamedplus'
 
-o.breakindent = true
-o.breakindentopt = "sbr"
-o.copyindent = true
-o.showbreak = "❯ "
-o.smartindent = false
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menu,menuone'
 
-o.spell = true
-o.spelloptions:append("camel")
+-- Highlight current line
+vim.wo.cursorline = true
 
-o.wrap = true
+-- Set highlight on search
+vim.o.hlsearch = false
 
-vim.cmd([[match ErrorMsg '\s\+$']])
+-- Use spaces for indentation
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+
+-- Enable mouse mode
+vim.o.mouse = 'a'
+
+-- Always enable line numbers
+vim.wo.number = true
+
+-- Keep signcolumn on by default
+vim.wo.signcolumn = 'yes'
+--
+-- Enable auto-indentation
+vim.o.smartindent = true
+vim.o.autoindent = true
+
+-- Enable better quality colors
+vim.o.termguicolors = true
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
+
+-- Save undo history
+vim.o.undofile = true

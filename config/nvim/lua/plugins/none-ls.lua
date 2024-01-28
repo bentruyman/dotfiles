@@ -1,23 +1,22 @@
 return {
-  "nvimtools/none-ls.nvim",
-  opts = function(_, opts)
-    local nls = require("null-ls").builtins
-    opts.sources = {
-      nls.formatting.biome.with({
-        args = {
-          "check",
-          "--apply-unsafe",
-          "--formatter-enabled=true",
-          "--organize-imports-enabled=true",
-          "--skip-errors",
-          "$FILENAME",
+  {
+    "nvimtools/none-ls.nvim",
+    -- enabled = false,
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    dependencies = { "williamboman/mason.nvim" },
+    opts = function()
+      local nls = require("null-ls")
+
+      local opts = {
+        sources = {
+          nls.builtins.code_actions.refactoring,
+          nls.builtins.completion.spell,
+          nls.builtins.diagnostics.fish,
+          nls.builtins.diagnostics.gitlint,
         },
-      }),
-      nls.formatting.shfmt.with({
-        filetypes = { "sh", "zsh" },
-      }),
-      nls.formatting.stylua,
-    }
-    return opts
-  end,
+      }
+
+      return opts
+    end,
+  },
 }
