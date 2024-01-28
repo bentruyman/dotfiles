@@ -1,8 +1,10 @@
 return {
-  "folke/trouble.nvim",
-  opts = {
-    auto_close = true,
-    -- auto_open = true,
-    use_diagnostic_signs = true,
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+      { "<leader>ct", "<cmd>TroubleToggle<cr>", desc = "Trouble" },
+    },
+    config = true,
   },
 }
