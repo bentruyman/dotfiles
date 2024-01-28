@@ -17,4 +17,14 @@ $ curl -L https://raw.githubusercontent.com/bentruyman/dotfiles/main/bootstrap.s
 - Tmux with [tpm](https://github.com/tmux-plugins/tpm)
 - [Kitty](https://sw.kovidgoyal.net/kitty/)
 
+### Supported Projects
+
+- [X] Deno
+- [X] Node.js
+  - [ ] Jest
+  - [X] Biome
+  - [X] ESLint
+  - [X] Vitest
+- [ ] Monorepo
+
 MIT © Ben Truyman

@@ -1,67 +1,76 @@
+-- function to generate dashboard center items
+local function center_item(icon, desc, key, action)
+  return { action = action, desc = "  " .. desc, icon = icon, key = key }
+end
+
 return {
-  "nvimdev/dashboard-nvim",
-  opts = function()
-    local logo = [[
-                       __________________________  
-               __..--/".'                        '.
-       __..--""      | |                          |
-      /              | |                          |
-     /               | |    ___________________   |
-    ;                | |   :__________________/:  |
-    |                | |   |                 '.|  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |                  ||  |
-    |                | |   |______......-----"\|  |
-    |                | |   |_______......-----"   |
-    |                | |                          |
-    |                | |                          |
-    |                | |                  ____----|
-    |                | |_____.....----|#######|---|
-    |                | |______.....----""""       |
-    |                | |                          |
-    |. ..            | |   ,                      |
-    |... ....        | |  (c ----- """           .'
-    |..... ......  |\|_|    ____......------"""|"  
-    |. .... .......| |""""""                   |   
-    '... ..... ....| |                         |   
-      "-._ .....  .| |                         |   
-          "-._.....| |             ___...---"""'   
-              "-._.| | ___...---"""                
-                  """""                            
-    ]]
+  {
+    "nvimdev/dashboard-nvim",
+    -- enabled = false,
+    event = "VimEnter",
+    opts = function()
+      local logo = [[
+                         __________________________
+                 __..--/".'                        '.
+         __..--""      | |                          |
+        /              | |                          |
+       /               | |    ___________________   |
+      ;                | |   :__________________/:  |
+      |                | |   |                 '.|  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |                  ||  |
+      |                | |   |______......-----"\|  |
+      |                | |   |_______......-----"   |
+      |                | |                          |
+      |                | |                          |
+      |                | |                  ____----|
+      |                | |_____.....----|#######|---|
+      |                | |______.....----""""       |
+      |                | |                          |
+      |. ..            | |   ,                      |
+      |... ....        | |  (c ----- """           .'
+      |..... ......  |\|_|    ____......------"""|"
+      |. .... .......| |""""""                   |
+      '... ..... ....| |                         |
+        "-._ .....  .| |                         |
+            "-._.....| |             ___...---"""'
+                "-._.| | ___...---"""
+                    """""
+      ]]
 
-    logo = string.rep("\n", 8) .. logo .. "\n\n"
+      logo = string.rep("\n", 8) .. logo .. "\n\n"
 
-    local opts = {
-      theme = "doom",
-      hide = {
-        statusline = false,
-      },
-      config = {
-        header = vim.split(logo, "\n"),
-        -- stylua: ignore
-        center = {
-          { action = "ene | startinsert",                 desc = " New file",        icon = " ", key = "n" },
-          { action = "Telescope oldfiles",                desc = " Recent files",    icon = " ", key = "r" },
-          { action = "Telescope find_files",              desc = " Find file",       icon = " ", key = "f" },
-          { action = "Telescope live_grep",               desc = " Find text",       icon = " ", key = "g" },
-          { action = 'lua require("persistence").load()', desc = " Restore Session", icon = " ", key = "s" },
-          { action = "Lazy",                              desc = " Lazy",            icon = "󰒲 ", key = "l" },
-          { action = "qa",                                desc = " Quit",            icon = " ", key = "q" },
+      local opts = {
+        theme = "doom",
+        hide = {
+          statusline = false,
         },
-        footer = function()
-          local stats = require("lazy").stats()
-          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          return { "⚡ Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-        end,
-      },
-    }
+        config = {
+          header = vim.split(logo, "\n"),
+          -- stylua: ignore
+          center = {
+            center_item("", "New file", "n", "enew"),
+            center_item("", "Recent files", "r", "Telescope oldfiles"),
+            center_item("", "Find file", "f", "Telescope find_files"),
+            center_item("", "Find text", "g", "Telescope live_grep"),
+            center_item("󰒲", "Lazy", "l", "Lazy"),
+            center_item("󰶼", "Update plugins", "U", "Lazy update"),
+            center_item("", "Quit", "q", "qa"),
+          },
+          footer = function()
+            local stats = require("lazy").stats()
+            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+            return { "⚡ Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+          end,
+        },
+      }
 
-    return opts
-  end,
+      return opts
+    end,
+  },
 }
