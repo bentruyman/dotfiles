@@ -82,6 +82,10 @@ if test -f $GODOT_CLI
     alias gut 'godot --debug-collisions --path $PWD -d -s addons/gut/gut_cmdln.gd'
 end
 
+# Golang
+set -gx GOPATH $HOME/Development
+set -gx PATH $GOPATH/bin $PATH
+
 # GPG
 set -gx GPG_TTY (tty)
 
