@@ -25,6 +25,12 @@ return {
           },
         }),
       })
+      local deno = formatters.if_file_exists({
+        pattern = { "deno.json", "deno.jsonc" },
+        formatter = create.shell({
+          cmd = { "deno", "fmt", "--quiet", "-" },
+        }),
+      })
       local eslint = formatters.if_file_exists({
         pattern = ".eslintrc.*",
         formatter = formatters.eslint_d_fix,
@@ -41,6 +47,7 @@ return {
         formatter_by_ft = {
           css = formatters.lsp,
           fish = fish,
+          go = formatters.lsp,
           html = formatters.lsp,
           javascript = { biome, eslint },
           javascriptreact = { biome, eslint },
@@ -50,8 +57,8 @@ return {
           markdown = formatters.prettierd,
           rust = formatters.lsp,
           sh = formatters.shfmt,
-          typescript = { biome, eslint },
-          typescriptreact = { biome, eslint },
+          typescript = { biome, deno, eslint },
+          typescriptreact = { biome, deno, eslint },
           yaml = formatters.lsp,
         },
         fallback_formatter = {
