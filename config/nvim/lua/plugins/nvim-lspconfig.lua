@@ -62,6 +62,7 @@ return {
         eslint = {},
         -- TODO: figure out why this isn't working with mason-lspconfig
         gdscript = {},
+        gopls = {},
         html = {},
         jsonls = {
           settings = {
