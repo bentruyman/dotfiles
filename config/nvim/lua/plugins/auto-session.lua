@@ -1,7 +1,7 @@
 return {
   {
     "rmagatti/auto-session",
-    enabled = false,
+    -- enabled = false,
     config = true,
   },
 }
