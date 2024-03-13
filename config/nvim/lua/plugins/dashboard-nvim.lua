@@ -54,6 +54,7 @@ return {
           header = vim.split(logo, "\n"),
           -- stylua: ignore
           center = {
+            center_item("", "Restore session", "R", function() require("persistence").load() end),
             center_item("", "New file", "n", "enew"),
             center_item("", "Recent files", "r", "Telescope oldfiles"),
             center_item("", "Find file", "f", "Telescope find_files"),
