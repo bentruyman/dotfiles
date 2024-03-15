@@ -25,12 +25,16 @@ return {
         },
         sources = cmp.config.sources({
           { name = "copilot" },
-          { name = "nvim_lsp" },
-          { name = "path" },
-        }, {
-          { name = "buffer" },
-        }),
-      }
-    end,
-  },
+          { name = "nvim_lsp",
+          entry_filter = function(entry, ctx)
+            return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
+          end
+        },
+        { name = "path" },
+      }, {
+        { name = "buffer" },
+      }),
+    }
+  end,
+},
 }
