@@ -8,16 +8,6 @@ return {
     },
   },
   {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    opts = {
-      ensure_installed = {
-        "prettierd",
-        "shfmt",
-        "stylua",
-      },
-    },
-  },
-  {
     "folke/which-key.nvim",
     opts = {
       defaults = {
