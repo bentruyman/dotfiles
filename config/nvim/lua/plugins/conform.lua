@@ -2,6 +2,9 @@ return {
   {
     "stevearc/conform.nvim",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
     keys = {
       {
         "<leader>cf",
@@ -14,7 +17,10 @@ return {
     },
     opts = {
       formatters_by_ft = {
+        css = { "prettierd" },
+        html = { "prettierd" },
         javascript = { "eslint_d" },
+        json = { "prettierd" },
         lua = { "stylua" },
         typescript = { "eslint_d" },
         typescriptreact = { "eslint_d" },
@@ -30,5 +36,16 @@ return {
         end,
       })
     end,
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    opts = {
+      ensure_installed = {
+        "eslint_d",
+        "prettierd",
+        "shfmt",
+        "stylua",
+      },
+    },
   },
 }
