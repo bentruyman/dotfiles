@@ -5,18 +5,6 @@ M.is_remote_host = function(host)
   return string.find(remote_url, host) ~= nil
 end
 
-M.root_pattern = function(...)
-  local patterns = { ... }
-  return function()
-    for _, pattern in ipairs(patterns) do
-      local root = vim.fn.find_root(pattern)
-      if root then
-        return root
-      end
-    end
-  end
-end
-
 M.tbl_indexof = function(tbl, val)
   for index, value in ipairs(tbl) do
     if value == val then

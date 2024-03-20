@@ -85,6 +85,9 @@ return {
         lua_ls = {},
         marksman = {},
         rust_analyzer = {},
+        tailwindcss = {
+          filetypes_exclude = { "markdown" },
+        },
         tsserver = {
           on_attach = function(client, bufnr)
             client.server_capabilities.documentFormattingProvider = false
