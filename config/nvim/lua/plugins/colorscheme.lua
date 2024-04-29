@@ -19,16 +19,16 @@ return {
             information = { "undercurl" },
           },
         },
-        neotree = true,
         noice = true,
+        nvimtree = true,
         telescope = true,
         treesitter = true,
         which_key = true,
       },
     },
-    config = function()
-      vim.cmd.colorscheme 'catppuccin'
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin")
     end,
-
   },
 }

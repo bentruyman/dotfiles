@@ -22,10 +22,6 @@ local on_attach = function(_, bufnr)
   nmap("gd", require("telescope.builtin").lsp_definitions, "Goto Definition")
   nmap("gr", require("telescope.builtin").lsp_references, "Goto References")
   nmap("gI", require("telescope.builtin").lsp_implementations, "Goto Implementation")
-
-  vim.api.nvim_buf_create_user_command(_, "Format", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
 end
 
 return {

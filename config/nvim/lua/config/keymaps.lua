@@ -15,3 +15,14 @@ vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increa
 
 -- Saving
 vim.cmd("cnoreabbrev W write")
+
+-- Terminal
+vim.keymap.set("n", "<C-/>", "<cmd>ToggleTerm<cr>", { desc = "Terminal (Root Dir)" })
+vim.keymap.set("n", "<C-_>", "<cmd>ToggleTerm<cr>", { desc = "which_key_ignore" })
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
+vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+vim.keymap.set("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+vim.keymap.set("t", "<C-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })

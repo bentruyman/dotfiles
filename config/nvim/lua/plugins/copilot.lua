@@ -4,17 +4,19 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    enabled = function()
-      return utils.is_remote_host("github.com")
-    end,
     event = "InsertEnter",
-    config = true,
+    config = function()
+      if utils.is_remote_host("github.com") then
+        require("copilot").setup()
+      end
+    end,
   },
   {
     "zbirenbaum/copilot-cmp",
-    enabled = function()
-      return utils.is_remote_host("github.com")
+    config = function()
+      if utils.is_remote_host("github.com") then
+        require("copilot_cmp").setup()
+      end
     end,
-    config = true,
   },
 }

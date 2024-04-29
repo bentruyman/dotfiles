@@ -10,6 +10,7 @@ return {
       return {
         options = {
           component_separators = { left = "󰇝", right = "󰇝" },
+          disabled_filetypes = { "dashboard", "NvimTree" },
           section_separators = { left = "", right = "" },
           globalstatus = true,
           refresh = {
