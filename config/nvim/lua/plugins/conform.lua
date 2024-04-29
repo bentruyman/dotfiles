@@ -43,6 +43,7 @@ return {
         javascriptreact = { "eslint_d", "prettierd" },
         json = { "prettierd" },
         lua = { "stylua" },
+        markdown = { "prettierd" },
         typescript = { "eslint_d", "prettierd" },
         typescriptreact = { "eslint_d", "prettierd" },
       },

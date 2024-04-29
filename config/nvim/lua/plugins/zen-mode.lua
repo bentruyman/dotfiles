@@ -6,8 +6,14 @@ return {
     },
     opts = {
       plugins = {
+        gitsigns = { enabled = true },
         kitty = { enabled = true },
         tmux = { enabled = true },
+      },
+      window = {
+        options = {
+          relativenumber = false,
+        },
       },
     },
   },
