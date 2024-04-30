@@ -1,7 +1,6 @@
 return {
   {
     "rmagatti/auto-session",
-    dependencies = { "nvim-tree/nvim-tree.lua" },
     opts = {
       auto_session_suppress_dirs = { "/", "~/", "~/Desktop", "~/Downloads" },
       bypass_session_save_file_types = { "dashboard" },

@@ -34,6 +34,9 @@ vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
 vim.o.expandtab = true
 
+-- Use global statusline
+vim.o.laststatus = 3
+
 -- Enable mouse mode
 vim.o.mouse = "a"
 

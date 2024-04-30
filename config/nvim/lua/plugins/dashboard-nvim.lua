@@ -63,7 +63,7 @@ return {
             center_item("", "New file", "n", "enew"),
             center_item("", "Recent files", "r", "Telescope oldfiles"),
             center_item("", "Find file", "f", "Telescope find_files"),
-            center_item("", "Find text", "g", "Telescope live_grep"),
+            center_item("", "Find text", "/", "Telescope live_grep"),
             center_item("󰒲", "Lazy", "l", "Lazy"),
             center_item("󰶼", "Update plugins", "U", "Lazy update"),
             center_item("", "Quit", "q", "qa"),

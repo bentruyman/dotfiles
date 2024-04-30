@@ -10,20 +10,18 @@ return {
       }
     end,
   },
-  { "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
   {
     "NvChad/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({
-        user_default_options = {
-          tailwind = true,
-        },
-      })
-    end,
+    opts = {
+      user_default_options = {
+        tailwind = true,
+      },
+    },
   },
   {
     "laytan/tailwind-sorter.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim" },
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     build = "cd formatter && npm ci && npm run build",
     opts = {
       on_save_enabled = true,

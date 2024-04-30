@@ -1,3 +1,7 @@
 return {
-  { "echasnovski/mini.pairs", config = true },
+  {
+    "echasnovski/mini.pairs",
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    config = true,
+  },
 }

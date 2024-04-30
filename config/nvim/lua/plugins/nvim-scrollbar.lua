@@ -1,6 +1,7 @@
 return {
   {
-    "numToStr/Comment.nvim",
+    "petertriho/nvim-scrollbar",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    config = true,
   },
 }
