@@ -7,7 +7,7 @@ return {
     opts = {
       plugins = {
         gitsigns = { enabled = true },
-        kitty = { enabled = true },
+        kitty = { enabled = true, font = "+6" },
         tmux = { enabled = true },
       },
       window = {

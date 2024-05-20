@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
@@ -33,12 +31,11 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "folke/neodev.nvim",
-      "b0o/schemastore.nvim",
     },
     keys = {
       { "<leader>L", "<cmd>LspInfo<cr>", desc = "LspInfo" },
     },
-    config = function()
+    config = function(_, opts)
       local lspconfig = require("lspconfig")
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
@@ -48,68 +45,31 @@ return {
 
       require("neodev").setup()
 
-      local servers = {
-        biome = {},
-        denols = {
-          root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-        },
-        docker_compose_language_service = {},
-        dockerls = {},
-        eslint = {},
-        -- TODO: figure out why this isn't working with mason-lspconfig
-        gdscript = {},
-        gopls = {},
-        html = {},
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require("schemastore").json.schemas({
-                extra = {
-                  -- TODO: deno.json isn't working
-                  {
-                    name = "deno.json",
-                    description = "Deno Configuration File",
-                    fileMatch = "deno.json",
-                    url = "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
-                  },
-                },
-              }),
-              validate = { enable = true },
-            },
-          },
-        },
-        lua_ls = {},
-        marksman = {},
-        rust_analyzer = {},
-        tailwindcss = {
-          filetypes_exclude = { "markdown" },
-        },
-        tsserver = {
-          on_attach = function(client, bufnr)
-            client.server_capabilities.documentFormattingProvider = false
-            on_attach(client, bufnr)
-          end,
-          root_dir = lspconfig.util.root_pattern("package.json"),
-          single_file_support = false,
-        },
-        yamlls = {},
-      }
+      opts.servers = opts.servers or {}
+      opts.extra_servers = opts.extra_servers or {}
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      local server_names = vim.tbl_keys(servers)
-      utils.tbl_remove(server_names, "gdscript")
+      local server_names = vim.tbl_keys(opts.servers)
+
+      local function setup_lsp(server_name, server_opts)
+        lspconfig[server_name].setup(vim.tbl_extend("force", {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        }, server_opts))
+      end
 
       mason_lspconfig.setup({ ensure_installed = server_names })
       mason_lspconfig.setup_handlers({
         function(server_name)
-          lspconfig[server_name].setup(vim.tbl_extend("force", {
-            capabilities = capabilities,
-            on_attach = on_attach,
-          }, servers[server_name]))
+          setup_lsp(server_name, opts.servers[server_name])
         end,
       })
+
+      for server_name, server_opts in pairs(opts.extra_servers) do
+        setup_lsp(server_name, server_opts)
+      end
     end,
   },
 }

@@ -2,9 +2,13 @@ return {
   {
     "folke/noice.nvim",
     priority = 999,
+    event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
+    },
+    keys = {
+      { "<leader>nd", "<cmd>NoiceDismiss<cr>", desc = "Dismiss Noice" },
     },
     opts = {
       lsp = {
