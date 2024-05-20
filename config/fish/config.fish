@@ -40,6 +40,7 @@ alias gc "git commit"
 alias gco "git checkout"
 alias gd "git diff"
 alias gdc "git diff --cached"
+alias gf "git show --pretty="" --name-only"
 alias gfr "git pull --rebase"
 alias gl "git log"
 alias gp "git push"
@@ -115,11 +116,10 @@ end
 
 # Path
 fish_add_path -a \
-    $HOME/.bin \
-    /opt/homebrew/bin \
-    /usr/local/sbin /usr/local/bin \
-    /usr/sbin /usr/bin \
-    /sbin /bin
+    /opt/homebrew/bin /opt/homebrew/sbin \
+    /usr/local/bin /usr/local/sbin \
+    /usr/bin /usr/sbin \
+    /bin /sbin 
 
 # Rust
 fish_add_path $HOME/.cargo/bin

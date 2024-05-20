@@ -9,6 +9,10 @@ return {
     end,
     event = "InsertEnter",
     opts = {
+      filetypes = {
+        markdown = true,
+        yaml = true,
+      },
       panel = { enabled = false },
       suggestion = { enabled = false },
     },

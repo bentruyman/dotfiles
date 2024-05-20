@@ -39,11 +39,13 @@ return {
       formatters_by_ft = {
         css = { "prettierd" },
         html = { "prettierd" },
+        gdscript = { "gdformat" },
         javascript = { "eslint_d", "prettierd" },
         javascriptreact = { "eslint_d", "prettierd" },
         json = { "prettierd" },
         lua = { "stylua" },
         markdown = { "prettierd" },
+        go = { "gofumpt", "goimports-reviser", "golines" },
         typescript = { "eslint_d", "prettierd" },
         typescriptreact = { "eslint_d", "prettierd" },
       },
