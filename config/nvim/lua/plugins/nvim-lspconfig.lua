@@ -41,7 +41,6 @@ return {
       local mason_lspconfig = require("mason-lspconfig")
 
       mason.setup()
-      mason_lspconfig.setup()
 
       require("neodev").setup()
 
@@ -63,7 +62,7 @@ return {
       mason_lspconfig.setup({ ensure_installed = server_names })
       mason_lspconfig.setup_handlers({
         function(server_name)
-          setup_lsp(server_name, opts.servers[server_name])
+          setup_lsp(server_name, opts.servers[server_name] or {})
         end,
       })
 
