@@ -1,6 +1,7 @@
 return {
   {
     "rmagatti/auto-session",
+    -- enabled = false,
     opts = {
       auto_session_suppress_dirs = { "/", "~/", "~/Desktop", "~/Downloads" },
       bypass_session_save_file_types = { "dashboard" },

@@ -52,6 +52,9 @@ return {
       },
     },
     config = function(_, opts)
+      local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
+      ft_to_parser.mdx = "markdown"
+
       if type(opts.ensure_installed) == "table" then
         ---@type table<string, boolean>
         local added = {}

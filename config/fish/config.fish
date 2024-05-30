@@ -85,7 +85,8 @@ end
 
 # Golang
 set -gx GOPATH $HOME/Development
-set -gx PATH $GOPATH/bin $PATH
+set -gx GOBIN $GOPATH/bin
+set -gx PATH $GOBIN $PATH
 
 # GPG
 set -gx GPG_TTY (tty)
