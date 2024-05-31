@@ -28,47 +28,34 @@ return {
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     dependencies = {
       { "j-hui/fidget.nvim", opts = {} },
+      { "folke/neodev.nvim", opts = {} },
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "folke/neodev.nvim",
-    },
-    keys = {
-      { "<leader>L", "<cmd>LspInfo<cr>", desc = "LspInfo" },
     },
     config = function(_, opts)
       local lspconfig = require("lspconfig")
-      local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
 
-      mason.setup()
-
-      require("neodev").setup()
-
       opts.servers = opts.servers or {}
-      opts.extra_servers = opts.extra_servers or {}
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-      local server_names = vim.tbl_keys(opts.servers)
+      local all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+      local ensure_installed = {} ---@type string[]
 
-      local function setup_lsp(server_name, server_opts)
+      for server_name, server_opts in pairs(opts.servers) do
         lspconfig[server_name].setup(vim.tbl_extend("force", {
           capabilities = capabilities,
           on_attach = on_attach,
         }, server_opts))
+
+        if vim.tbl_contains(all_mslp_servers, server_name) then
+          ensure_installed[#ensure_installed + 1] = server_name
+        end
       end
 
-      mason_lspconfig.setup({ ensure_installed = server_names })
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          setup_lsp(server_name, opts.servers[server_name] or {})
-        end,
-      })
-
-      for server_name, server_opts in pairs(opts.extra_servers) do
-        setup_lsp(server_name, server_opts)
-      end
+      mason_lspconfig.setup({ ensure_installed = ensure_installed })
     end,
   },
 }
