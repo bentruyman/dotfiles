@@ -9,7 +9,6 @@ return {
       local opts = {
         sources = {
           nls.builtins.code_actions.refactoring,
-          nls.builtins.completion.spell,
           nls.builtins.diagnostics.fish,
           nls.builtins.diagnostics.gitlint,
         },

@@ -12,7 +12,7 @@ return {
   -- },
   {
     "supermaven-inc/supermaven-nvim",
-    enabled = function()
+    cond = function()
       return utils.is_remote_host("github.com")
     end,
     config = function()
