@@ -10,14 +10,9 @@ return {
           root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
         },
         eslint = {},
-        tsserver = {
+        vtsls = {
           root_dir = nvim_lsp.util.root_pattern("package.json"),
-          settings = {
-            completions = {
-              completeFunctionCalls = true,
-            },
-          },
-          single_file_support = true,
+          single_file_support = false,
         },
       }
 
