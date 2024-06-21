@@ -46,6 +46,7 @@ return {
         lua = { "stylua" },
         markdown = { "prettierd" },
         go = { "gofumpt", "goimports-reviser", "golines" },
+        sh = { "shfmt", "shellcheck" },
         typescript = { "eslint_d", "prettierd" },
         typescriptreact = { "eslint_d", "prettierd" },
       },
