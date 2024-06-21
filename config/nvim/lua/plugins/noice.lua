@@ -18,28 +18,44 @@ return {
           ["cmp.entry.get_documentation"] = true,
         },
       },
+      messages = {
+        view = "mini",
+        view_error = "notify",
+        view_warn = "notify",
+      },
       presets = {
         bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
         inc_rename = true,
       },
-      routes = {
-        {
-          filter = {
-            event = "msg_show",
-            kind = "",
-            find = "written",
+      views = {
+        cmdline_popup = {
+          border = {
+            style = "none",
+            padding = { 2, 3 },
           },
-          opts = { skip = true },
+          filter_options = {},
+          win_options = {
+            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+          },
         },
-        {
-          filter = {
-            event = "notify",
-            find = "No information available",
+        popupmenu = {
+          relative = "editor",
+          position = {
+            row = 8,
+            col = "50%",
           },
-          opts = {
-            skip = true,
+          size = {
+            width = 60,
+            height = 10,
+          },
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
           },
         },
       },
