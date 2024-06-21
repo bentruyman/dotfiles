@@ -32,9 +32,16 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
     },
+    opts = {
+      servers = {
+        html = {},
+      },
+    },
     config = function(_, opts)
       local lspconfig = require("lspconfig")
       local mason_lspconfig = require("mason-lspconfig")
+
+      require("neodev").setup()
 
       opts.servers = opts.servers or {}
 

@@ -14,9 +14,11 @@ return {
         "bash",
         "diff",
         "query",
+        "html",
         "regex",
         "vim",
         "vimdoc",
+        "xml",
         "yaml",
       },
       incremental_selection = {
