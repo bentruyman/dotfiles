@@ -1,5 +1,5 @@
 -- Lazy
-vim.keymap.set("n", "<leader>l", ":Lazy<CR>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>ll", ":Lazy<CR>", { desc = "Open Lazy" })
 
 -- Navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })

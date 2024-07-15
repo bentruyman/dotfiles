@@ -9,4 +9,11 @@ return {
       require("gitblame").setup({ enabled = false })
     end,
   },
+  {
+    "folke/which-key.nvim",
+    opts = function(_, opts)
+      opts.spec = opts.spec or {}
+      table.insert(opts.spec, { "<leader>g", group = "git" })
+    end,
+  },
 }

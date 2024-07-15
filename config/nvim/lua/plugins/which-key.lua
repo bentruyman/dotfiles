@@ -2,22 +2,26 @@ return {
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
-    priority = 1000,
+    opts_extend = { "spec" },
     opts = {
-      plugins = { spelling = true },
-      defaults = {
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>q"] = { name = "+quit" },
-        ["<leader>w"] = { name = "+save" },
+      expand = 0,
+      preset = "modern",
+      icons = {
+        rules = {
+          { pattern = "lazy", icon = "󰒲", color = "azure" },
+          { plugin = "nvim-tree.lua", icon = "󰙅", color = "cyan" },
+        },
+      },
+      spec = {
+        { "<leader>a", group = "ai" },
+        { "<leader>b", group = "buffer" },
+        { "<leader>c", group = "code" },
+        { "<leader>l", group = "lazy" },
       },
     },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
-      wk.register(opts.defaults)
     end,
   },
 }

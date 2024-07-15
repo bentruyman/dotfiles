@@ -30,10 +30,8 @@ return {
   },
   {
     "folke/which-key.nvim",
-    opts = {
-      defaults = {
-        ["<leader>m"] = { name = "+mason" },
-      },
-    },
+    opts = function(_, opts)
+      table.insert(opts.spec, { "<leader>m", group = "mason", icon = { icon = "", color = "orange" } })
+    end,
   },
 }
