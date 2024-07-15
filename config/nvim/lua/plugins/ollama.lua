@@ -5,13 +5,13 @@ return {
     cmd = { "Ollama", "OllamaModel", "OllamaServe", "OllamaServeStop" },
     keys = {
       {
-        "<leader>oo",
+        "<leader>aoo",
         ":<c-u>lua require('ollama').prompt()<cr>",
         desc = "Prompt",
         mode = { "n", "v" },
       },
       {
-        "<leader>oG",
+        "<leader>aog",
         ":<c-u>lua require('ollama').prompt('Generate_Code')<cr>",
         desc = "Generate Code",
         mode = { "n", "v" },
@@ -21,10 +21,9 @@ return {
   },
   {
     "folke/which-key.nvim",
-    opts = {
-      defaults = {
-        ["<leader>o"] = { name = "+ollama" },
-      },
-    },
+    opts = function(_, opts)
+      opts.spec = opts.spec or {}
+      table.insert(opts.spec, { "<leader>ao", group = "ollama", icon = "🦙" })
+    end,
   },
 }

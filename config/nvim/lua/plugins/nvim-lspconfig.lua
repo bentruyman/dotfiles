@@ -7,12 +7,6 @@ local on_attach = function(_, bufnr)
   nmap("<leader>ca", vim.lsp.buf.code_action, "Code Action")
   nmap("<leader>cr", vim.lsp.buf.rename, "Rename")
 
-  -- Files
-  vim.keymap.set("n", "<leader>wa", "<cmd>wa<cr>", { desc = "Save all" })
-  vim.keymap.set("n", "<leader>wq", "<cmd>wqa<cr>", { desc = "Save & quit" })
-  vim.keymap.set("n", "<leader>ww", ":w<CR>", { desc = "Save file" })
-  vim.keymap.set("n", "<leader>qq", "<cmd>q!<cr>", { desc = "Quit and discard changes" })
-
   -- LSP
   nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 

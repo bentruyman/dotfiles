@@ -9,6 +9,7 @@ return {
     },
     keys = {
       { "<leader>nd", "<cmd>NoiceDismiss<cr>", desc = "Dismiss Noice" },
+      { "<leader>nh", "<cmd>NoiceHistory<cr>", desc = "Noice History" },
     },
     opts = {
       lsp = {
@@ -60,5 +61,11 @@ return {
         },
       },
     },
+  },
+  {
+    "folke/which-key.nvim",
+    opts = function(_, opts)
+      table.insert(opts.spec, { "<leader>n", group = "noice" })
+    end,
   },
 }
