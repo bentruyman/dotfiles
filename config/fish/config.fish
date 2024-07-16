@@ -112,6 +112,7 @@ if test -e "$HOME/.volta"
     set -gx VOLTA_HOME "$HOME/.volta"
     fish_add_path $VOLTA_HOME/bin
 end
+set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
 # Path
 fish_add_path -a \
