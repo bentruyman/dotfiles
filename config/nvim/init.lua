@@ -1,11 +1,13 @@
+if vim.env.VSCODE then
+  vim.g.vscode = true
+end
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- TODO: determine why applying these here, before setting up lazy, wasn't working before
 require("config.keymaps")
 require("config.options")
 
--- Install `lazy.nvim` plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -13,23 +15,33 @@ if not vim.loop.fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Configure plugins
-require("lazy").setup({
+local spec = {
+  { import = "plugins" },
+  { import = "plugins.lang" },
+}
+
+if vim.g.vscode then
   spec = {
-    { import = "plugins" },
-    { import = "plugins.lang" },
-  },
+    { import = "plugins.Comment" },
+    { import = "plugins.leap" },
+    { import = "plugins.none-ls" },
+    { import = "plugins.nvim-autopairs" },
+    { import = "plugins.vim-sensible" },
+    { import = "plugins.vim-surround" },
+  }
+end
+
+require("lazy").setup({
+  spec = spec,
   defaults = {
     lazy = false,
     version = false,
   },
-  checker = { enabled = true },
+  checker = { enabled = not vim.g.vscode },
 })
-
--- vim: ts=2 sts=2 sw=2 et
