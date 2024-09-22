@@ -1,22 +1,30 @@
 local utils = require("utils")
 
 return {
-  -- TODO: figure out how to get this to work with the config here
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   opts = function(_, opts)
-  --     table.insert(opts.sources, 1, {
-  --       name = "supermaven",
-  --     })
-  --   end,
-  -- },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "supermaven-inc/supermaven-nvim",
+    },
+    opts = function(_, opts)
+      table.insert(opts.sources, { name = "supermaven" })
+    end,
+  },
   {
     "supermaven-inc/supermaven-nvim",
     cond = function()
       return utils.is_remote_host("github.com")
     end,
     config = function()
-      require("supermaven-nvim").setup({})
+      require("supermaven-nvim").setup({
+        color = {
+          suggestion_color = "#f38ba8",
+          cterm = 244,
+        },
+        disable_inline_completion = true,
+        disable_keymaps = true,
+        log_level = "off",
+      })
     end,
   },
 }

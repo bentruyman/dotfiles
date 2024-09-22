@@ -22,13 +22,19 @@ return {
             symbol_map = { Supermaven = "" },
           }),
         },
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
+        mapping = cmp.mapping.preset.insert({
+          ["<Tab>"] = cmp.mapping.select_next_item({
+            select_behavior = cmp.SelectBehavior.Select,
+          }),
+          ["<S-Tab>"] = cmp.mapping.select_prev_item({
+            select_behavior = cmp.SelectBehavior.Select,
+          }),
+          ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = false,
+          }),
+        }),
         sources = cmp.config.sources({
-          { name = "supermaven" },
           { name = "nvim_lsp" },
           { name = "path" },
         }, {
@@ -37,6 +43,10 @@ return {
       }
     end,
     config = function(_, opts)
+      vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#a6e3a1" })
+      vim.opt.completeopt = "menu,menuone,noselect"
+      vim.opt.shortmess:append("c")
+
       require("cmp").setup(opts)
     end,
   },
