@@ -30,6 +30,15 @@ return {
         long_message_to_split = true,
         inc_rename = true,
       },
+      routes = {
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
+          },
+          opts = { skip = true },
+        },
+      },
       views = {
         cmdline_popup = {
           border = {
