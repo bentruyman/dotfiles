@@ -5,6 +5,7 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+require("config.filetypes")
 require("config.keymaps")
 require("config.options")
 
