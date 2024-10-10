@@ -170,3 +170,6 @@ if type -q tmux
         tmux attach -t $name || tmux new -s $name
     end
 end
+
+# webstorm
+fish_add_path /Applications/WebStorm.app/Contents/MacOS
