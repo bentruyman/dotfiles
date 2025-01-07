@@ -5,12 +5,19 @@ dotfiles_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 report() { echo -e "\033[1;34m$*\033[0m"; }
 
+sudo -v
+while true; do
+  sudo -n true
+  sleep 60
+  kill -0 "$$" || exit
+done 2>/dev/null &
+
 ###############################################################################
 # Dotfiles
 ###############################################################################
 
 report "Linking dotfiles..."
-for file in config gitconfig gitignore_global mackup.cfg tmux.conf; do
+for file in bin config gitconfig gitignore_global mackup.cfg tmux.conf; do
   if [ -d "${HOME}/.$file" ]; then
     echo "${HOME}/.$file is a directory. Skipping..."
   else
@@ -26,6 +33,10 @@ clone_repo https://github.com/LazyVim/starter "${HOME}/.config/nvim"
 clone_repo https://github.com/junegunn/fzf.git "${HOME}/.fzf"
 clone_repo https://github.com/tmux-plugins/tpm.git "${HOME}/.tmux/plugins/tpm"
 
+report "Creating machine-specific dotfiles directories..."
+mkdir -p "${HOME}/.dotfiles/fish"
+mkdir -p "${HOME}/.dotfiles/nvim"
+
 ###############################################################################
 # System
 ###############################################################################
@@ -40,14 +51,6 @@ fi
 if [ ! "$(/usr/bin/pgrep oahd)" ]; then
   report "Installing Rosetta..."
   softwareupdate --install-rosetta --agree-to-license
-fi
-
-if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
-  report "Enabling TouchID for sudo calls..."
-  sudo sed -i '' '2i\
-auth       optional       /opt/homebrew/lib/pam/pam_reattach.so\
-auth       sufficient     pam_tid.so\
-' /etc/pam.d/sudo
 fi
 
 if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
@@ -92,19 +95,32 @@ brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
 
 ###############################################################################
-# Deno
+# TouchID Sudo
 ###############################################################################
 
-if ! command -v nice-package-json &>/dev/null; then
-  deno install --allow-{read,write} -n nice-package-json \
-    https://deno.land/x/nice_package_json/cli.ts
+PAM_REATTACH_PATH="/opt/homebrew/lib/pam/pam_reattach.so"
+
+if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
+  report "Enabling TouchID for sudo calls..."
+
+  sudo sed -i '' '2i\
+auth       sufficient     pam_tid.so\
+' /etc/pam.d/sudo
+fi
+
+if [ -f "/opt/homebrew/lib/pam/pam_reattach.so" ] && ! grep -q "pam_reattach.so" /etc/pam.d/sudo; then
+  report "Enabling pam-reattach for sudo calls..."
+
+  sudo sed -i '' '2i\
+auth       optional       /opt/homebrew/lib/pam/pam_reattach.so\
+' /etc/pam.d/sudo
 fi
 
 ###############################################################################
 # FZF
 ###############################################################################
 
-if ! grep -q "fzf_key_bindings" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
+if ! grep -q "fzf --fish" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
   report "Installing FZF..."
   "${HOME}/.fzf/install" --key-bindings --completion --no-{update-rc,bash,zsh}
 fi
@@ -132,7 +148,7 @@ if [[ ! -d "${HOME}/.gnupg" ]]; then
   echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >"${HOME}/.gnupg/gpg-agent.conf"
   echo 'use-agent' >"${HOME}/.gnupg/gpg.conf"
   chmod 700 "${HOME}/.gnupg"
-  killall gpg-agent
+  killall gpg-agent || true
 fi
 
 ###############################################################################
@@ -242,18 +258,29 @@ defaults delete com.apple.dock persistent-apps
 defaults delete com.apple.dock persistent-others
 defaults delete com.apple.dock recent-apps
 
+# Hide Dock items
+defaults write com.apple.dock show-recents -bool false
+
 DOCK_APPS=(
+  "/Applications/Setapp/Session.app"
   "/Applications/Discord.app"
   "/Applications/Slack.app"
   "/System/Applications/Music.app"
+  "/Applications/Spotify.app"
   "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+  "/Applications/Brave Browser.app"
   "/System/Applications/Mail.app"
   "/System/Applications/Calendar.app"
   "/Applications/Obsidian.app"
-  "/Applications/Godot.app"
+  "/Applications/Notion.app"
+  "$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app"
+  "/Applications/Pixelmator Pro.app"
   "/Applications/Visual Studio Code.app"
-  "/Applications/Visual Studio Code - Insiders.app"
+  "$HOME/Applications/Rider.app"
+  "$HOME/Applications/WebStorm.app"
+  "$HOME/Applications/Writerside.app"
   "/Applications/kitty.app"
+  "/Applications/Steam.app"
   "/System/Applications/System Settings.app"
 )
 
@@ -306,34 +333,54 @@ fi
 
 FISH_BIN=$(command -v fish 2>/dev/null)
 
-# Add FISH to list of valid shells
 if [[ -x "$FISH_BIN" ]] && ! grep -q "$FISH_BIN" /etc/shells; then
   report "Adding Fish to list of valid shells..."
   echo "$FISH_BIN" | sudo tee -a /etc/shells &>/dev/null
 fi
 
-# Change shell to Fish
 if [[ "$SHELL" != "$FISH_BIN" ]]; then
   report "Changing shell to Fish..."
   sudo chsh -s "$FISH_BIN" "$USER"
 
-  echo "You may need to log into your shell again to take advantage of
-  updates:"
+  echo "You may need to log into your shell again to take advantage of updates:"
   echo "$FISH_BIN"
 fi
+
+if [[ ! -f "${HOME}/.config/fish/functions/fisher.fish" ]]; then
+  report "Installing Fisher..."
+  $FISH_BIN -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+fi
+
+FISHER_PLUGINS=(
+  catppuccin/fish
+  ilancosman/tide@v6
+  jethrokuan/z
+)
+
+DESIRED_PLUGINS=$(printf "%s\n" "${FISHER_PLUGINS[@]}" | sort -u)
+INSTALLED_PLUGINS=$($FISH_BIN -c 'fisher list | sort')
+PLUGINS_TO_INSTALL=$(comm -23 <(echo "$DESIRED_PLUGINS") <(echo "$INSTALLED_PLUGINS"))
+
+if [[ ! -z "$PLUGINS_TO_INSTALL" ]]; then
+  while IFS= read -r plugin; do
+    echo "PLUGIN $plugin"
+    # $FISH_BIN -c "fisher install $plugin"
+  done <<<"$PLUGINS_TO_INSTALL"
+fi
+
+$FISH_BIN -c "fisher update"
+
+$FISH_BIN -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=No"
 
 ###############################################################################
 # SSH
 ###############################################################################
 
-# Generate SSH keys
 if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
   report "Generating SSH keys..."
   ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
 
-  # Copy the puplic key to clipboard
   pbcopy <"${HOME}/.ssh/id_rsa.pub"
 
-  # Open up GitHub.com
   open "https://github.com/settings/ssh/new"
 fi

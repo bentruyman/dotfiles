@@ -51,13 +51,13 @@ function clone -d "Quickly clone git repos in a conventional way"
     set -l url $argv[1]
 
     # Validate the URL format
-    if not string match -qr '^(https|git@)([^:/]+)[/:](.*)\.git$' -- $url
+    if not string match -qr '^(https://|git@)([^:/]+)[/:](.*)\.git$' -- $url
         echo "Invalid repository URL: $url"
         echo "Please provide a valid git repository URL."
         return 1
     end
 
-    set -l repo_dir (string replace -r '^(https|git@)([^:/]+)[/:](.*)\.git$' '$2/$3' -- $url)
+    set -l repo_dir (string replace -r '^(https://|git@)([^:/]+)[/:](.*)\.git$' '$2/$3' -- $url)
     set -l target_dir "$HOME/Development/src/$repo_dir"
 
     if not test -d "$target_dir"
@@ -89,11 +89,11 @@ set -gx PATH $GOBIN $PATH
 # GPG
 set -gx GPG_TTY (tty)
 
-# Local RC
-set rc_dir $HOME/.rc
+# Local Scripts
+set local_scripts $HOME/.dotfiles/fish
 
-if test -d $rc_dir
-    for file in $rc_dir/*.fish
+if test -d $local_scripts
+    for file in $local_scripts/*.fish
         source $file
     end
 end
@@ -117,10 +117,11 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
 # Path
 fish_add_path -a \
+    "$HOME/.bin" \
     /opt/homebrew/bin /opt/homebrew/sbin \
     /usr/local/bin /usr/local/sbin \
     /usr/bin /usr/sbin \
-    /bin /sbin 
+    /bin /sbin
 
 # Rust
 fish_add_path $HOME/.cargo/bin
