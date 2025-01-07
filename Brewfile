@@ -1,6 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
 tap "shaunsingh/sfmono-nerd-font-ligaturized"
 
 brew "ansible"
@@ -40,6 +38,8 @@ brew "nmap"
 brew "pam-reattach"
 brew "pinentry-mac"
 brew "pipx"
+brew "podman"
+brew "podman-compose"
 brew "python@3.11"
 brew "ranger"
 brew "reattach-to-user-namespace"
@@ -59,13 +59,11 @@ brew "yt-dlp"
 brew "zsh"
 
 cask "adobe-creative-cloud"
-cask "arc"
 cask "betterdisplay"
 cask "brave-browser"
 cask "bruno"
 cask "chatgpt"
 cask "discord"
-cask "docker"
 cask "firefox"
 cask "font-0xproto-nerd-font"
 cask "font-caskaydia-cove-nerd-font"
@@ -74,12 +72,14 @@ cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-sf-mono-nerd-font-ligaturized"
 cask "handbrake"
+cask "jetbrains-toolbox"
 cask "imageoptim"
 cask "keepingyouawake"
 cask "kitty"
 cask "macfuse"
 cask "notion"
 cask "obsidian"
+cask "podman-desktop"
 cask "qlmarkdown"
 cask "setapp"
 cask "sketch"
@@ -94,16 +94,13 @@ mas "AdGuard for Safari", id: 1440147259
 mas "BetterJSON", id: 1511935951
 mas "Boop", id: 1518425043
 mas "Compressor", id: 424390742
-mas "exifpurge", id: 784466108
 mas "Final Cut Pro", id: 424389933
 mas "HEIC Converter", id: 1294126402
 mas "Keynote", id: 409183694
 mas "Logic Pro", id: 634148309
 mas "Magnet", id: 441258766
-mas "Medis", id: 1579200037
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Pixelmator Pro", id: 1289583905
-mas "Transmit", id: 1436522307
 mas "Userscripts-Mac-App", id: 1463298887
 mas "Xcode", id: 497799835

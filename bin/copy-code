@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+
+# Function: copy-code
+# Description:
+#   Outputs the contents of matching files in a directory or Git repository, excluding ignored and binary files.
+#   Each file's content is wrapped with separators and includes the filename as a header.
+#
+# Usage:
+#   copy-code [include_glob_pattern] [directory] [exclude_glob_pattern]
+#
+# Arguments:
+#   include_glob_pattern (optional): Comma-separated globs to include (e.g., "*.go,*.md,*.sh"). Defaults to "*" if not provided.
+#   directory (optional): Path to the directory or Git repository. Defaults to the current directory.
+#   exclude_glob_pattern (optional): Comma-separated globs to exclude (e.g., "*.json"). Defaults to none.
+
+# Default values
+glob="*"
+repo="$(pwd)"
+exclude_glob=""
+
+# Parse arguments
+argc=$#
+
+if [ $argc -ge 1 ]; then
+  first_arg="$1"
+  if [ -d "$first_arg" ]; then
+    # First argument is a directory
+    repo="$first_arg"
+  else
+    # First argument is the include glob pattern
+    glob="$first_arg"
+  fi
+fi
+
+if [ $argc -ge 2 ]; then
+  second_arg="$2"
+  if [ -d "$second_arg" ]; then
+    repo="$second_arg"
+  else
+    echo "Error: '$second_arg' is not a valid directory."
+    exit 1
+  fi
+fi
+
+if [ $argc -ge 3 ]; then
+  third_arg="$3"
+  exclude_glob="$third_arg"
+fi
+
+# Navigate to the specified directory
+pushd "$repo" >/dev/null || {
+  echo "Error: Could not enter directory '$repo'."
+  exit 1
+}
+
+# Split include globs
+IFS=',' read -r -a globs <<<"$glob"
+
+# Split exclude globs
+IFS=',' read -r -a exclude_globs <<<"$exclude_glob"
+
+if [ -d ".git" ]; then
+  # Git repository handling
+  git_args=()
+  for g in "${globs[@]}"; do
+    git_args+=("--" "$g")
+  done
+  mapfile -t all_files < <(git ls-files --cached --others --exclude-standard -- "${git_args[@]}")
+
+  # Exclude files
+  if [ -n "$exclude_glob" ]; then
+    for excl in "${exclude_globs[@]}"; do
+      all_files=($(printf "%s\n" "${all_files[@]}" | grep -v -E "$(echo "$excl" | sed 's/*//g')"))
+    done
+  fi
+
+  # Check if any files matched
+  if [ ${#all_files[@]} -eq 0 ]; then
+    echo "No files matched the patterns '$glob' excluding '$exclude_glob' in repository '$repo'."
+    popd >/dev/null || exit
+    exit 0
+  fi
+
+  # Retrieve list of text files by filtering out binary files using git grep
+  mapfile -t text_files < <(git grep -Il . -- "${all_files[@]}")
+else
+  # Non-Git repository handling
+  find_expr=""
+  for ((i = 0; i < ${#globs[@]}; i++)); do
+    find_expr+="-name \"${globs[i]}\""
+    if [ $i -lt $((${#globs[@]} - 1)) ]; then
+      find_expr+="-o "
+    fi
+  done
+  for excl in "${exclude_globs[@]}"; do
+    find_expr+=" ! -name \"$excl\""
+  done
+  eval "mapfile -t all_files < <(find . -type f \( $find_expr \))"
+
+  # Check if any files matched
+  if [ ${#all_files[@]} -eq 0 ]; then
+    echo "No files matched the patterns '$glob' excluding '$exclude_glob' in directory '$repo'."
+    popd >/dev/null || exit
+    exit 0
+  fi
+
+  # Filter out binary files using the `file` command
+  text_files=()
+  for file in "${all_files[@]}"; do
+    if file "$file" | grep -q text; then
+      text_files+=("$file")
+    fi
+  done
+
+  # Check if any text files matched
+  if [ ${#text_files[@]} -eq 0 ]; then
+    echo "No text files matched the patterns '$glob' excluding '$exclude_glob' in directory '$repo'."
+    popd >/dev/null || exit
+    exit 0
+  fi
+fi
+
+# Iterate through each text file and output its contents with headers
+for file in "${text_files[@]}"; do
+  echo "## $file"
+  echo '```'
+  cat "$file"
+  echo '```'
+  echo
+done
+
+# Return to the original directory
+popd >/dev/null || exit
