@@ -13,6 +13,8 @@ Brewfile.lock.json
 !/config/fish/functions/fisher.fish
 !/config/fish/lib
 
+!/config/ghostty
+
 !/config/kitty
 
 !/config/nvim
