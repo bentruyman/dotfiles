@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# edit-pipe: Edit piped content in Neovim (or preferred editor) and output to stdout.
+
+# Function to display usage information
+usage() {
+  echo "Usage: edit-pipe [options]"
+  echo
+  echo "Options:"
+  echo "  -h, --help    Show this help message and exit"
+  echo
+  echo "Examples:"
+  echo "  echo 'Hello World' | edit-pipe | grep 'Hello'"
+  echo "  cat README.md | edit-pipe | mods --flags"
+  exit 1
+}
+
+# Parse options
+while [[ "$1" == -* ]]; do
+  case "$1" in
+  -h | --help)
+    usage
+    ;;
+  *)
+    echo "Unknown option: $1"
+    usage
+    ;;
+  esac
+  shift
+done
+
+# Determine the editor to use (default to nvim)
+EDITOR_CMD="${EDITOR:-nvim}"
+
+# Create a temporary file for the content
+tmpfile="$(mktemp)" || {
+  echo "Error: Failed to create temporary file." >&2
+  exit 1
+}
+
+# Function to clean up the temporary file on exit
+cleanup() {
+  rm -f "$tmpfile"
+}
+trap cleanup EXIT
+
+# Check if there is data in stdin
+if [ ! -t 0 ]; then
+  # Read from stdin and write to the temp file
+  cat >"$tmpfile"
+fi
+
+# Open the editor to edit the content
+# Redirect editor's stdin and stdout to /dev/tty to interact with the terminal
+$EDITOR_CMD "$tmpfile" </dev/tty >/dev/tty
+
+# Check if the temporary file exists
+if [ ! -f "$tmpfile" ]; then
+  echo "Error: Temporary file does not exist." >&2
+  exit 1
+fi
+
+# Output the edited content to stdout
+cat "$tmpfile"
