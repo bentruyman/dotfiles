@@ -3,7 +3,7 @@ return {
   ---@type AstroLSPOpts
   opts = {
     features = {
-      inlay_hints = true,
+      codelens = true,
       signature_help = true,
     },
   },

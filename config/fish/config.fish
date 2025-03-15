@@ -98,6 +98,9 @@ if test -d $local_scripts
     end
 end
 
+# LLVM
+fish_add_path /opt/homebrew/opt/llvm/bin
+
 # macOS
 set -gx BROWSER open
 
@@ -174,3 +177,6 @@ end
 
 # webstorm
 fish_add_path /Applications/WebStorm.app/Contents/MacOS
+
+# Added by Windsurf
+fish_add_path /Users/bentruyman/.codeium/windsurf/bin
