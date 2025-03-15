@@ -82,7 +82,6 @@ return {
   {
     "supermaven-inc/supermaven-nvim",
     opts = {
-      condition = function() return not util.is_remote_host "github.com" end,
       keymaps = {
         accept_suggestion = "<C-l>",
         clear_suggestion = "<C-h>",
@@ -110,5 +109,15 @@ return {
       opts.ensure_installed =
         require("astrocore").list_insert_unique(opts.ensure_installed, { "gofumpt", "golangci-lint-langserver" })
     end,
+  },
+  {
+    "yetone/avante.nvim",
+    opts = {
+      provider = "openai",
+      openai = {
+        model = "o3-mini",
+        reasoning_effort = "high",
+      },
+    },
   },
 }
