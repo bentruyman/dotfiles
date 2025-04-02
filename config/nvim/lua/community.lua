@@ -6,7 +6,6 @@ return {
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.completion.avante-nvim" },
   { import = "astrocommunity.completion.supermaven-nvim" },
-  { import = "astrocommunity.diagnostics.error-lens-nvim" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.editing-support.conform-nvim" },
   { import = "astrocommunity.editing-support.zen-mode-nvim" },

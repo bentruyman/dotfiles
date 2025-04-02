@@ -1,7 +1,5 @@
 tap "homebrew/bundle"
-tap "shaunsingh/sfmono-nerd-font-ligaturized"
 
-brew "ansible"
 brew "bash"
 brew "bat"
 brew "cloc"
@@ -9,7 +7,6 @@ brew "cmake"
 brew "coreutils"
 brew "deno"
 brew "diff-so-fancy"
-brew "exercism"
 brew "ffmpeg"
 brew "fish"
 brew "gd"
@@ -21,7 +18,6 @@ brew "git-lfs"
 brew "gitlint"
 brew "gnupg"
 brew "go"
-brew "handbrake", link: false
 brew "htop"
 brew "httpie"
 brew "imagemagick"
@@ -37,7 +33,6 @@ brew "neovim-remote", link: false
 brew "nmap"
 brew "pam-reattach"
 brew "pinentry-mac"
-brew "pipx"
 brew "podman"
 brew "podman-compose"
 brew "python@3.11"
@@ -47,7 +42,6 @@ brew "ripgrep"
 brew "shellcheck"
 brew "shfmt"
 brew "telnet"
-brew "the_silver_searcher"
 brew "tldr"
 brew "tmux"
 brew "tmuxinator"
@@ -55,27 +49,16 @@ brew "tree"
 brew "universal-ctags"
 brew "watch"
 brew "wget"
-brew "yt-dlp"
 brew "zsh"
 
 cask "adobe-creative-cloud"
 cask "betterdisplay"
 cask "brave-browser"
-cask "bruno"
 cask "chatgpt"
 cask "discord"
-cask "firefox"
 cask "font-0xproto-nerd-font"
-cask "font-caskaydia-cove-nerd-font"
-cask "font-inter"
-cask "font-jetbrains-mono"
-cask "font-jetbrains-mono-nerd-font"
-cask "font-sf-mono-nerd-font-ligaturized"
-cask "handbrake"
-cask "jetbrains-toolbox"
 cask "imageoptim"
 cask "keepingyouawake"
-cask "kitty"
 cask "macfuse"
 cask "notion"
 cask "obsidian"
@@ -84,23 +67,14 @@ cask "qlmarkdown"
 cask "setapp"
 cask "sketch"
 cask "spotify"
-cask "steam"
 cask "texturepacker"
 cask "tiled"
 cask "veracrypt"
 cask "visual-studio-code"
 
-mas "AdGuard for Safari", id: 1440147259
 mas "BetterJSON", id: 1511935951
 mas "Boop", id: 1518425043
-mas "Compressor", id: 424390742
-mas "Final Cut Pro", id: 424389933
 mas "HEIC Converter", id: 1294126402
-mas "Keynote", id: 409183694
-mas "Logic Pro", id: 634148309
 mas "Magnet", id: 441258766
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
 mas "Pixelmator Pro", id: 1289583905
 mas "Userscripts-Mac-App", id: 1463298887
-mas "Xcode", id: 497799835
