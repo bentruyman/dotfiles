@@ -13,6 +13,28 @@ while true; do
 done 2>/dev/null &
 
 ###############################################################################
+# Initial
+###############################################################################
+
+if ! xcode-select -p &>/dev/null; then
+  report "Installing Xcode Command Line Tools..."
+  xcode-select --install
+  until xcode-select -p &>/dev/null; do sleep 5; done
+fi
+
+if [ ! "$(/usr/bin/pgrep oahd)" ]; then
+  report "Installing Rosetta..."
+  softwareupdate --install-rosetta --agree-to-license
+fi
+
+if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
+  echo "Full Disk Access is not enabled for this Terminal."
+  echo "Please enable it in System Preferences > Security & Privacy > Privacy > Full Disk Access."
+  open "x-apple.systempreferences:com.apple.preference.security"
+  read -rp "Press any key to continue..."
+fi
+
+###############################################################################
 # Dotfiles
 ###############################################################################
 
@@ -36,29 +58,6 @@ clone_repo https://github.com/tmux-plugins/tpm.git "${HOME}/.tmux/plugins/tpm"
 report "Creating machine-specific dotfiles directories..."
 mkdir -p "${HOME}/.dotfiles/fish"
 mkdir -p "${HOME}/.dotfiles/nvim"
-
-###############################################################################
-# System
-###############################################################################
-
-if ! xcode-select -p &>/dev/null; then
-  report "Installing Xcode Command Line Tools..."
-  xcode-select --install
-  until xcode-select -p &>/dev/null; do sleep 5; done
-  sudo xcodebuild -license accept
-fi
-
-if [ ! "$(/usr/bin/pgrep oahd)" ]; then
-  report "Installing Rosetta..."
-  softwareupdate --install-rosetta --agree-to-license
-fi
-
-if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
-  echo "Full Disk Access is not enabled for this Terminal."
-  echo "Please enable it in System Preferences > Security & Privacy > Privacy > Full Disk Access."
-  open "x-apple.systempreferences:com.apple.preference.security"
-  read -rp "Press any key to continue..."
-fi
 
 ###############################################################################
 # Environment
@@ -168,19 +167,10 @@ if ! node -v &>/dev/null; then
 fi
 
 ###############################################################################
-# Rust
-###############################################################################
-
-if [[ ! -f "${HOME}/.cargo/env" ]]; then
-  report "Installing Rust..."
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
-fi
-
-###############################################################################
 # UI                                                                          #
 ###############################################################################
 
-# Use dark menu bar and Dock
+# Use dark mode
 defaults write -g AppleInterfaceStyle -string Dark
 
 ###############################################################################
@@ -276,9 +266,6 @@ DOCK_APPS=(
   "$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app"
   "/Applications/Pixelmator Pro.app"
   "/Applications/Visual Studio Code.app"
-  "$HOME/Applications/Rider.app"
-  "$HOME/Applications/WebStorm.app"
-  "$HOME/Applications/Writerside.app"
   "/Applications/kitty.app"
   "/Applications/Steam.app"
   "/System/Applications/System Settings.app"
