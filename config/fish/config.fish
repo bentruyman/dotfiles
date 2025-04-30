@@ -5,6 +5,9 @@
 
 set fish_greeting
 
+# Apollo GraphQL
+fish_add_path $HOME/.rover/bin
+
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
 fish_add_path $DENO_INSTALL/bin
