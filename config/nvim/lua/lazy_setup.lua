@@ -1,7 +1,7 @@
 require("lazy").setup({
   {
     "AstroNvim/AstroNvim",
-    version = "^4",
+    version = "^5",
     import = "astronvim.plugins",
     opts = {
       mapleader = " ",
@@ -11,9 +11,16 @@ require("lazy").setup({
       update_notifications = true,
     },
   },
-  { import = "community" },
   { import = "plugins" },
-  { import = "local.plugins", dir = "~/.dotfiles/nvim/local" },
+  { import = "community" },
+  {
+    import = "local",
+    dir = "~/.dotfiles/nvim/local",
+    cond = function()
+      local path = vim.fn.expand "~/.dotfiles/nvim/local"
+      return vim.fn.isdirectory(path) == 1
+    end,
+  },
 } --[[@as LazySpec]], {
   ui = { backdrop = 100 },
   performance = {
@@ -27,4 +34,4 @@ require("lazy").setup({
       },
     },
   },
-} --[[@as LazyConfig]])
+}--[[@as LazyConfig]])
