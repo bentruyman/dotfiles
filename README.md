@@ -6,6 +6,16 @@
 $ curl -L https://raw.githubusercontent.com/bentruyman/dotfiles/main/bootstrap.sh | bash
 ```
 
+## Usage
+
+### Machine-specific Customizations
+
+#### Neovim
+
+```
+~/.dotfiles/nvim/local/lua/local/*.lua
+```
+
 ## Features
 
 - Only supports **macOS**
