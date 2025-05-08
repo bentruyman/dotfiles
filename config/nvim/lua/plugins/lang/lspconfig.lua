@@ -1,0 +1,62 @@
+local lspconfig = require("lspconfig")
+local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+local lsp_servers = require("plugins.list").lsp_servers
+
+local default_setup = function(server_name)
+  vim.notify("Setting up " .. server_name)
+  local server_config = lsp_servers[server_name]
+  local config = {}
+
+  if type(server_config) == "function" then
+    config = server_config()
+  elseif type(server_config) == "table" then
+    config = server_config
+  elseif server_config == true then
+    config = {}
+  else
+    config = {}
+  end
+
+  config.capabilities = vim.tbl_deep_extend("force", capabilities, config.capabilities or {})
+
+  -- print out the config
+  vim.print(config)
+
+  lspconfig[server_name].setup(config)
+end
+
+local installed_servers = vim.tbl_keys(lsp_servers)
+
+require("mason-lspconfig").setup({
+  automatic_enable = true,
+  ensure_installed = installed_servers,
+  handlers = { default_setup },
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+  callback = function(event)
+    local map = function(keys, func, desc, mode)
+      mode = mode or "n"
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
+    end
+
+    map("<leader>la", vim.lsp.buf.code_action, "Language Action", { "n", "x" })
+    map("<leader>lr", vim.lsp.buf.rename, "Rename")
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if client and client.server_capabilities.documentFormattingProvider then
+      local format = function()
+        vim.lsp.buf.format({
+          filter = function(format_client)
+            return format_client.name == "null-ls"
+          end,
+          bufnr = event.buf,
+        })
+      end
+
+      map("<leader>lf", format, "Format")
+    end
+  end,
+})
