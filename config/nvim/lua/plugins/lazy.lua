@@ -15,7 +15,8 @@ end
 local plugins = require("plugins.list").plugins
 
 lazy.setup({
-  defaults = { lazy = true },
+  -- defaults = { lazy = true },
+  defaults = { lazy = false },
   install = {
     colorscheme = { "catppuccin-mocha" },
   },
