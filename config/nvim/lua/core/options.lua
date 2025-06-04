@@ -1,8 +1,8 @@
 local icons = require("lib.icons")
 
 -- Core Neovim settings
-vim.g.mapleader = " " -- Set <Space> as leader key
-vim.g.maplocalleader = " " -- Set <Space> as local leader key
+vim.g.mapleader = " "       -- Set <Space> as leader key
+vim.g.maplocalleader = " "  -- Set <Space> as local leader key
 vim.g.have_nerd_font = true -- Enable Nerd Font support
 
 -- Diagnostics
@@ -28,6 +28,8 @@ local options = {
   colorcolumn = "80",
   confirm = true, -- Confirm to save changes before exiting
   cursorline = true, -- Highlight the current line
+  expandtab = true, -- Use spaces instead of tabs
+  fixendofline = true, -- Make sure end of line is always at the end of the file
   ignorecase = true, -- Ignore case in search patterns
   inccommand = "split", -- Show live preview of :s results
   list = true, -- Show invisible characters
@@ -36,11 +38,14 @@ local options = {
   number = true, -- Show line numbers
   relativenumber = true, -- Show relative line numbers
   scrolloff = 10, -- Minimum lines above/below cursor
+  shiftwidth = 2, -- Number of spaces to use for each step of (auto)indent
   showmode = false, -- Don't show mode (e.g. -- INSERT --)
   signcolumn = "yes", -- Always show the sign column
   smartcase = true, -- Override ignorecase if search contains capitals
+  softtabstop = 2, -- Number of spaces in tab when editing
   splitbelow = true, -- Horizontal splits open below
   splitright = true, -- Vertical splits open to the right
+  tabstop = 2, -- Number of spaces tabs count for
   termguicolors = true, -- Enable 24-bit RGB color in the TUI
   timeoutlen = 300, -- Time to wait for a mapped sequence (ms)
   undofile = true, -- Save undo history to file

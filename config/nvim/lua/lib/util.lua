@@ -1,5 +1,6 @@
 local util = {}
 
+-- Get the current git remote URL
 util.get_git_remote = function()
   local remote = vim.fn.system("git config --get remote.origin.url")
   remote = remote:gsub("^%s*(.-)%s*$", "%1")
@@ -22,11 +23,14 @@ util.get_user_config = function(key, default)
 end
 
 local root_files = { ".git", ".hg", ".svn", "package.json" }
+---@param dir? string
+-- Find the root dir of the current file
 util.root_dir = function(dir)
   local root = vim.fs.find(root_files, { upward = true, limit = 1, path = dir })[1] or ""
   return vim.fs.dirname(root)
 end
 
+-- Convert a list of keys to a set
 util.to_set = function(keys)
   local m = {}
   for _, k in ipairs(keys) do

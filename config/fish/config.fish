@@ -156,6 +156,10 @@ alias .... "cd ../../.."
 alias l "ls -al"
 alias j z
 
+if type -q kubectl
+    alias k "kubectl"
+end
+
 if type -q prettier
     alias pretty "prettier --write '**/*.{js,json,md,scss,ts,vue}'"
 end
@@ -180,6 +184,3 @@ end
 
 # webstorm
 fish_add_path /Applications/WebStorm.app/Contents/MacOS
-
-# Added by Windsurf
-fish_add_path /Users/bentruyman/.codeium/windsurf/bin

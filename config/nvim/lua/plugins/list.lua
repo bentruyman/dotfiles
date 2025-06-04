@@ -298,6 +298,11 @@ local plugins = {
     event = { "InsertEnter" },
     version = "*",
     dependencies = {
+      {
+        "saghen/blink.compat",
+        version = "*",
+        opts = {},
+      },
       "folke/lazydev.nvim",
     },
     config = load_config("lang.blink"),
