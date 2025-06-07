@@ -80,7 +80,48 @@ local null_ls_sources = {
   "shellcheck",
 }
 
-local plugins = {
+local plugins = {}
+
+local shared_plugins = {
+  -- Text manipulation plugins
+  {
+    "tpope/vim-surround",
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+  },
+  {
+    "numToStr/Comment.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = load_config("editor.comment"),
+  },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    event = "InsertEnter",
+    config = true,
+  },
+  
+  -- Motion/navigation plugins
+  {
+    "ggandor/flit.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { { "ggandor/leap.nvim", dependencies = { "tpope/vim-repeat" } } },
+    config = load_config("editor.flit"),
+  },
+  
+  -- Core editing enhancements
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    build = ":TSUpdate",
+    config = load_config("editor.treesitter"),
+  },
+}
+
+local neovim_only_plugins = {
   -- UI
   {
     "catppuccin/nvim",
@@ -215,41 +256,14 @@ local plugins = {
     config = load_config("ui.which-key"),
   },
 
-  -- AI
+  -- AI plugins
   {
     "supermaven-inc/supermaven-nvim",
     event = "InsertEnter",
     config = load_config("ai.supermaven"),
   },
 
-  -- Editor
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = true,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    event = "InsertEnter",
-    config = true,
-  },
-  {
-    "numToStr/Comment.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = load_config("editor.comment"),
-  },
-  {
-    "ggandor/flit.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { { "ggandor/leap.nvim", dependencies = { "tpope/vim-repeat" } } },
-    config = load_config("editor.flit"),
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
-    build = ":TSUpdate",
-    config = load_config("editor.treesitter"),
-  },
+  -- Diagnostics
   {
     "folke/trouble.nvim",
     event = { "BufReadPost", "BufNewFile" },
@@ -260,7 +274,7 @@ local plugins = {
         "<cmd>Trouble diagnostics toggle<cr>",
         desc = "Diagnostics (Trouble)",
       },
-      {
+      {                      
         "<leader>xX",
         "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
         desc = "Buffer Diagnostics (Trouble)",
@@ -278,12 +292,8 @@ local plugins = {
     },
     config = true,
   },
-  {
-    "tpope/vim-surround",
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-  },
 
-  -- Language
+  -- LSP
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
@@ -351,12 +361,22 @@ local plugins = {
   },
 }
 
+
+if vim.g.vscode then
+  plugins = shared_plugins
+else
+  plugins = vim.list_extend(shared_plugins, neovim_only_plugins)
+end
+
 lsp_servers = vim.tbl_extend("force", lsp_servers, util.get_user_config("lsp_servers", {}))
 null_ls_sources = vim.tbl_extend("force", null_ls_sources, util.get_user_config("null_ls_sources", {}))
 plugins = vim.list_extend(plugins, util.get_user_config("plugins", {}))
 
+local final_lsp_servers = vim.g.vscode and {} or lsp_servers
+local final_null_ls_sources = vim.g.vscode and {} or null_ls_sources
+
 return {
-  lsp_servers = lsp_servers,
-  null_ls_sources = null_ls_sources,
+  lsp_servers = final_lsp_servers,
+  null_ls_sources = final_null_ls_sources,
   plugins = plugins,
 }
