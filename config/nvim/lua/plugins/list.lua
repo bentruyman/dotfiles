@@ -103,7 +103,7 @@ local shared_plugins = {
     event = "InsertEnter",
     config = true,
   },
-  
+
   -- Motion/navigation plugins
   {
     "ggandor/flit.nvim",
@@ -111,7 +111,7 @@ local shared_plugins = {
     dependencies = { { "ggandor/leap.nvim", dependencies = { "tpope/vim-repeat" } } },
     config = load_config("editor.flit"),
   },
-  
+
   -- Core editing enhancements
   {
     "nvim-treesitter/nvim-treesitter",
@@ -274,7 +274,7 @@ local neovim_only_plugins = {
         "<cmd>Trouble diagnostics toggle<cr>",
         desc = "Diagnostics (Trouble)",
       },
-      {                      
+      {
         "<leader>xX",
         "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
         desc = "Buffer Diagnostics (Trouble)",
@@ -360,7 +360,6 @@ local neovim_only_plugins = {
     config = load_config("tools.none-ls"),
   },
 }
-
 
 if vim.g.vscode then
   plugins = shared_plugins
