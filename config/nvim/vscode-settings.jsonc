@@ -1,0 +1,33 @@
+{
+  // Enable key passthrough for flit/leap
+  "vscode-neovim.ctrlKeysForNormalMode": [
+    "a",
+    "b",
+    "d",
+    "e",
+    "f",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "o",
+    "r",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "/",
+    "]"
+  ],
+
+  // Add custom key passthroughs for flit/leap
+  "vscode-neovim.compositeKeys": {
+    // Flit uses 'f', 'F', 't', 'T' by default, but these should work without special configuration
+    // Add any multi-character sequences you use here
+  }
+}

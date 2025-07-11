@@ -153,7 +153,7 @@ if type -q lsd
 end
 
 # Shortcuts
-function md
+function mkd
     mkdir -p $argv[1]
     cd $argv[1] || exit
 end
