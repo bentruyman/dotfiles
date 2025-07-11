@@ -5,6 +5,13 @@
 
 set fish_greeting
 
+# Prompt
+
+# Remove kubectl from the right prompt if it's there
+if set -l index (contains -i kubectl $tide_right_prompt_items)
+  set -e tide_right_prompt_items[$index]
+end
+
 # Apollo GraphQL
 fish_add_path $HOME/.rover/bin
 
