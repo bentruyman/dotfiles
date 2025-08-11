@@ -80,6 +80,19 @@ function clone -d "Quickly clone git repos in a conventional way"
     cd $target_dir
 end
 
+function gcb
+  set local_branches (git branch | string trim | string replace -r '^\* ' '')
+  set remote_branches (git branch -r | string trim | string replace -r '^origin/' '' | sort -u)
+  for branch in $local_branches
+    if contains -- $branch main master
+      continue
+    end
+    if not contains -- $branch $remote_branches
+      git branch -D $branch
+    end
+  end
+end
+
 function gpc
     git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
 end
