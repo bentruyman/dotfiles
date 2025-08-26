@@ -12,8 +12,9 @@ if set -l index (contains -i kubectl $tide_right_prompt_items)
   set -e tide_right_prompt_items[$index]
 end
 
-# Apollo GraphQL
-fish_add_path $HOME/.rover/bin
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+fish_add_path $BUN_INSTALL/bin
 
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
@@ -97,13 +98,6 @@ function gpc
     git push --set-upstream origin "$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
 end
 
-# Godot
-set GODOT_CLI "/Applications/Godot.app/Contents/MacOS/Godot"
-if test -f $GODOT_CLI
-    alias godot $GODOT_CLI
-    alias gut 'godot --debug-collisions --path $PWD -d -s addons/gut/gut_cmdln.gd'
-end
-
 # Golang
 set -gx GOPATH $HOME/Development
 set -gx GOBIN $GOPATH/bin
@@ -120,9 +114,6 @@ if test -d $local_scripts
         source $file
     end
 end
-
-# LLVM
-fish_add_path /opt/homebrew/opt/llvm/bin
 
 # macOS
 set -gx BROWSER open
@@ -155,10 +146,6 @@ fish_add_path $HOME/.cargo/bin
 # Shell
 if type -q bat
     set -gx BAT_THEME Catppuccin-mocha
-end
-
-if type -q kitty
-    alias icat="kitty +kitten icat --align=left"
 end
 
 if type -q lsd
@@ -201,6 +188,3 @@ if type -q tmux
         tmux attach -t $name || tmux new -s $name
     end
 end
-
-# webstorm
-fish_add_path /Applications/WebStorm.app/Contents/MacOS
