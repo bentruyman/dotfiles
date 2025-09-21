@@ -1,7 +1,9 @@
 local lspconfig = require("lspconfig")
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-local lsp_servers = require("plugins.list").lsp_servers
+local plugin_list = require("plugins.list")
+local lsp_servers = plugin_list.lsp_servers
+local mason_lsp_servers = plugin_list.mason_lsp_servers
 
 local default_setup = function(server_name)
   vim.notify("Setting up " .. server_name)
@@ -20,19 +22,24 @@ local default_setup = function(server_name)
 
   config.capabilities = vim.tbl_deep_extend("force", capabilities, config.capabilities or {})
 
-  -- print out the config
-  vim.print(config)
-
   lspconfig[server_name].setup(config)
 end
 
-local installed_servers = vim.tbl_keys(lsp_servers)
+-- Only install Mason-available servers through Mason
+local mason_servers = vim.tbl_keys(mason_lsp_servers)
 
 require("mason-lspconfig").setup({
   automatic_enable = true,
-  ensure_installed = installed_servers,
+  ensure_installed = mason_servers,
   handlers = { default_setup },
 })
+
+-- Set up system-installed LSP servers that aren't available through Mason
+for server_name, _ in pairs(lsp_servers) do
+  if not mason_lsp_servers[server_name] then
+    default_setup(server_name)
+  end
+end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),

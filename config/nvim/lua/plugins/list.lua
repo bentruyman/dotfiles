@@ -6,6 +6,7 @@ local function load_config(plugin)
   end
 end
 
+-- LSP servers that should be installed via Mason
 local lsp_servers = {
   bashls = true,
   cssls = true,
@@ -74,6 +75,11 @@ local lsp_servers = {
       },
     }
   end,
+}
+
+-- LSP servers that are installed system-wide (not via Mason)
+local system_lsp_servers = {
+  sourcekit = true, -- Comes with Xcode on macOS
 }
 
 local null_ls_sources = {
@@ -368,14 +374,20 @@ else
 end
 
 lsp_servers = vim.tbl_extend("force", lsp_servers, util.get_user_config("lsp_servers", {}))
+system_lsp_servers = vim.tbl_extend("force", system_lsp_servers, util.get_user_config("system_lsp_servers", {}))
 null_ls_sources = vim.tbl_extend("force", null_ls_sources, util.get_user_config("null_ls_sources", {}))
 plugins = vim.list_extend(plugins, util.get_user_config("plugins", {}))
 
-local final_lsp_servers = vim.g.vscode and {} or lsp_servers
+-- Combine all LSP servers for configuration
+local all_lsp_servers = vim.tbl_extend("force", lsp_servers, system_lsp_servers)
+
+local final_lsp_servers = vim.g.vscode and {} or all_lsp_servers
+local final_mason_servers = vim.g.vscode and {} or lsp_servers
 local final_null_ls_sources = vim.g.vscode and {} or null_ls_sources
 
 return {
   lsp_servers = final_lsp_servers,
+  mason_lsp_servers = final_mason_servers,
   null_ls_sources = final_null_ls_sources,
   plugins = plugins,
 }
