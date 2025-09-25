@@ -229,22 +229,17 @@ defaults delete com.apple.dock recent-apps
 defaults write com.apple.dock show-recents -bool false
 
 DOCK_APPS=(
-  "/Applications/Setapp/Session.app"
   "/Applications/Discord.app"
   "/Applications/Slack.app"
   "/System/Applications/Music.app"
   "/Applications/Spotify.app"
   "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
-  "/Applications/Brave Browser.app"
   "/System/Applications/Mail.app"
   "/System/Applications/Calendar.app"
-  "/Applications/Obsidian.app"
-  "/Applications/Notion.app"
   "$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app"
   "/Applications/Pixelmator Pro.app"
   "/Applications/Visual Studio Code.app"
-  "/Applications/kitty.app"
-  "/Applications/Steam.app"
+  "/Applications/Ghostty.app"
   "/System/Applications/System Settings.app"
 )
 
