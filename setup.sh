@@ -94,28 +94,6 @@ brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
 
 ###############################################################################
-# TouchID Sudo
-###############################################################################
-
-PAM_REATTACH_PATH="/opt/homebrew/lib/pam/pam_reattach.so"
-
-if ! grep -q "pam_tid.so" /etc/pam.d/sudo; then
-  report "Enabling TouchID for sudo calls..."
-
-  sudo sed -i '' '2i\
-auth       sufficient     pam_tid.so\
-' /etc/pam.d/sudo
-fi
-
-if [ -f "/opt/homebrew/lib/pam/pam_reattach.so" ] && ! grep -q "pam_reattach.so" /etc/pam.d/sudo; then
-  report "Enabling pam-reattach for sudo calls..."
-
-  sudo sed -i '' '2i\
-auth       optional       /opt/homebrew/lib/pam/pam_reattach.so\
-' /etc/pam.d/sudo
-fi
-
-###############################################################################
 # FZF
 ###############################################################################
 
