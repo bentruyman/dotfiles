@@ -51,7 +51,6 @@ report "Installing repositories..."
 clone_repo() {
   [ -d "$2" ] || git clone --depth 1 --recursive "$1" "$2"
 }
-clone_repo https://github.com/LazyVim/starter "${HOME}/.config/nvim"
 clone_repo https://github.com/junegunn/fzf.git "${HOME}/.fzf"
 clone_repo https://github.com/tmux-plugins/tpm.git "${HOME}/.tmux/plugins/tpm"
 
