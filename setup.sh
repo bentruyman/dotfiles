@@ -328,8 +328,7 @@ PLUGINS_TO_INSTALL=$(comm -23 <(echo "$DESIRED_PLUGINS") <(echo "$INSTALLED_PLUG
 
 if [[ ! -z "$PLUGINS_TO_INSTALL" ]]; then
   while IFS= read -r plugin; do
-    echo "PLUGIN $plugin"
-    # $FISH_BIN -c "fisher install $plugin"
+    $FISH_BIN -c "fisher install $plugin"
   done <<<"$PLUGINS_TO_INSTALL"
 fi
 
