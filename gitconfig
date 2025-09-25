@@ -5,8 +5,8 @@
   ignorecase = false
 
 [alias]
-  checkpoint = commit --no-verify -m "chore: checkpoint"
-  down = commit --amend --no-edit --no-verify
+  checkpoint = commit --no-verify -m 'chore: checkpoint'
+  down = commit --amend --no-edit
 
 [branch]
   autosetuprebase = always
