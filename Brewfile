@@ -1,7 +1,6 @@
-tap "homebrew/bundle"
-
 brew "bash"
 brew "bat"
+brew "chafa"
 brew "cloc"
 brew "cmake"
 brew "coreutils"
