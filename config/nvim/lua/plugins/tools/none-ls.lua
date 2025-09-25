@@ -15,6 +15,7 @@ null_ls.setup({
     formatting.prettierd,
     formatting.shfmt,
     formatting.stylua,
+    formatting.swift_format,
 
     hover.dictionary,
     hover.printenv,
