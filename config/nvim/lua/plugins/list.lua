@@ -30,6 +30,7 @@ local lsp_servers = {
       },
     },
   },
+  mdx_analyzer = true,
   vtsls = {
     settings = {
       javascript = {
@@ -135,6 +136,11 @@ local neovim_only_plugins = {
     name = "catppuccin",
     priority = 1000,
     config = load_config("ui.catppuccin"),
+  },
+  {
+    "davidmh/mdx.nvim",
+    config = true,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
   {
     "folke/snacks.nvim",
