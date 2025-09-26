@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local plugin_list = require("plugins.list")
@@ -22,7 +21,7 @@ local default_setup = function(server_name)
 
   config.capabilities = vim.tbl_deep_extend("force", capabilities, config.capabilities or {})
 
-  lspconfig[server_name].setup(config)
+  vim.lsp.config(server_name, config)
 end
 
 -- Only install Mason-available servers through Mason
