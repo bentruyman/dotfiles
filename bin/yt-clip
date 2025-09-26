@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Requires: yt-dlp and ffmpeg (brew install yt-dlp ffmpeg)
+
+# Extract time in seconds from YouTube timestamp query string (?t=)
+extract_time() {
+  url="$1"
+  if [[ "$url" =~ [\?\&]t=([0-9]+) ]]; then
+    echo "${BASH_REMATCH[1]}"
+  elif [[ "$url" =~ [\?\&]t=([0-9]+)m([0-9]+)s ]]; then
+    minutes="${BASH_REMATCH[1]}"
+    seconds="${BASH_REMATCH[2]}"
+    echo $((minutes * 60 + seconds))
+  else
+    echo "0"
+  fi
+}
+
+# Extract video ID
+extract_video_id() {
+  url="$1"
+  if [[ "$url" =~ v=([^&]+) ]]; then
+    echo "${BASH_REMATCH[1]}"
+  elif [[ "$url" =~ youtu\.be/([^?&]+) ]]; then
+    echo "${BASH_REMATCH[1]}"
+  else
+    echo ""
+  fi
+}
+
+if [ $# -lt 2 ]; then
+  echo "Usage: $0 <start-url> <end-url> [output.mp4]"
+  exit 1
+fi
+
+start_url="$1"
+end_url="$2"
+output="${3:-clip.mp4}"
+
+start_id=$(extract_video_id "$start_url")
+end_id=$(extract_video_id "$end_url")
+
+if [ -z "$start_id" ] || [ -z "$end_id" ]; then
+  echo "Could not extract video IDs"
+  exit 1
+fi
+
+if [ "$start_id" != "$end_id" ]; then
+  echo "Error: start and end URLs must be for the same video"
+  exit 1
+fi
+
+start_time=$(extract_time "$start_url")
+end_time=$(extract_time "$end_url")
+
+if [ "$end_time" -le "$start_time" ]; then
+  echo "End time must be greater than start time"
+  exit 1
+fi
+
+duration=$((end_time - start_time))
+
+echo "Video ID: $start_id"
+echo "Start: $start_time s"
+echo "End:   $end_time s"
+echo "Duration: $duration s"
+
+temp="temp_${start_id}.mp4"
+
+# Download
+yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best" \
+  -o "$temp" "https://www.youtube.com/watch?v=$start_id"
+
+# Trim
+ffmpeg -ss "$start_time" -t "$duration" -i "$temp" -c copy "$output"
+
+# Clean up temp file
+rm -f "$temp"
+
+echo "Clip saved to $output"
