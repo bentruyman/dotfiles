@@ -127,6 +127,44 @@ if [[ ! -d "${HOME}/.gnupg" ]]; then
   killall gpg-agent || true
 fi
 
+# Check if GPG private key exists
+if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
+  echo
+  echo "No GPG private key found. Would you like to import one? (y/n)"
+  read -r import_gpg
+
+  if [[ "$import_gpg" == "y" ]]; then
+    echo -n "Please paste your GPG private key (including BEGIN/END lines): "
+
+    # Disable echo for hidden input
+    stty -echo
+
+    # Read multi-line input until EOF (Ctrl-D)
+    gpg_key=""
+    while IFS= read -r line; do
+      gpg_key="${gpg_key}${line}"$'\n'
+    done
+
+    # Re-enable echo
+    stty echo
+    echo # New line after input
+
+    if [[ -n "$gpg_key" ]]; then
+      echo "$gpg_key" | gpg --import 2>/dev/null
+      if [[ $? -eq 0 ]]; then
+        report "GPG key imported successfully"
+        # Trust the key
+        gpg_key_id=$(gpg --list-secret-keys --keyid-format=long | grep sec | head -1 | awk '{print $2}' | cut -d'/' -f2)
+        if [[ -n "$gpg_key_id" ]]; then
+          echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key "$gpg_key_id" >/dev/null 2>&1
+        fi
+      else
+        echo "Failed to import GPG key"
+      fi
+    fi
+  fi
+fi
+
 ###############################################################################
 # Node.js
 ###############################################################################
