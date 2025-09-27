@@ -22,16 +22,11 @@ if ! xcode-select -p &>/dev/null; then
   until xcode-select -p &>/dev/null; do sleep 5; done
 fi
 
+sudo xcodebuild -license accept
+
 if [ ! "$(/usr/bin/pgrep oahd)" ]; then
   report "Installing Rosetta..."
   softwareupdate --install-rosetta --agree-to-license
-fi
-
-if [ -d ~/Library/Mail ] && [ ! -r ~/Library/Mail ]; then
-  echo "Full Disk Access is not enabled for this Terminal."
-  echo "Please enable it in System Preferences > Security & Privacy > Privacy > Full Disk Access."
-  open "x-apple.systempreferences:com.apple.preference.security"
-  read -rp "Press any key to continue..."
 fi
 
 ###############################################################################
@@ -127,7 +122,6 @@ if [[ ! -d "${HOME}/.gnupg" ]]; then
   killall gpg-agent || true
 fi
 
-# Check if GPG private key exists
 if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
   echo
   echo "No GPG private key found. Would you like to import one? (y/n)"
@@ -136,18 +130,15 @@ if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
   if [[ "$import_gpg" == "y" ]]; then
     echo -n "Please paste your GPG private key (including BEGIN/END lines): "
 
-    # Disable echo for hidden input
     stty -echo
 
-    # Read multi-line input until EOF (Ctrl-D)
     gpg_key=""
     while IFS= read -r line; do
       gpg_key="${gpg_key}${line}"$'\n'
     done
 
-    # Re-enable echo
     stty echo
-    echo # New line after input
+    echo
 
     if [[ -n "$gpg_key" ]]; then
       echo "$gpg_key" | gpg --import 2>/dev/null
@@ -378,5 +369,9 @@ if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
 
   pbcopy <"${HOME}/.ssh/id_rsa.pub"
 
+  echo
+  echo "Your SSH public key has been copied to the clipboard."
+  echo "Opening GitHub to add the key - please paste it there."
+  echo
   open "https://github.com/settings/ssh/new"
 fi
