@@ -167,6 +167,10 @@ if type -q kubectl
     alias k "kubectl"
 end
 
+if type -q mods && type -q zig
+    alias modz "mods --role zig"
+end
+
 if type -q prettier
     alias pretty "prettier --write '**/*.{js,json,md,scss,ts,vue}'"
 end
