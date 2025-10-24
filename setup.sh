@@ -22,8 +22,6 @@ if ! xcode-select -p &>/dev/null; then
   until xcode-select -p &>/dev/null; do sleep 5; done
 fi
 
-sudo xcodebuild -license accept
-
 if [ ! "$(/usr/bin/pgrep oahd)" ]; then
   report "Installing Rosetta..."
   softwareupdate --install-rosetta --agree-to-license
@@ -86,6 +84,10 @@ brew update
 brew upgrade
 brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
+
+if [ -d "/Applications/Xcode.app" ]; then
+  sudo xcodebuild -license accept
+fi
 
 ###############################################################################
 # FZF

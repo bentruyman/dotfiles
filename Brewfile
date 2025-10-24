@@ -68,3 +68,4 @@ mas "HEIC Converter", id: 1294126402
 mas "Magnet", id: 441258766
 mas "Pixelmator Pro", id: 1289583905
 mas "Userscripts-Mac-App", id: 1463298887
+mas "Xcode", id: 497799835
