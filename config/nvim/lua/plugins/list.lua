@@ -139,6 +139,7 @@ local neovim_only_plugins = {
   },
   {
     "davidmh/mdx.nvim",
+    ft = { "mdx" },
     config = true,
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
@@ -384,7 +385,6 @@ system_lsp_servers = vim.tbl_extend("force", system_lsp_servers, util.get_user_c
 null_ls_sources = vim.tbl_extend("force", null_ls_sources, util.get_user_config("null_ls_sources", {}))
 plugins = vim.list_extend(plugins, util.get_user_config("plugins", {}))
 
--- Combine all LSP servers for configuration
 local all_lsp_servers = vim.tbl_extend("force", lsp_servers, system_lsp_servers)
 
 local final_lsp_servers = vim.g.vscode and {} or all_lsp_servers
