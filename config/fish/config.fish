@@ -135,6 +135,7 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 # Path
 fish_add_path -a \
     "$HOME/.bin" \
+    "$HOME/.local/bin" \
     /opt/homebrew/bin /opt/homebrew/sbin \
     /usr/local/bin /usr/local/sbin \
     /usr/bin /usr/sbin \
