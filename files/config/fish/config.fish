@@ -127,9 +127,12 @@ alias npj "nice-package-json --write"
 
 set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
-# Proto
+# proto
 if test -e "$HOME/.proto"
-    fish_add_path $HOME/.proto/shims
+    set -gx PROTO_HOME "$HOME/.proto";
+    fish_add_path \
+        "$PROTO_HOME/shims" \
+        "$PROTO_HOME/bin"
 end
 
 # Path
