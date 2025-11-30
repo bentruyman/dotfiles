@@ -125,12 +125,12 @@ alias o "open ."
 # Node.js
 alias npj "nice-package-json --write"
 
-if test -e "$HOME/.volta"
-    set -gx VOLTA_HOME "$HOME/.volta"
-    set -gx VOLTA_FEATURE_PNPM 1
-    fish_add_path $VOLTA_HOME/bin
-end
 set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
+
+# Proto
+if test -e "$HOME/.proto"
+    fish_add_path $HOME/.proto/bin
+end
 
 # Path
 fish_add_path -a \

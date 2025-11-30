@@ -159,19 +159,12 @@ if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
 fi
 
 ###############################################################################
-# Node.js
+# Proto
 ###############################################################################
 
-if [ ! -d "${HOME}/.volta/bin" ]; then
-  report "Installing Volta..."
-  curl https://get.volta.sh | bash -s -- --skip-setup
-fi
-
-export PATH="${HOME}/.volta/bin:${PATH}"
-
-if ! node -v &>/dev/null; then
-  report "Installing Node.js..."
-  volta install node
+if [ ! -d "${HOME}/.proto" ]; then
+  report "Installing Proto..."
+  bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) --no-profile --yes
 fi
 
 ###############################################################################
