@@ -40,6 +40,7 @@ require("mason-lspconfig").setup({
 for server_name, _ in pairs(lsp_servers) do
   if not mason_lsp_servers[server_name] then
     default_setup(server_name)
+    vim.lsp.enable(server_name)
   end
 end
 
