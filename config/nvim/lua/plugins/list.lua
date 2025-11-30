@@ -6,6 +6,44 @@ local function load_config(plugin)
   end
 end
 
+local function resolve_tea_lsp_path(root_dir)
+  local uv = vim.uv or vim.loop
+  local search_roots = {}
+  local seen = {}
+
+  local function add_root(path)
+    if not path or path == "" then
+      return
+    end
+
+    if vim.fs and vim.fs.normalize then
+      path = vim.fs.normalize(path)
+    end
+
+    if not seen[path] then
+      seen[path] = true
+      table.insert(search_roots, path)
+    end
+  end
+
+  add_root(root_dir)
+  add_root(uv and uv.cwd and uv.cwd() or nil)
+  add_root(vim.fn.getcwd())
+  add_root(vim.env.PWD)
+
+  for _, base in ipairs(search_roots) do
+    local candidate = vim.fs and vim.fs.joinpath and vim.fs.joinpath(base, "target", "release", "tea-lsp")
+      or (base .. "/target/release/tea-lsp")
+
+    local stat = uv and uv.fs_stat and uv.fs_stat(candidate) or nil
+    if stat and stat.type == "file" and vim.fn.executable(candidate) == 1 then
+      return candidate
+    end
+  end
+
+  return nil
+end
+
 -- LSP servers that should be installed via Mason
 local lsp_servers = {
   bashls = true,
@@ -81,6 +119,19 @@ local lsp_servers = {
 -- LSP servers that are installed system-wide (not via Mason)
 local system_lsp_servers = {
   sourcekit = true, -- Comes with Xcode on macOS
+  tea_lsp = function()
+    local fallback_cmd = "tea-lsp"
+    local resolved_cmd = resolve_tea_lsp_path()
+
+    return {
+      cmd = { resolved_cmd or fallback_cmd },
+      filetypes = { "tea" },
+      on_new_config = function(config, root_dir)
+        local root_cmd = resolve_tea_lsp_path(root_dir)
+        config.cmd = { root_cmd or fallback_cmd }
+      end,
+    }
+  end,
 }
 
 local null_ls_sources = {
