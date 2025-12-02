@@ -36,7 +36,7 @@ for file in bin config gitconfig gitignore_global mackup.cfg tmux.conf; do
   if [ -d "${HOME}/.$file" ]; then
     echo "${HOME}/.$file is a directory. Skipping..."
   else
-    ln -sf "${dotfiles_dir}/${file}" "${HOME}/.$file"
+    ln -sf "${dotfiles_dir}/files/${file}" "${HOME}/.$file"
   fi
 done
 

@@ -2,9 +2,10 @@
 
 ## Project Structure & Module Organization
 - `bootstrap.sh` downloads the repo and hands off to `setup.sh`; keep both idempotent so first-run machines succeed.
-- `setup.sh` provisions macOS by linking `bin/`, `config/`, `launch_agents/`, and root dotfiles, installing Homebrew bundles, and tuning defaults. Document any new prerequisites inline.
-- `bin/` contains small CLI helpers added to `$PATH`; prefer self-contained scripts with clear error handling.
-- `config/` mirrors `~/.config` (e.g., `config/fish`, `config/nvim`); only add directories that can be safely symlinked.
+- `setup.sh` provisions macOS by linking `files/` dotfiles and loading `launch_agents/`, installing Homebrew bundles, and tuning defaults. Document any new prerequisites inline.
+- `files/` contains all dotfiles symlinked into `$HOME` (e.g., `bin/`, `config/`, `gitconfig`, `tmux.conf`).
+- `files/bin/` contains small CLI helpers added to `$PATH`; prefer self-contained scripts with clear error handling.
+- `files/config/` mirrors `~/.config` (e.g., `config/fish`, `config/nvim`); only add directories that can be safely symlinked.
 - `launch_agents/` holds launchd plists loaded into `~/Library/LaunchAgents`; keep labels unique and unload obsolete jobs when replacing them.
 - `Brewfile` and `Brewfile.lock.json` pin formulae/casks; regenerate the lockfile with `brew bundle lock --file=Brewfile` after changes.
 
