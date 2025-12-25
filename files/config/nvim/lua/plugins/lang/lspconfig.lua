@@ -24,12 +24,6 @@ local default_setup = function(server_name)
   vim.lsp.config(server_name, config)
 end
 
-local setup_sourcekit = function()
-  if lsp_servers["sourcekit"] then
-    default_setup("sourcekit")
-  end
-end
-
 require("mason-lspconfig").setup({
   automatic_enable = true,
   ensure_installed = mason_lsp_servers,
