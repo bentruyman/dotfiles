@@ -117,6 +117,8 @@ local lsp_servers = {
 }
 
 -- LSP servers that are installed system-wide (not via Mason)
+-- NOTE: oxfmt LSP is intentionally not included here because its textDocument/formatting
+-- response is broken (returns null). Use the null-ls oxfmt source for formatting instead.
 local system_lsp_servers = {
   sourcekit = true, -- Comes with Xcode on macOS
   tea_lsp = function()
