@@ -129,7 +129,7 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
 # Proto
 if test -e "$HOME/.proto"
-    fish_add_path $HOME/.proto/bin
+    fish_add_path $HOME/.proto/shims
 end
 
 # Path
