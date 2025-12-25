@@ -38,6 +38,30 @@ for server_name, _ in pairs(lsp_servers) do
   end
 end
 
+-- Manually start system LSP servers for existing buffers (handles lazy loading race condition)
+vim.schedule(function()
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == "" then
+      local ft = vim.bo[bufnr].filetype
+      if ft == "" then
+        goto continue
+      end
+      for server_name, _ in pairs(lsp_servers) do
+        if not mason_lsp_servers[server_name] then
+          local config = vim.lsp.config[server_name]
+          if config and vim.tbl_contains(config.filetypes or {}, ft) then
+            local root = config.root_dir and config.root_dir(bufnr) or nil
+            if root then
+              vim.lsp.start(vim.tbl_extend("force", config, { root_dir = root }), { bufnr = bufnr })
+            end
+          end
+        end
+      end
+      ::continue::
+    end
+  end
+end)
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(event)
@@ -54,6 +78,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local format = function()
         vim.lsp.buf.format({
           filter = function(format_client)
+            -- Use null-ls for formatting (oxfmt LSP formatting is broken, use null-ls oxfmt source instead)
             return format_client.name == "null-ls"
           end,
           bufnr = event.buf,
