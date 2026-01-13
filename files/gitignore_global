@@ -3,5 +3,5 @@
 .scratch
 
 # Claude
-.claude/settings.local.json
+settings.local.json
 CLAUDE.local.md
