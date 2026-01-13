@@ -24,10 +24,9 @@ Snacks.setup({
       },
     },
     sections = {
-      -- { section = "header" },
       {
         section = "terminal",
-        cmd = "chafa ~/.config/nvim/assets/apple.png --format symbols --symbols vhalf --size 24x24 --align center; sleep .1",
+        cmd = "chafa ~/.config/nvim/assets/apple.png --format symbols --symbols vhalf --size 24x24 --align center",
         height = 12,
         padding = 1,
       },
