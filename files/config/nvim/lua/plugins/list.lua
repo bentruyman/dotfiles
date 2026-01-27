@@ -68,7 +68,13 @@ local lsp_servers = {
       },
     },
   },
-  mdx_analyzer = true,
+  mdx_analyzer = {
+    init_options = {
+      typescript = {
+        enabled = true,
+      },
+    },
+  },
   vtsls = {
     settings = {
       javascript = {
@@ -192,8 +198,6 @@ local neovim_only_plugins = {
   },
   {
     "davidmh/mdx.nvim",
-    ft = { "mdx" },
-    config = true,
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
   {
