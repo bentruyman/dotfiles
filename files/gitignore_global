@@ -5,3 +5,6 @@
 # Claude
 settings.local.json
 CLAUDE.local.md
+
+# Neovim
+neotest-*.txt
