@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# claude-notify: Play notification sound for Claude Code hooks
+
+SOUND_FILE="/System/Library/Sounds/Morse.aiff"
+
+usage() {
+  echo "Usage: $(basename "$0") <hook-type>"
+  echo
+  echo "Plays a notification sound for Claude Code hooks."
+  echo
+  echo "Hook types:"
+  echo "  permission_prompt    Permission requests"
+  echo "  idle_prompt          Waiting for user input"
+  echo "  auth_success         Authentication success"
+  echo "  elicitation_dialog   MCP tool elicitation"
+  echo "  stop                 Agent stopped"
+  exit 0
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+fi
+
+if [[ ! -f "$SOUND_FILE" ]]; then
+  echo "Error: Sound file not found: $SOUND_FILE" >&2
+  exit 1
+fi
+
+afplay "$SOUND_FILE"
