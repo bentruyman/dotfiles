@@ -393,6 +393,18 @@ local neovim_only_plugins = {
     config = load_config("lang.lazydev"),
   },
   {
+    "apple/pkl-neovim",
+    ft = "pkl",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "L3MON4D3/LuaSnip",
+    },
+    build = function()
+      vim.cmd("TSInstall pkl")
+    end,
+    config = load_config("lang.pkl"),
+  },
+  {
     "nvimdev/lspsaga.nvim",
     event = "LspAttach",
     dependencies = {
