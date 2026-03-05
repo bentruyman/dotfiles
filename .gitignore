@@ -9,7 +9,9 @@ Brewfile.lock.json
 !/files/config/fish/config.fish
 !/files/config/fish/fish_plugins
 !/files/config/fish/functions
-/files/config/fish/functions/*
+/files/config/fish/functions/*tide*
+/files/config/fish/functions/__z*.fish
+/files/config/fish/functions/fish*prompt.fish
 !/files/config/fish/functions/fisher.fish
 !/files/config/fish/lib
 
