@@ -24,6 +24,7 @@ treesitter.setup({
     "luadoc",
     "markdown",
     "markdown_inline",
+    "pkl",
     "query",
     "tsx",
     "typescript",
