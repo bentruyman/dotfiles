@@ -448,12 +448,48 @@ local neovim_only_plugins = {
       "nvim-treesitter/nvim-treesitter",
     },
     keys = {
-      { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest Test" },
-      { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File Tests" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Test Summary" },
-      { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "Show Test Output" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-      { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop Test" },
+      {
+        "<leader>tr",
+        function()
+          require("neotest").run.run()
+        end,
+        desc = "Run Nearest Test",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand("%"))
+        end,
+        desc = "Run File Tests",
+      },
+      {
+        "<leader>ts",
+        function()
+          require("neotest").summary.toggle()
+        end,
+        desc = "Toggle Test Summary",
+      },
+      {
+        "<leader>to",
+        function()
+          require("neotest").output.open({ enter = true })
+        end,
+        desc = "Show Test Output",
+      },
+      {
+        "<leader>tO",
+        function()
+          require("neotest").output_panel.toggle()
+        end,
+        desc = "Toggle Output Panel",
+      },
+      {
+        "<leader>tS",
+        function()
+          require("neotest").run.stop()
+        end,
+        desc = "Stop Test",
+      },
     },
     config = load_config("tools.neotest"),
   },
