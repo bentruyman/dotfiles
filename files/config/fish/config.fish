@@ -158,6 +158,10 @@ if type -q lsd
 end
 
 # Shortcuts
+function cwd
+    pwd | pbcopy
+end
+
 function mkd
     mkdir -p $argv[1]
     cd $argv[1] || exit
