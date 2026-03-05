@@ -34,6 +34,8 @@ brew "neovim-remote", link: false
 brew "nmap"
 brew "pam-reattach"
 brew "pinentry-mac"
+brew "pkl"
+brew "pkl-lsp"
 brew "python@3.11"
 brew "reattach-to-user-namespace"
 brew "ripgrep"
