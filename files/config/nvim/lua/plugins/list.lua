@@ -174,7 +174,14 @@ local shared_plugins = {
   {
     "ggandor/flit.nvim",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = { { "ggandor/leap.nvim", dependencies = { "tpope/vim-repeat" } } },
+    dependencies = {
+      {
+        url = "https://codeberg.org/andyg/leap.nvim",
+        dependencies = {
+          "tpope/vim-repeat",
+        },
+      },
+    },
     config = load_config("editor.flit"),
   },
 
