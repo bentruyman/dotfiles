@@ -167,6 +167,10 @@ if [ ! -d "${HOME}/.proto" ]; then
   bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) --no-profile --yes
 fi
 
+ln -sf "${dotfiles_dir}/files/proto/prototools" "${HOME}/.proto/.prototools"
+
+proto install --config-mode all
+
 ###############################################################################
 # UI                                                                          #
 ###############################################################################
