@@ -130,29 +130,29 @@ if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
   read -r import_gpg
 
   if [[ "$import_gpg" == "y" ]]; then
-    echo -n "Please paste your GPG private key (including BEGIN/END lines): "
-
-    stty -echo
+    echo "Please paste your GPG private key (including BEGIN/END lines)."
+    echo "The key will be read automatically until the END line is detected."
+    echo
 
     gpg_key=""
     while IFS= read -r line; do
       gpg_key="${gpg_key}${line}"$'\n'
+      if [[ "$line" == *"-----END PGP PRIVATE KEY BLOCK-----"* ]]; then
+        break
+      fi
     done
 
-    stty echo
-    echo
-
     if [[ -n "$gpg_key" ]]; then
-      echo "$gpg_key" | gpg --import 2>/dev/null
-      if [[ $? -eq 0 ]]; then
+      if echo "$gpg_key" | gpg --import 2>/dev/null; then
         report "GPG key imported successfully"
-        # Trust the key
-        gpg_key_id=$(gpg --list-secret-keys --keyid-format=long | grep sec | head -1 | awk '{print $2}' | cut -d'/' -f2)
-        if [[ -n "$gpg_key_id" ]]; then
-          echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key "$gpg_key_id" >/dev/null 2>&1
-        fi
       else
         echo "Failed to import GPG key"
+      fi
+
+      # Trust the key if one is now present
+      gpg_key_id=$(gpg --list-secret-keys --keyid-format=long 2>/dev/null | grep sec | head -1 | awk '{print $2}' | cut -d'/' -f2)
+      if [[ -n "$gpg_key_id" ]]; then
+        echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key "$gpg_key_id" >/dev/null 2>&1 || true
       fi
     fi
   fi
