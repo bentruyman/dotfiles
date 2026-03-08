@@ -6,50 +6,105 @@
 $ curl -L https://raw.githubusercontent.com/bentruyman/dotfiles/main/bootstrap.sh | bash
 ```
 
-## Usage
+`bootstrap.sh` downloads this repository (if needed) and then sources `setup.sh`.
+`setup.sh` requires `sudo` and performs interactive steps during first-time setup.
 
-### Machine-specific Customizations
+## What This Dotfiles Repo Manages
 
-#### Neovim
+- macOS-only system provisioning
+- Homebrew package and app installation via `Brewfile`
+- Fish shell setup with Fisher plugins and Tide prompt defaults
+- Neovim configuration (Lazy-based plugin setup)
+- tmux configuration plus TPM bootstrap
+- fzf bootstrap and shell integration
+- Ghostty terminal settings
+- Proto installation and Fish PATH integration
+- launchd agents from `launch_agents/`
 
+## What `setup.sh` Actually Does
+
+The `setup.sh` script runs these phases:
+
+### 1) Preflight
+- Starts a sudo keepalive loop
+- Installs Xcode Command Line Tools if missing
+- Installs Rosetta if missing
+
+### 2) Dotfiles + Repo Bootstrap
+- Symlinks files from `files/` into `$HOME` (for `.bin`, `.config`, `.gitconfig`, `.gitignore_global`, `.mackup.cfg`, `.tmux.conf`)
+- Clones `fzf` and `tmux-plugins/tpm` if not already present
+- Creates machine-local directories at `~/.dotfiles/fish` and `~/.dotfiles/nvim`
+
+### 3) Launch Agents
+- Symlinks plist files from `launch_agents/` into `~/Library/LaunchAgents`
+- Loads newly linked agents with `launchctl load`
+
+### 4) Package Provisioning
+- Installs Homebrew if missing
+- Runs `brew update`, `brew upgrade`, `brew bundle install --file=Brewfile`, and `brew cleanup`
+- Accepts Xcode license when Xcode is installed
+
+### 5) Tooling and Identity Setup
+- Installs fzf Fish keybindings/completion when not yet configured
+- Prompts for Git `user.name` and `user.email` if unset
+- Configures GPG pinentry on first run and offers optional private key import
+- Installs Proto if `~/.proto` is missing
+
+### 6) macOS Defaults and App Preferences
+- Applies defaults for UI mode, keyboard/input behavior, screenshots, Finder, Dock, and Safari menus
+- Rebuilds Dock entries for a curated app list when apps exist
+- Restarts affected processes (`Dock`, `Finder`, etc.) so settings take effect
+
+### 7) App Settings Sync (Mackup)
+- Runs `mackup restore -n` to show differences against backup
+- Prints manual follow-up instructions when diffs exist
+
+### 8) Shell Configuration
+- Adds Fish to `/etc/shells` if needed
+- Changes default shell to Fish when needed
+- Installs Fisher if missing
+- Installs/updates configured Fisher plugins and runs Tide auto-configuration
+
+### 9) SSH Setup
+- Generates an SSH key when `~/.ssh/id_rsa` is missing
+- Copies the public key to clipboard
+- Opens GitHub SSH key settings page for manual paste
+
+## Machine-Specific Customization
+
+### Fish
+Add personal Fish scripts to:
+
+```bash
+~/.dotfiles/fish/*.fish
 ```
-~/.dotfiles/nvim/local/lua/local/*.lua
+
+Those files are sourced from `files/config/fish/config.fish` when present.
+
+### Neovim
+Create:
+
+```lua
+~/.config/nvim/lua/user.lua
 ```
 
-## Features
+This optional module is loaded via `pcall(require, "user")` and can override:
+- `lsp_servers`
+- `system_lsp_servers`
+- `null_ls_sources`
+- `plugins`
 
-- Only supports **macOS**
-- [Homebrew](https://brew.sh/)
-- [Fish shell](https://fishshell.com/) with [Fisher](https://github.com/jorgebucaran/fisher)
-- [Neovim](https://neovim.io/) with [AstroNvim](https://astronvim.com/)
-- Tmux with [tpm](https://github.com/tmux-plugins/tpm)
-- [Ghostty](https://ghostty.org/) terminal
+## Maintenance / Validation
 
-## What the Setup Script Does
+Use these checks after changing provisioning or shell scripts:
 
-The `setup.sh` script automates the setup of a complete macOS development environment:
+```console
+$ brew bundle check --file=Brewfile
+$ shellcheck setup.sh bootstrap.sh $(rg -l '^#!/usr/bin/env bash' files/bin)
+```
 
-### System Setup
-- Installs Xcode Command Line Tools and Rosetta
-- Configures system preferences for keyboard, screenshots, Finder, and Dock
-- Sets up TouchID for sudo commands
-- Creates necessary dotfiles directories
+If you change Fish config files, format them with:
 
-### Development Tools
-- Installs and configures Homebrew with essential packages
-- Sets up Git with user configuration
-- Configures GPG for signing commits
-- Installs Node.js (via Volta) and Rust
-- Installs and configures Fish shell with Fisher plugins
-- Sets up SSH keys for GitHub
-
-### Applications
-- Configures various macOS applications and system preferences
-- Sets up a curated Dock with commonly used applications
-- Syncs application settings to iCloud via Mackup
-- Installs terminal utilities (fzf, tmux plugins, etc.)
-
-### Dotfiles
-- Symlinks configuration files to their appropriate locations
-- Clones and sets up configurations for Neovim, fzf, and tmux
-- Creates machine-specific configuration directories
+```console
+$ fish_indent -w files/config/fish/**/*.fish
+```
