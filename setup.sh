@@ -245,9 +245,9 @@ defaults write com.apple.dock wvous-bl-corner -int 0
 defaults write com.apple.dock wvous-bl-modifier -int 0
 
 # Set Dock items
-defaults delete com.apple.dock persistent-apps
-defaults delete com.apple.dock persistent-others
-defaults delete com.apple.dock recent-apps
+defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock persistent-others -array
+defaults write com.apple.dock recent-apps -array
 
 # Hide Dock items
 defaults write com.apple.dock show-recents -bool false
@@ -279,10 +279,14 @@ done
 ###############################################################################
 
 # Show Debug menu
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+if [[ -d "${HOME}/Library/Containers/com.apple.Safari" ]]; then
+  defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
-# Show Develop menu
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
+  # Show Develop menu
+  defaults write com.apple.Safari IncludeDevelopMenu -bool true
+else
+  report "Skipping Safari defaults (open Safari once, then rerun setup.sh to apply)."
+fi
 
 ###############################################################################
 # Kill affected applications                                                  #
