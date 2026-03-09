@@ -133,7 +133,8 @@ if test -e "$HOME/.proto"
     fish_add_path \
         "$PROTO_HOME/shims" \
         "$PROTO_HOME/bin" \
-        "$PROTO_HOME/tools/node/globals/bin"
+        "$PROTO_HOME/tools/node/globals/bin" \
+        "$PROTO_HOME/tools/python/*/bin"
 end
 
 # Path
