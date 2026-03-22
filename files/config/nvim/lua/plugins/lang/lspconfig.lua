@@ -3,9 +3,13 @@ local capabilities = require("blink.cmp").get_lsp_capabilities()
 local plugin_list = require("plugins.list")
 local lsp_servers = plugin_list.lsp_servers
 local mason_lsp_servers = plugin_list.mason_lsp_servers
+local mason_lspconfig = require("mason-lspconfig")
+local mason_registry = require("mason-registry")
+
+local pending_mason_installs = {}
 
 local default_setup = function(server_name)
-  vim.notify("Setting up " .. server_name)
+  -- vim.notify("Setting up " .. server_name)
   local server_config = lsp_servers[server_name]
   local config = {}
 
@@ -26,9 +30,39 @@ end
 
 require("mason-lspconfig").setup({
   automatic_enable = true,
-  ensure_installed = mason_lsp_servers,
+  ensure_installed = {},
   handlers = { default_setup },
 })
+
+local function install_mason_lsp_for_filetype(filetype)
+  if not filetype or filetype == "" then
+    return
+  end
+
+  mason_registry.refresh(vim.schedule_wrap(function(success)
+    if not success then
+      return
+    end
+
+    local mappings = mason_lspconfig.get_mappings()
+    local available_servers = mason_lspconfig.get_available_servers({ filetype = filetype })
+
+    for _, server_name in ipairs(available_servers) do
+      if mason_lsp_servers[server_name] and not pending_mason_installs[server_name] then
+        local package_name = mappings.lspconfig_to_package[server_name]
+        if package_name and not mason_registry.is_installed(package_name) then
+          local ok, pkg = pcall(mason_registry.get_package, package_name)
+          if ok then
+            pending_mason_installs[server_name] = true
+            pkg:install({}, function()
+              pending_mason_installs[server_name] = nil
+            end)
+          end
+        end
+      end
+    end
+  end))
+end
 
 -- Set up system-installed LSP servers that aren't available through Mason
 for server_name, _ in pairs(lsp_servers) do
@@ -46,6 +80,7 @@ vim.schedule(function()
       if ft == "" then
         goto continue
       end
+      install_mason_lsp_for_filetype(ft)
       for server_name, _ in pairs(lsp_servers) do
         if not mason_lsp_servers[server_name] then
           local config = vim.lsp.config[server_name]
@@ -61,6 +96,13 @@ vim.schedule(function()
     end
   end
 end)
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("mason-lsp-auto-install", { clear = true }),
+  callback = function(event)
+    install_mason_lsp_for_filetype(vim.bo[event.buf].filetype)
+  end,
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
