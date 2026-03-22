@@ -1,4 +1,5 @@
 local null_ls = require("null-ls")
+local cmd_resolver = require("null-ls.helpers.command_resolver")
 
 local code_actions = null_ls.builtins.code_actions
 local completion = null_ls.builtins.completion
@@ -33,6 +34,7 @@ local oxfmt = {
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   generator = null_ls.formatter({
     command = "oxfmt",
+    dynamic_command = cmd_resolver.from_node_modules(),
     args = { "--stdin-filepath", "$FILENAME" },
     to_stdin = true,
     condition = function(utils)
