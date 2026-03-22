@@ -38,12 +38,14 @@ local setup = {
     },
   },
   spec = {
+    { "<leader>a", group = "AI" },
     { "<leader>b", group = "Buffers" },
     { "<leader>f", group = "Find" },
     { "<leader>g", group = "Git" },
     { "<leader>h", group = "History" },
     { "<leader>l", group = "LSP" },
     { "<leader>p", group = "Packages" },
+    { "<leader>t", group = "Tests" },
     { "<leader>x", group = "Trouble" },
   },
 }

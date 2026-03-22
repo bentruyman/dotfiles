@@ -37,7 +37,7 @@ vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease wi
 vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 
 -- AI/Copilot toggle
-vim.keymap.set("n", "<leader>ts", function()
+vim.keymap.set("n", "<leader>as", function()
   local persistence = require("lib.persistence")
   persistence.toggle_supermaven()
 end, { desc = "Toggle Supermaven" })

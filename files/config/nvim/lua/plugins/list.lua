@@ -463,6 +463,13 @@ local neovim_only_plugins = {
         desc = "Run File Tests",
       },
       {
+        "<leader>tv",
+        function()
+          require("lib.test_nav").open_related({ open_cmd = "vsplit" })
+        end,
+        desc = "Open Related Test/Source",
+      },
+      {
         "<leader>ts",
         function()
           require("neotest").summary.toggle()
