@@ -185,6 +185,8 @@ fi
 if [ ! -d "${HOME}/.proto" ]; then
   report "Installing Proto..."
   bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) --no-profile --yes
+
+  export PATH="${HOME}/.proto/shims:${HOME}/.proto/bin:${PATH}"
 fi
 
 ln -sf "${dotfiles_dir}/files/proto/prototools" "${HOME}/.proto/.prototools"
