@@ -3,6 +3,9 @@ Brewfile.lock.json
 /files/config/*
 
 !/files/config/bat
+!/files/config/ghostty
+!/files/config/lsd
+!/files/config/kitty
 
 !/files/config/fish
 /files/config/fish/*
@@ -14,10 +17,6 @@ Brewfile.lock.json
 /files/config/fish/functions/fish*prompt.fish
 !/files/config/fish/functions/fisher.fish
 !/files/config/fish/lib
-
-!/files/config/ghostty
-
-!/files/config/kitty
 
 !/files/config/nvim
 /files/config/nvim/lazy-lock.json
