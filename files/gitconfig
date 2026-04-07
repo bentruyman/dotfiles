@@ -46,5 +46,6 @@
   conflictstyle = diff3
 
 [push]
+  autoSetupRemote = true
   default = simple
   followTags = true
