@@ -5,7 +5,10 @@ function cw --description "Set up a tmux worktree workspace"
     end
 
     set -l worktree $argv[1]
-    set -l worktree_dir .claude/worktrees/$worktree
+    set -l repo_dir (git rev-parse --show-toplevel)
+    or return 1
+    set -l repo_name (basename $repo_dir)
+    set -l worktree_dir (dirname $repo_dir)/$repo_name-$worktree
 
     if not test -d $worktree_dir
         echo "Creating worktree: $worktree_dir"
@@ -30,7 +33,7 @@ function cw --description "Set up a tmux worktree workspace"
     tmux rename-window $worktree
     tmux send-keys "cd $abs_dir && nvim" Enter
     tmux split-window -h -l 40% -c $abs_dir
-    tmux send-keys "claude -w $worktree" Enter
+    tmux send-keys "claude" Enter
     tmux split-window -v -l 30% -c $abs_dir
     if test -n "$install_cmd"
         tmux send-keys "$install_cmd" Enter
