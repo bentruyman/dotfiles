@@ -188,7 +188,8 @@ local shared_plugins = {
   -- Core editing enhancements
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
+    branch = vim.fn.has("nvim-0.12") == 1 and "main" or "master",
+    lazy = false,
     build = ":TSUpdate",
     config = load_config("editor.treesitter"),
   },
@@ -407,6 +408,7 @@ local neovim_only_plugins = {
       "L3MON4D3/LuaSnip",
     },
     build = function()
+      require("pkl-neovim").init()
       vim.cmd("TSInstall pkl")
     end,
     config = load_config("lang.pkl"),
