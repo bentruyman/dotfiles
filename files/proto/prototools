@@ -2,6 +2,7 @@ node = "24"
 npm = "bundled"
 bun = "latest"
 proto = "0.55.4"
+rust = "stable"
 
 [settings]
 auto-clean = true
