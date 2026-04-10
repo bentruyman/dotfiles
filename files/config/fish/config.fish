@@ -14,11 +14,9 @@ end
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
-fish_add_path $BUN_INSTALL/bin
 
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
-fish_add_path $DENO_INSTALL/bin
 alias dr "deno run -A"
 
 # Docker
@@ -129,25 +127,21 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
 # proto
 if test -e "$HOME/.proto"
-    set -gx PROTO_HOME "$HOME/.proto";
-    fish_add_path \
-        "$PROTO_HOME/shims" \
-        "$PROTO_HOME/bin" \
-        "$PROTO_HOME/tools/node/globals/bin" \
-        "$PROTO_HOME/tools/python/*/bin"
+  set -gx PROTO_HOME "$HOME/.proto";
+
+  fish_add_path -g "$PROTO_HOME/bin"
+
+  proto activate fish | source
 end
 
 # Path
-fish_add_path -a \
+fish_add_path -g -a \
     "$HOME/.bin" \
     "$HOME/.local/bin" \
     /opt/homebrew/bin /opt/homebrew/sbin \
     /usr/local/bin /usr/local/sbin \
     /usr/bin /usr/sbin \
     /bin /sbin
-
-# Rust
-fish_add_path $HOME/.cargo/bin
 
 # Shell
 if type -q bat
