@@ -5,6 +5,44 @@
 
 set fish_greeting
 
+# `fish_add_path` defaults to mutating the universal `fish_user_paths`, which
+# makes PATH ordering sticky across sessions. This config manages PATH directly,
+# so clean up previously-managed universal entries before rebuilding PATH below.
+if set -q fish_user_paths
+    set -l managed_fish_user_paths \
+        "$HOME/.proto/shims" \
+        "$HOME/.proto/bin" \
+        "$HOME/.proto/tools/node/globals/bin" \
+        "$HOME/.cargo/bin" \
+        "$HOME/.bun/bin" \
+        "$HOME/.deno/bin" \
+        "$HOME/.bin" \
+        "$HOME/.local/bin" \
+        /opt/homebrew/bin \
+        /opt/homebrew/sbin \
+        /usr/local/bin \
+        /usr/local/sbin \
+        /usr/bin \
+        /usr/sbin \
+        /bin \
+        /sbin
+
+    set -l remaining_fish_user_paths $fish_user_paths
+    for managed_path in $managed_fish_user_paths
+        set -l index (contains -i -- $managed_path $remaining_fish_user_paths)
+        while test -n "$index"
+            set -e remaining_fish_user_paths[$index]
+            set index (contains -i -- $managed_path $remaining_fish_user_paths)
+        end
+    end
+
+    if test (count $remaining_fish_user_paths) -gt 0
+        set -U fish_user_paths $remaining_fish_user_paths
+    else
+        set -eU fish_user_paths
+    end
+end
+
 # Prompt
 
 # Remove kubectl from the right prompt if it's there
@@ -129,7 +167,13 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 if test -e "$HOME/.proto"
   set -gx PROTO_HOME "$HOME/.proto";
 
-  fish_add_path -g "$PROTO_HOME/bin"
+  fish_add_path -g \
+    "$PROTO_HOME/shims" \
+    "$PROTO_HOME/bin" \
+    "$PROTO_HOME/tools/node/globals/bin" \
+    "$PROTO_HOME/tools/python/*/bin"
+
+  fish_add_path -g "$PROTO_HOME/bin" \
 
   proto activate fish | source
 end
