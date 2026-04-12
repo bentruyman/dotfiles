@@ -324,20 +324,6 @@ for app in "${DOCK_APPS[@]}"; do
 done
 
 ###############################################################################
-# Safari                                                                      #
-###############################################################################
-
-# Show Debug menu
-if [[ -d "${HOME}/Library/Containers/com.apple.Safari" ]]; then
-  defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-
-  # Show Develop menu
-  defaults write com.apple.Safari IncludeDevelopMenu -bool true
-else
-  report "Skipping Safari defaults (open Safari once, then rerun setup.sh to apply)."
-fi
-
-###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
