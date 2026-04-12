@@ -100,6 +100,13 @@ brew upgrade
 brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
 
+if command -v duti &>/dev/null && [[ -d "/Applications/Ghostty.app" ]]; then
+  report "Setting Ghostty as the default terminal..."
+  duti -s com.mitchellh.ghostty public.unix-executable all
+  duti -s com.mitchellh.ghostty public.shell-script all
+  duti -s com.mitchellh.ghostty com.apple.terminal.shell-script all
+fi
+
 XCODE_DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 
 if [[ -d "$XCODE_DEVELOPER_DIR" ]]; then
