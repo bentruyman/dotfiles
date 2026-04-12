@@ -4,6 +4,16 @@ set -euo pipefail
 dotfiles_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 report() { echo -e "\033[1;34m$*\033[0m"; }
+report_error() {
+  local exit_code=$?
+  local line_number=$1
+  local failed_command=$2
+
+  echo
+  echo "setup.sh failed at line ${line_number}: ${failed_command}"
+  exit "$exit_code"
+}
+trap 'report_error "${LINENO}" "${BASH_COMMAND}"' ERR
 
 sudo -v
 while true; do
@@ -85,15 +95,29 @@ brew upgrade
 brew bundle install --file="${dotfiles_dir}/Brewfile"
 brew cleanup
 
-if [ -d "/Applications/Xcode.app" ]; then
-  sudo xcodebuild -license accept
+XCODE_DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+
+if [[ -d "$XCODE_DEVELOPER_DIR" ]]; then
+  current_developer_dir=$(xcode-select -p 2>/dev/null || true)
+
+  if [[ "$current_developer_dir" != "$XCODE_DEVELOPER_DIR" ]]; then
+    report "Switching active developer directory to Xcode..."
+    sudo xcode-select --switch "$XCODE_DEVELOPER_DIR"
+  fi
+
+  if xcodebuild -version &>/dev/null; then
+    report "Accepting Xcode license..."
+    sudo xcodebuild -license accept
+  else
+    report "Skipping Xcode license acceptance because Xcode is not ready yet."
+  fi
 fi
 
 ###############################################################################
 # FZF
 ###############################################################################
 
-if ! grep -q "fzf --fish" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
+if [[ ! -f "${HOME}/.config/fish/functions/fish_user_key_bindings.fish" ]] || ! grep -q "fzf --fish" "${HOME}/.config/fish/functions/fish_user_key_bindings.fish"; then
   report "Installing FZF..."
   "${HOME}/.fzf/install" --key-bindings --completion --no-{update-rc,bash,zsh}
 fi
