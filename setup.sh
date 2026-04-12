@@ -8,9 +8,14 @@ report_error() {
   local exit_code=$?
   local line_number=$1
   local failed_command=$2
+  local source_file=${BASH_SOURCE[1]:-${BASH_SOURCE[0]}}
+
+  if [[ ${#BASH_LINENO[@]} -gt 0 && -n "${BASH_LINENO[0]}" ]]; then
+    line_number=${BASH_LINENO[0]}
+  fi
 
   echo
-  echo "setup.sh failed at line ${line_number}: ${failed_command}"
+  echo "setup.sh failed at ${source_file}:${line_number}: ${failed_command}"
   exit "$exit_code"
 }
 trap 'report_error "${LINENO}" "${BASH_COMMAND}"' ERR
