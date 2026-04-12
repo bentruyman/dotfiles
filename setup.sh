@@ -135,8 +135,13 @@ fi
 # Git
 ###############################################################################
 
+report "Configuring Git..."
+
 configure_git_user() {
-  if [[ -z $(git config user."$1") ]]; then
+  local current_value
+  current_value=$(git config user."$1" 2>/dev/null || true)
+
+  if [[ -z "$current_value" ]]; then
     read -rp "Enter your git user $1: " config_value
     git config -f ~/.gitconfig_user user."$1" "$config_value"
   fi
@@ -195,11 +200,11 @@ fi
 # Proto
 ###############################################################################
 
+export PATH="${HOME}/.proto/shims:${HOME}/.proto/bin:${PATH}"
+
 if [ ! -d "${HOME}/.proto" ]; then
   report "Installing Proto..."
   bash <(curl -fsSL https://moonrepo.dev/install/proto.sh) --no-profile --yes
-
-  export PATH="${HOME}/.proto/shims:${HOME}/.proto/bin:${PATH}"
 fi
 
 ln -sf "${dotfiles_dir}/files/proto/prototools" "${HOME}/.proto/.prototools"
