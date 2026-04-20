@@ -323,19 +323,6 @@ for app in "${DOCK_APPS[@]}"; do
 done
 
 ###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
-
-for app in "cfprefsd" "Dashboard" "Dock" "Finder" "SystemUIServer"; do
-  set +e
-  killall "$app" >/dev/null 2>&1
-  set -e
-done
-echo
-echo "Done. Note that some of these changes require a logout/restart to take effect."
-echo
-
-###############################################################################
 # Restore application settings
 ###############################################################################
 
