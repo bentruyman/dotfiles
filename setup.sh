@@ -304,14 +304,11 @@ defaults write com.apple.dock recent-apps -array
 defaults write com.apple.dock show-recents -bool false
 
 DOCK_APPS=(
-  "/Applications/Discord.app"
   "/Applications/Slack.app"
   "/System/Applications/Music.app"
-  "/Applications/Spotify.app"
   "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
   "/System/Applications/Mail.app"
   "/System/Applications/Calendar.app"
-  "$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app"
   "/Applications/Pixelmator Pro.app"
   "/Applications/Visual Studio Code.app"
   "/Applications/Ghostty.app"
