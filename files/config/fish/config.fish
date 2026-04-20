@@ -151,6 +151,11 @@ if test -d $local_scripts
     end
 end
 
+# LLVM
+# Redirect stray coverage files (e.g. from pkl/pkl-lsp's instrumented native
+# binary) out of project roots. %p is the PID, %m the binary signature.
+set -gx LLVM_PROFILE_FILE "$TMPDIR/llvm-%m-%p.profraw"
+
 # macOS
 set -gx BROWSER open
 
