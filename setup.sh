@@ -111,16 +111,18 @@ if [[ -d "$XCODE_DEVELOPER_DIR" ]]; then
   fi
 
   if xcodebuild -version &>/dev/null; then
-    report "Completing Xcode first-launch setup..."
+    if ! xcodebuild -checkFirstLaunchStatus &>/dev/null; then
+      report "Completing Xcode first-launch setup..."
 
-    set +e
-    sudo xcodebuild -runFirstLaunch
-    xcode_setup_status=$?
-    set -e
+      set +e
+      sudo xcodebuild -runFirstLaunch
+      xcode_setup_status=$?
+      set -e
 
-    if [[ $xcode_setup_status -ne 0 ]]; then
-      report "Skipping Xcode first-launch setup because it is not ready yet."
-      echo "Open Xcode once to finish installation, then rerun setup.sh."
+      if [[ $xcode_setup_status -ne 0 ]]; then
+        report "Skipping Xcode first-launch setup because it is not ready yet."
+        echo "Open Xcode once to finish installation, then rerun setup.sh."
+      fi
     fi
   else
     report "Skipping Xcode license acceptance because Xcode is not ready yet."
