@@ -75,6 +75,7 @@ local lsp_servers = {
       },
     },
   },
+  tailwindcss = true,
   vtsls = {
     settings = {
       javascript = {
