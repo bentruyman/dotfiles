@@ -1,0 +1,49 @@
+function cwi --description "Set up a tmux worktree workspace for a GitHub issue"
+    if test (count $argv) -ne 1
+        echo "Usage: cwi <issue-number>"
+        return 1
+    end
+
+    set -l issue $argv[1]
+
+    if not string match -qr '^\d+$' -- $issue
+        echo "Error: argument must be a number"
+        return 1
+    end
+
+    set -l worktree issue-$issue
+    set -l repo_dir (git rev-parse --show-toplevel)
+    or return 1
+    set -l repo_name (basename $repo_dir)
+    set -l worktree_dir (dirname $repo_dir)/$repo_name-$worktree
+
+    if not test -d $worktree_dir
+        echo "Creating worktree: $worktree_dir"
+        git worktree add -b worktree-$worktree $worktree_dir
+        or return 1
+    end
+
+    if not set -q TMUX
+        echo "Not inside a tmux session"
+        return 1
+    end
+
+    set -l abs_dir (realpath $worktree_dir)
+
+    set -l install_cmd ""
+    if test -f $abs_dir/bun.lock
+        set install_cmd "bun install"
+    else if test -f $abs_dir/package-lock.json
+        set install_cmd "npm install"
+    end
+
+    tmux rename-window $worktree
+    tmux send-keys "cd $abs_dir && nvim" Enter
+    tmux split-window -h -l 40% -c $abs_dir
+    tmux send-keys "claude /gitkit:issue-work $issue" Enter
+    tmux split-window -v -l 30% -c $abs_dir
+    if test -n "$install_cmd"
+        tmux send-keys "$install_cmd" Enter
+    end
+    tmux select-pane -L
+end
