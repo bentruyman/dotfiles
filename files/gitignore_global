@@ -8,3 +8,9 @@ CLAUDE.local.md
 
 # Neovim
 neotest-*.txt
+.sublime-project
+.sublime-workspace
+.vscode
+.brackets.json
+.env
+.claude/settings.local.json
