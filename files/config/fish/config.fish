@@ -172,11 +172,13 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 if test -e "$HOME/.proto"
   set -gx PROTO_HOME "$HOME/.proto";
 
+  set -l proto_python_bins $PROTO_HOME/tools/python/*/bin
+
   fish_add_path -g \
     "$PROTO_HOME/shims" \
     "$PROTO_HOME/bin" \
     "$PROTO_HOME/tools/node/globals/bin" \
-    $PROTO_HOME/tools/python/*/bin
+    $proto_python_bins
 
   fish_add_path -g "$PROTO_HOME/bin" \
 

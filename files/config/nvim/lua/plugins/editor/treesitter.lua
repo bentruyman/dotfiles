@@ -17,16 +17,17 @@ local ensure_installed = {
   "vimdoc",
 }
 
-vim.opt.runtimepath:append(tea_parser_path)
+local function register_tea_parser()
+  require("nvim-treesitter.parsers").tea = {
+    install_info = {
+      path = tea_parser_path,
+      queries = "queries",
+    },
+    tier = 3,
+  }
+end
 
-require("nvim-treesitter.parsers").tea = {
-  install_info = {
-    path = tea_parser_path,
-    files = { "src/parser.c" },
-    generate_requires_npm = false,
-  },
-  filetype = "tea",
-}
+register_tea_parser()
 
 local treesitter = require("nvim-treesitter")
 local has_new_api = type(treesitter.install) == "function"
@@ -34,6 +35,11 @@ local has_new_api = type(treesitter.install) == "function"
 treesitter.setup()
 
 if has_new_api then
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "TSUpdate",
+    callback = register_tea_parser,
+  })
+
   treesitter.install(ensure_installed)
 
   local treesitter_group = vim.api.nvim_create_augroup("bentruyman-treesitter", { clear = true })
