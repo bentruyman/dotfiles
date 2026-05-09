@@ -176,7 +176,7 @@ if test -e "$HOME/.proto"
     "$PROTO_HOME/shims" \
     "$PROTO_HOME/bin" \
     "$PROTO_HOME/tools/node/globals/bin" \
-    "$PROTO_HOME/tools/python/*/bin"
+    $PROTO_HOME/tools/python/*/bin
 
   fish_add_path -g "$PROTO_HOME/bin" \
 
