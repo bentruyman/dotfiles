@@ -25,10 +25,10 @@
   renames = copies
 
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+  clean = git-lfs clean -- %f
+  process = git-lfs filter-process
+  required = true
+  smudge = git-lfs smudge -- %f
 
 [include]
   path = ~/.gitconfig_user
@@ -44,8 +44,13 @@
 
 [merge]
   conflictstyle = diff3
+  ff = only
+
+[pull]
+  ff = only
 
 [push]
   autoSetupRemote = true
-  default = simple
+  default = current
   followTags = true
+  setupAutoRemote = true
