@@ -97,6 +97,20 @@ local oxfmt = helpers.make_builtin({
   factory = helpers.formatter_factory,
 })
 
+local tea_fmt = {
+  name = "tea_fmt",
+  method = null_ls.methods.FORMATTING,
+  filetypes = { "tea" },
+  generator = null_ls.formatter({
+    command = "tea",
+    args = { "fmt", "$FILENAME" },
+    to_temp_file = true,
+    condition = function()
+      return vim.fn.executable("tea") == 1
+    end,
+  }),
+}
+
 null_ls.setup({
   sources = {
     code_actions.refactoring,
@@ -115,6 +129,7 @@ null_ls.setup({
     formatting.stylua,
     formatting.swift_format,
     oxfmt,
+    tea_fmt,
 
     hover.dictionary,
     hover.printenv,
