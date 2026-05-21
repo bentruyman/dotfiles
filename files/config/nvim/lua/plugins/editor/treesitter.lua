@@ -10,6 +10,7 @@ local ensure_installed = {
   "markdown",
   "markdown_inline",
   "query",
+  "regex",
   "tea",
   "tsx",
   "typescript",

@@ -342,6 +342,12 @@ local neovim_only_plugins = {
     config = true,
   },
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    config = load_config("ui.noice"),
+  },
+  {
     "folke/todo-comments.nvim",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = { "nvim-lua/plenary.nvim" },
