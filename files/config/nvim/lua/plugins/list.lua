@@ -312,6 +312,20 @@ local neovim_only_plugins = {
     config = true,
   },
   {
+    "tadmccorkle/markdown.nvim",
+    ft = { "markdown" },
+    config = load_config("lang.markdown"),
+  },
+  {
+    "dkarter/bullets.vim",
+    ft = { "markdown", "text", "gitcommit" },
+    init = function()
+      vim.g.bullets_enabled_file_types = { "markdown", "text", "gitcommit" }
+      vim.g.bullets_set_mappings = 1
+      vim.g.bullets_outline_levels = { "std-", "std-", "std-", "std-", "std-", "std-" }
+    end,
+  },
+  {
     "sphamba/smear-cursor.nvim",
     lazy = false,
     config = true,
