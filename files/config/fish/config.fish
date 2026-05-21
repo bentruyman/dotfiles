@@ -185,6 +185,11 @@ if test -e "$HOME/.proto"
   proto activate fish | source
 end
 
+# Rust / Cargo
+if test -d "$HOME/.cargo/bin"
+  fish_add_path -g "$HOME/.cargo/bin"
+end
+
 # Path
 fish_add_path -g -a \
     "$HOME/.bin" \
