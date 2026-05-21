@@ -274,6 +274,10 @@ local neovim_only_plugins = {
         -- Zen
         { "<leader>z",       function() Snacks.zen() end,                         desc = "Zen Mode", },
         { "<leader>Z",       function() Snacks.zen.zoom() end,                    desc = "Zen Mode (Zoom)", },
+        -- Dim
+        { "<leader>ud",      function() Snacks.toggle.dim():toggle() end,         desc = "Toggle Dim", },
+        -- Bufferline
+        { "<leader>ub",      function() Snacks.toggle.option("showtabline", { off = 0, on = 2, name = "Bufferline" }):toggle() end, desc = "Toggle Bufferline", },
 
         -- stylua: ignore end
       }
