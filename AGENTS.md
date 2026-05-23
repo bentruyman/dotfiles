@@ -2,18 +2,21 @@
 
 ## Project Structure & Module Organization
 - `bootstrap.sh` downloads the repo and hands off to `setup.sh`; keep both idempotent so first-run machines succeed.
-- `setup.sh` provisions macOS by linking `files/` dotfiles and loading `launch_agents/`, installing Homebrew bundles, and tuning defaults. Document any new prerequisites inline.
+- `setup.sh` is a thin OS dispatcher (`uname -s`) that sources shared and platform-specific phase libraries from `lib/`.
+- `lib/common.sh` holds shared phase functions (dotfile linking, brew install, fzf, git, proto, fish, ssh) used on every platform.
+- `lib/macos.sh` provisions macOS: Xcode/Rosetta, launch agents, GPG pinentry, system defaults, Dock, mackup. Document any new prerequisites inline.
+- `lib/linux.sh` provisions headless Ubuntu 22.04 LTS server (dev tools only): installs Linuxbrew apt prerequisites; macOS-only steps are no-ops.
 - `files/` contains all dotfiles symlinked into `$HOME` (e.g., `bin/`, `config/`, `gitconfig`, `tmux.conf`).
 - `files/bin/` contains small CLI helpers added to `$PATH`; prefer self-contained scripts with clear error handling.
 - `files/config/` mirrors `~/.config` (e.g., `config/fish`, `config/nvim`); only add directories that can be safely symlinked.
-- `launch_agents/` holds launchd plists loaded into `~/Library/LaunchAgents`; keep labels unique and unload obsolete jobs when replacing them.
-- `Brewfile` and `Brewfile.lock.json` pin formulae/casks; regenerate the lockfile with `brew bundle lock --file=Brewfile` after changes.
+- `launch_agents/` holds launchd plists loaded into `~/Library/LaunchAgents` on macOS; keep labels unique and unload obsolete jobs when replacing them.
+- `Brewfile` and `Brewfile.lock.json` pin formulae/casks; macOS-only entries (casks, MAS apps, mackup, pinentry-mac, etc.) are wrapped in `if OS.mac?` so the same file works under Linuxbrew. Regenerate the lockfile with `brew bundle lock --file=Brewfile` after changes.
 
 ## Build, Test, and Development Commands
 - `./bootstrap.sh` — fetches and bootstraps dotfiles. Test in isolation with `DOTFILES_DIR=/tmp/dotfiles ./bootstrap.sh`.
-- `./setup.sh` — full provisioning run (requires sudo and tweaks system defaults); review the script diff before executing on your primary machine.
-- `brew bundle check --file=Brewfile` — validates Homebrew dependencies.
-- `shellcheck bin/* setup.sh` — lint Bash scripts.
+- `./setup.sh` — full provisioning run. On macOS this requires sudo and tweaks system defaults; on Ubuntu 22.04 server it installs apt prerequisites and Linuxbrew. Review the script diff before executing on your primary machine.
+- `brew bundle check --file=Brewfile` — validates Homebrew dependencies (run on macOS for full coverage).
+- `shellcheck bin/* setup.sh lib/*.sh` — lint Bash scripts.
 - `fish_indent -w config/fish/**/*.fish` — format Fish shell updates.
 
 ## Coding Style & Naming Conventions
