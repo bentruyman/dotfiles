@@ -1,0 +1,52 @@
+# Test image for verifying the Linux (Ubuntu 22.04) provisioning end to end.
+#
+# Build:        docker build -f Dockerfile.test -t dotfiles-test .
+# Run setup:    docker run --rm -it dotfiles-test
+# Poke around:  docker run --rm -it dotfiles-test bash -l
+#
+# setup.sh is the CMD, so provisioning runs at container start (not build).
+# Expect this to take a long time on first run and to potentially fail when a
+# Brewfile formula has no Linuxbrew bottle and must build from source.
+# Use `--progress=plain` on the build for live output.
+
+FROM ubuntu:22.04
+
+ARG USERNAME=ben
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+
+# Minimum prerequisites for bootstrap. lib/linux.sh installs the rest of the
+# Linuxbrew apt deps once the script is running.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      curl \
+      locales \
+      sudo \
+ && locale-gen en_US.UTF-8 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Non-root user with passwordless sudo (Linuxbrew refuses to run as root).
+RUN groupadd --gid ${USER_GID} ${USERNAME} \
+ && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} \
+ && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
+ && chmod 0440 /etc/sudoers.d/${USERNAME}
+
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+# Pre-seed git identity so common_tooling does not block on a tty prompt.
+# The repo's gitconfig pulls this in via `[include] path = ~/.gitconfig_user`.
+RUN printf '[user]\n\temail = test@example.com\n\tname = Dotfiles Test\n' \
+      > /home/${USERNAME}/.gitconfig_user
+
+# Copy the repo into the canonical macOS-equivalent path for parity.
+ENV DOTFILES_DIR=/home/${USERNAME}/Development/src/github.com/bentruyman/dotfiles
+COPY --chown=${USERNAME}:${USERNAME} . ${DOTFILES_DIR}
+
+WORKDIR ${DOTFILES_DIR}
+CMD ["./setup.sh"]

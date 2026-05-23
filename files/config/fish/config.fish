@@ -20,6 +20,8 @@ if set -q fish_user_paths
         "$HOME/.local/bin" \
         /opt/homebrew/bin \
         /opt/homebrew/sbin \
+        /home/linuxbrew/.linuxbrew/bin \
+        /home/linuxbrew/.linuxbrew/sbin \
         /usr/local/bin \
         /usr/local/sbin \
         /usr/bin \
@@ -47,7 +49,7 @@ end
 
 # Remove kubectl from the right prompt if it's there
 if set -l index (contains -i kubectl $tide_right_prompt_items)
-  set -e tide_right_prompt_items[$index]
+    set -e tide_right_prompt_items[$index]
 end
 
 # bun
@@ -118,16 +120,16 @@ function clone -d "Quickly clone git repos in a conventional way"
 end
 
 function gcb
-  set local_branches (git branch | string trim | string replace -r '^\* ' '')
-  set remote_branches (git branch -r | string trim | string replace -r '^origin/' '' | sort -u)
-  for branch in $local_branches
-    if contains -- $branch main master
-      continue
+    set local_branches (git branch | string trim | string replace -r '^\* ' '')
+    set remote_branches (git branch -r | string trim | string replace -r '^origin/' '' | sort -u)
+    for branch in $local_branches
+        if contains -- $branch main master
+            continue
+        end
+        if not contains -- $branch $remote_branches
+            git branch -D $branch
+        end
     end
-    if not contains -- $branch $remote_branches
-      git branch -D $branch
-    end
-  end
 end
 
 function gpc
@@ -157,11 +159,15 @@ end
 set -gx LLVM_PROFILE_FILE "$TMPDIR/llvm-%m-%p.profraw"
 
 # macOS
-set -gx BROWSER open
+if type -q open
+    set -gx BROWSER open
+    alias o "open ."
+else if type -q xdg-open
+    set -gx BROWSER xdg-open
+end
 
 alias brewup "brew update && brew upgrade"
 alias dsstore "find . -name \"*.DS_Store\" -type f -ls -delete"
-alias o "open ."
 
 # Node.js
 alias npj "nice-package-json --write"
@@ -170,24 +176,23 @@ set -gx NEXT_TELEMETRY_DISABLED 1 # Disable Next.js telemetry
 
 # proto
 if test -e "$HOME/.proto"
-  set -gx PROTO_HOME "$HOME/.proto";
+    set -gx PROTO_HOME "$HOME/.proto"
 
-  set -l proto_python_bins $PROTO_HOME/tools/python/*/bin
+    set -l proto_python_bins $PROTO_HOME/tools/python/*/bin
 
-  fish_add_path -g \
-    "$PROTO_HOME/shims" \
-    "$PROTO_HOME/bin" \
-    "$PROTO_HOME/tools/node/globals/bin" \
-    $proto_python_bins
+    fish_add_path -g \
+        "$PROTO_HOME/shims" \
+        "$PROTO_HOME/bin" \
+        "$PROTO_HOME/tools/node/globals/bin" \
+        $proto_python_bins
 
-  fish_add_path -g "$PROTO_HOME/bin" \
-
-  proto activate fish | source
+    fish_add_path -g "$PROTO_HOME/bin"
+    proto activate fish | source
 end
 
 # Rust / Cargo
 if test -d "$HOME/.cargo/bin"
-  fish_add_path -g "$HOME/.cargo/bin"
+    fish_add_path -g "$HOME/.cargo/bin"
 end
 
 # Path
@@ -195,6 +200,7 @@ fish_add_path -g -a \
     "$HOME/.bin" \
     "$HOME/.local/bin" \
     /opt/homebrew/bin /opt/homebrew/sbin \
+    /home/linuxbrew/.linuxbrew/bin /home/linuxbrew/.linuxbrew/sbin \
     /usr/local/bin /usr/local/sbin \
     /usr/bin /usr/sbin \
     /bin /sbin
@@ -210,7 +216,15 @@ end
 
 # Shortcuts
 function cwd
-    pwd | pbcopy
+    if type -q pbcopy
+        pwd | pbcopy
+    else if type -q wl-copy
+        pwd | wl-copy
+    else if type -q xclip
+        pwd | xclip -selection clipboard
+    else
+        pwd
+    end
 end
 
 function mkd
@@ -224,7 +238,7 @@ alias l "ls -al"
 alias j z
 
 if type -q kubectl
-    alias k "kubectl"
+    alias k kubectl
 end
 
 if type -q mods && type -q zig
