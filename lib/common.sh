@@ -94,19 +94,6 @@ common_tooling() {
   configure_git_user "email"
   configure_git_user "name"
 
-  # gitconfig enables commit.gpgsign globally, so commits fail to sign unless a
-  # signing key is selected. If one isn't set yet and a signing-capable secret
-  # key is present (imported earlier on macOS, or provisioned by hand on Linux),
-  # wire it up. The keyless case is left alone so non-signing machines are quiet.
-  if [[ -z "$(git config user.signingkey 2>/dev/null)" ]]; then
-    local signing_key
-    signing_key=$(gpg --list-secret-keys --with-colons 2>/dev/null | awk -F: '/^sec:/ && $12 ~ /s/ {print $5; exit}')
-    if [[ -n "$signing_key" ]]; then
-      git config -f ~/.gitconfig_user user.signingkey "$signing_key"
-      report "Configured git signing key ${signing_key}"
-    fi
-  fi
-
   export PATH="${HOME}/.proto/shims:${HOME}/.proto/bin:${PATH}"
 
   if [ ! -d "${HOME}/.proto" ]; then
@@ -187,30 +174,53 @@ common_shell() {
 }
 
 common_ssh() {
-  if [[ -f "${HOME}/.ssh/id_rsa" ]]; then
-    return
+  if [[ ! -f "${HOME}/.ssh/id_rsa" ]]; then
+    report "Generating SSH keys..."
+    ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
+
+    echo
+    if command -v pbcopy &>/dev/null; then
+      pbcopy <"${HOME}/.ssh/id_rsa.pub"
+      echo "Your SSH public key has been copied to the clipboard."
+    else
+      echo "Your SSH public key:"
+      echo
+      cat "${HOME}/.ssh/id_rsa.pub"
+      echo
+    fi
+
+    if command -v open &>/dev/null; then
+      echo "Opening GitHub to add the key - please paste it there."
+      echo
+      open "https://github.com/settings/ssh/new"
+    else
+      echo "Add it at https://github.com/settings/ssh/new"
+      echo
+    fi
   fi
 
-  report "Generating SSH keys..."
-  ssh-keygen -t rsa -b 4096 -f "${HOME}/.ssh/id_rsa" -N ""
+  configure_git_signing
+}
 
-  echo
-  if command -v pbcopy &>/dev/null; then
-    pbcopy <"${HOME}/.ssh/id_rsa.pub"
-    echo "Your SSH public key has been copied to the clipboard."
-  else
-    echo "Your SSH public key:"
-    echo
-    cat "${HOME}/.ssh/id_rsa.pub"
-    echo
-  fi
+# Sign git commits with the SSH key. gitconfig enables commit.gpgsign globally,
+# so without a signing key commits fail to sign; SSH signing avoids the GPG
+# agent/passphrase/pinentry machinery entirely. Per-machine, so it lives in
+# ~/.gitconfig_user alongside the rest of the user identity.
+configure_git_signing() {
+  local pubkey="${HOME}/.ssh/id_rsa.pub"
+  [[ -f "$pubkey" ]] || return
 
-  if command -v open &>/dev/null; then
-    echo "Opening GitHub to add the key - please paste it there."
-    echo
-    open "https://github.com/settings/ssh/new"
-  else
-    echo "Add it at https://github.com/settings/ssh/new"
-    echo
+  report "Configuring SSH commit signing..."
+  git config -f ~/.gitconfig_user gpg.format ssh
+  git config -f ~/.gitconfig_user user.signingkey "$pubkey"
+
+  # allowed_signers lets `git log --show-signature` verify locally. Skip it if
+  # the user email isn't configured yet rather than writing a bogus principal.
+  local email
+  email=$(git config user.email 2>/dev/null || true)
+  if [[ -n "$email" ]]; then
+    local signers="${HOME}/.ssh/allowed_signers"
+    printf '%s %s\n' "$email" "$(cut -d' ' -f1,2 "$pubkey")" >"$signers"
+    git config -f ~/.gitconfig_user gpg.ssh.allowedSignersFile "$signers"
   fi
 }
