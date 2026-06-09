@@ -227,6 +227,10 @@ macos_defaults() {
         "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>${app}</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
     fi
   done
+
+  # Restart the Dock so the preferences above take effect immediately;
+  # without this the running Dock keeps its in-memory settings.
+  killall Dock &>/dev/null || true
 }
 
 macos_mackup() {
