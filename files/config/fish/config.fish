@@ -54,10 +54,16 @@ end
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
+if test -d "$BUN_INSTALL/bin"
+    fish_add_path -g "$BUN_INSTALL/bin"
+end
 
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
 alias dr "deno run -A"
+if test -d "$DENO_INSTALL/bin"
+    fish_add_path -g "$DENO_INSTALL/bin"
+end
 
 # Docker
 if type -q docker
