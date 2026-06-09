@@ -25,6 +25,32 @@ common_preflight() {
   trap 'report_error "${LINENO}" "${BASH_COMMAND}"' ERR
 }
 
+common_repo() {
+  # bootstrap.sh fetches the repo as a tarball, which has no git metadata.
+  # Reconnect it to the upstream so it behaves like a normal clone
+  # (status/pull/push) without discarding any local edits.
+  if [[ -d "${dotfiles_dir}/.git" ]]; then
+    return
+  fi
+
+  report "Initializing dotfiles git repository..."
+
+  local ssh_url="git@github.com:bentruyman/dotfiles.git"
+  local https_url="https://github.com/bentruyman/dotfiles.git"
+
+  git -C "${dotfiles_dir}" init -q -b main
+  git -C "${dotfiles_dir}" remote add origin "$ssh_url"
+
+  # Fetch over HTTPS so the first run works before SSH keys exist; origin
+  # stays on SSH so pushes use the signing-ready key.
+  git -C "${dotfiles_dir}" fetch -q "$https_url" "+refs/heads/main:refs/remotes/origin/main"
+
+  # Adopt the fetched history without touching the working tree, so any
+  # local changes show up as normal modifications instead of being lost.
+  git -C "${dotfiles_dir}" reset -q --mixed origin/main
+  git -C "${dotfiles_dir}" branch -q --set-upstream-to=origin/main main
+}
+
 common_dotfiles() {
   report "Linking dotfiles..."
   for file in bin config gitconfig gitignore_global mackup.cfg tmux.conf; do

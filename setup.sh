@@ -19,6 +19,7 @@ source "${dotfiles_dir}/lib/${platform}.sh"
 
 common_preflight
 "${platform}_preflight"
+common_repo
 common_dotfiles
 "${platform}_postdotfiles"
 common_packages
