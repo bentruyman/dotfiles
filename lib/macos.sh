@@ -90,9 +90,12 @@ macos_gpg() {
     killall gpg-agent || true
   fi
 
-  if ! gpg --list-secret-keys 2>/dev/null | grep -q .; then
+  # A stub primary key (e.g. only an encryption subkey was imported) still shows
+  # up in --list-secret-keys, so checking for any listing is not enough: verify
+  # that private key material actually exists for a signing-capable key.
+  if ! macos_gpg_has_signing_key; then
     echo
-    echo "No GPG private key found. Would you like to import one? (y/n)"
+    echo "No GPG signing key found. Would you like to import one? (y/n)"
     read -r import_gpg
 
     if [[ "$import_gpg" == "y" ]]; then
@@ -115,15 +118,29 @@ macos_gpg() {
         else
           echo "Failed to import GPG key"
         fi
-
-        local gpg_key_id
-        gpg_key_id=$(gpg --list-secret-keys --keyid-format=long 2>/dev/null | grep sec | head -1 | awk '{print $2}' | cut -d'/' -f2)
-        if [[ -n "$gpg_key_id" ]]; then
-          echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key "$gpg_key_id" >/dev/null 2>&1 || true
-        fi
       fi
     fi
   fi
+
+  # Mark whatever signing key is now present as ultimately trusted. The git
+  # signing key itself is wired up by configure_git in lib/common.sh, which runs
+  # after this phase so the imported key is available to both platforms.
+  local signing_key
+  signing_key=$(gpg --list-secret-keys --with-colons 2>/dev/null | awk -F: '/^sec:/ && $12 ~ /s/ {print $5; exit}')
+  if [[ -n "$signing_key" ]]; then
+    echo -e "trust\n5\ny\n" | gpg --command-fd 0 --edit-key "$signing_key" >/dev/null 2>&1 || true
+  fi
+}
+
+# Returns success if private key material exists for a signing-capable secret
+# key, by matching signing keygrips against the files in private-keys-v1.d.
+macos_gpg_has_signing_key() {
+  local grip
+  while read -r grip; do
+    [[ -f "${HOME}/.gnupg/private-keys-v1.d/${grip}.key" ]] && return 0
+  done < <(gpg --list-secret-keys --with-colons --with-keygrip 2>/dev/null |
+    awk -F: '/^(sec|ssb):/ {cap=$12} /^grp:/ && cap ~ /s/ {print $10}')
+  return 1
 }
 
 macos_defaults() {

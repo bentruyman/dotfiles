@@ -94,6 +94,19 @@ common_tooling() {
   configure_git_user "email"
   configure_git_user "name"
 
+  # gitconfig enables commit.gpgsign globally, so commits fail to sign unless a
+  # signing key is selected. If one isn't set yet and a signing-capable secret
+  # key is present (imported earlier on macOS, or provisioned by hand on Linux),
+  # wire it up. The keyless case is left alone so non-signing machines are quiet.
+  if [[ -z "$(git config user.signingkey 2>/dev/null)" ]]; then
+    local signing_key
+    signing_key=$(gpg --list-secret-keys --with-colons 2>/dev/null | awk -F: '/^sec:/ && $12 ~ /s/ {print $5; exit}')
+    if [[ -n "$signing_key" ]]; then
+      git config -f ~/.gitconfig_user user.signingkey "$signing_key"
+      report "Configured git signing key ${signing_key}"
+    fi
+  fi
+
   export PATH="${HOME}/.proto/shims:${HOME}/.proto/bin:${PATH}"
 
   if [ ! -d "${HOME}/.proto" ]; then
