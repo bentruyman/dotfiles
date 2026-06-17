@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's|refs/remotes/origin/||') || true
+if [[ -z "$default_branch" ]]; then
+  default_branch="main"
+fi
+
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || true)
+if [[ -z "$current_branch" ]]; then
+  echo "git done: not on a branch (detached HEAD)" >&2
+  exit 1
+fi
+
+if [[ "$current_branch" == "$default_branch" ]]; then
+  echo "git done: already on '$default_branch'" >&2
+  exit 1
+fi
+
+feature_branch="$current_branch"
+
+git checkout "$default_branch"
+git pull --ff-only
+git merge "$feature_branch"
+git branch -d "$feature_branch"
