@@ -54,6 +54,7 @@ if OS.mac?
   brew "mas"
   brew "pam-reattach"
   brew "pinentry-mac"
+  brew "pngpaste"
   brew "reattach-to-user-namespace"
   brew "telnet"
 
