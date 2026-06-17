@@ -321,6 +321,15 @@ local neovim_only_plugins = {
     config = load_config("lang.markdown"),
   },
   {
+    "obsidian-nvim/obsidian.nvim",
+    version = "*",
+    ft = "markdown",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = load_config("lang.obsidian"),
+  },
+  {
     "dkarter/bullets.vim",
     ft = { "markdown", "text", "gitcommit" },
     init = function()
