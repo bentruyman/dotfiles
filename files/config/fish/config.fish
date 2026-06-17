@@ -47,6 +47,12 @@ end
 
 # Prompt
 
+# Tide's _tide_item_character only renders the right-pointing chevron when
+# $fish_key_bindings equals fish_default_key_bindings; otherwise it falls
+# through to the vi-mode icon. Fish leaves this unset by default, so set it
+# explicitly to keep the prompt chevron pointing right.
+set -g fish_key_bindings fish_default_key_bindings
+
 # Remove kubectl from the right prompt if it's there
 if set -l index (contains -i kubectl $tide_right_prompt_items)
     set -e tide_right_prompt_items[$index]
