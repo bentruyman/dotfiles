@@ -4,6 +4,7 @@ bun = "latest"
 proto = "0.55.4"
 rust = "stable"
 python = "3.14.4"
+uv = "latest"
 
 [settings]
 auto-clean = true
