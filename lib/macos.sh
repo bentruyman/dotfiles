@@ -76,8 +76,45 @@ macos_postpackages() {
   fi
 
   macos_gpg
+  macos_docker_credentials
   macos_defaults
   macos_mackup
+}
+
+# Point Docker at the osxkeychain credential helper (from the
+# docker-credential-helper formula) so image registry credentials are stored in
+# the macOS keychain instead of base64-encoded in ~/.docker/config.json. Merges
+# into any existing config so Docker-managed keys (contexts, plugins) survive.
+macos_docker_credentials() {
+  if ! command -v docker-credential-osxkeychain &>/dev/null; then
+    return
+  fi
+
+  local docker_config="${HOME}/.docker/config.json"
+
+  if [[ -f "$docker_config" ]]; then
+    local current
+    current=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("credsStore",""))' \
+      "$docker_config" 2>/dev/null || true)
+    [[ "$current" == "osxkeychain" ]] && return
+
+    report "Configuring Docker to use the macOS keychain credential helper..."
+    python3 - "$docker_config" <<'PY'
+import json, sys
+
+path = sys.argv[1]
+with open(path) as f:
+    config = json.load(f)
+config["credsStore"] = "osxkeychain"
+with open(path, "w") as f:
+    json.dump(config, f, indent=2)
+    f.write("\n")
+PY
+  else
+    report "Configuring Docker to use the macOS keychain credential helper..."
+    mkdir -p "$(dirname "$docker_config")"
+    printf '{\n  "credsStore": "osxkeychain"\n}\n' >"$docker_config"
+  fi
 }
 
 macos_gpg() {

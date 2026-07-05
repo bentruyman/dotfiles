@@ -47,6 +47,7 @@ brew "zsh"
 
 if OS.mac?
   brew "colima"
+  brew "docker-credential-helper"
   brew "duti"
   brew "ffmpeg"
   brew "imagemagick"
