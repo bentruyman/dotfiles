@@ -111,14 +111,18 @@ alias gst "git status"
 function clone -d "Quickly clone git repos in a conventional way"
     set -l url $argv[1]
 
+    # Match https://, ssh://, or scp-style (git@host:path) URLs.
+    # Captures host ($1) and path ($2); strips optional user@, :port, and .git suffix.
+    set -l pattern '^(?:https?://|ssh://)?(?:[^@/]+@)?([^:/]+)(?::[0-9]+)?[/:](.+?)(?:\.git)?/?$'
+
     # Validate the URL format
-    if not string match -qr '^(https://|git@)([^:/]+)[/:](.*)\.git$' -- $url
+    if not string match -qr $pattern -- $url
         echo "Invalid repository URL: $url"
         echo "Please provide a valid git repository URL."
         return 1
     end
 
-    set -l repo_dir (string replace -r '^(https://|git@)([^:/]+)[/:](.*)\.git$' '$2/$3' -- $url)
+    set -l repo_dir (string replace -r $pattern '$1/$2' -- $url)
     set -l target_dir "$HOME/Development/src/$repo_dir"
 
     if not test -d "$target_dir"
