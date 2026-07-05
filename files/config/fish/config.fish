@@ -208,6 +208,9 @@ if test -e "$HOME/.proto"
         $proto_python_bins
 
     fish_add_path -g "$PROTO_HOME/bin"
+    # proto 0.58+ emits NDJSON in "AI agent" environments, which breaks
+    # `proto activate | source` (here and in the PWD-change hook it installs)
+    set -gx PROTO_REPORTER text
     proto activate fish | source
 end
 
