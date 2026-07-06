@@ -322,6 +322,9 @@ local neovim_only_plugins = {
   },
   {
     "obsidian-nvim/obsidian.nvim",
+    -- Only load where a machine-local vault is configured. Create
+    -- ~/.dotfiles/nvim/obsidian.lua (see lua/plugins/lang/obsidian.lua) to enable.
+    enabled = vim.fn.filereadable(vim.fn.expand("~/.dotfiles/nvim/obsidian.lua")) == 1,
     version = "*",
     ft = "markdown",
     dependencies = {
