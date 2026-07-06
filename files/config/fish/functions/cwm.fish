@@ -57,6 +57,24 @@ function cwm --description "Merge a worktree branch into the default branch, the
         return 1
     end
 
+    # Identify the tmux window `cw` set up for this worktree so we can close it
+    # after pruning. Match by a pane whose path is inside the target worktree;
+    # this works whether cwm runs from that tab or from another one.
+    set -l worktree_window ""
+    if set -q TMUX
+        set -l target_real (realpath $target_dir)
+        for line in (tmux list-panes -a -F '#{window_id} #{pane_current_path}')
+            set -l parts (string split ' ' -- $line)
+            set -l wid $parts[1]
+            set -l ppath (string join ' ' $parts[2..-1])
+            set -l ppath_real (realpath $ppath 2>/dev/null)
+            if test "$ppath_real" = "$target_real"; or string match -q -- "$target_real/*" "$ppath_real"
+                set worktree_window $wid
+                break
+            end
+        end
+    end
+
     # Move to the primary worktree so we can prune the one we came from.
     cd $main_dir
     or return 1
@@ -95,4 +113,10 @@ function cwm --description "Merge a worktree branch into the default branch, the
     echo "Deleting branch: $branch"
     git branch -d $branch
     or return 1
+
+    # Close the tmux tab cw created for this worktree. This kills the pane
+    # running cwm if it lives in that window, so keep it as the final step.
+    if test -n "$worktree_window"
+        tmux kill-window -t $worktree_window
+    end
 end
