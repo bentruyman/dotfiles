@@ -64,6 +64,11 @@ if test -d "$BUN_INSTALL/bin"
     fish_add_path -g "$BUN_INSTALL/bin"
 end
 
+# Claude
+alias fable "claude --model fable"
+alias opus "claude --model opus"
+alias pt "claude --model opus '/pressure-test'"
+
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
 alias dr "deno run -A"
