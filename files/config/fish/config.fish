@@ -216,6 +216,12 @@ if test -d "$HOME/.cargo/bin"
     fish_add_path -g "$HOME/.cargo/bin"
 end
 
+# Homebrew's rustup keeps the cargo/rustc proxies in its own prefix rather
+# than ~/.cargo/bin, so add it when present.
+if test -d /opt/homebrew/opt/rustup/bin
+    fish_add_path -g /opt/homebrew/opt/rustup/bin
+end
+
 # Path
 fish_add_path -g -a \
     "$HOME/.bin" \
