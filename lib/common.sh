@@ -53,13 +53,39 @@ common_repo() {
 
 common_dotfiles() {
   report "Linking dotfiles..."
-  for file in bin config gitconfig gitignore_global mackup.cfg tmux.conf; do
+  for file in bin gitconfig gitignore_global mackup.cfg tmux.conf; do
     if [ -d "${HOME}/.$file" ]; then
       echo "${HOME}/.$file is a directory. Skipping..."
     else
       ln -sf "${dotfiles_dir}/files/${file}" "${HOME}/.$file"
     fi
   done
+
+  # Link ~/.config entries individually instead of symlinking the whole
+  # directory. ~/.config already exists on essentially every Linux login
+  # (systemd/dbus/dconf create it), so a whole-directory symlink was silently
+  # skipped, leaving fish/nvim/etc. unlinked and fish falling back to its
+  # default stub. Per-entry linking works regardless and keeps unrelated
+  # ~/.config state from other apps out of the repo.
+  #
+  # Skip machines still on the legacy whole-directory symlink (original macOS
+  # setup): they already resolve correctly and shouldn't be migrated in place.
+  if [ ! -L "${HOME}/.config" ]; then
+    mkdir -p "${HOME}/.config"
+    local dest
+    for src in "${dotfiles_dir}"/files/config/*; do
+      dest="${HOME}/.config/$(basename "$src")"
+      if [ -L "$dest" ]; then
+        ln -sfn "$src" "$dest"
+      elif [ -e "$dest" ]; then
+        echo "${dest} exists and is not a symlink; backing up to ${dest}.pre-dotfiles"
+        mv "$dest" "${dest}.pre-dotfiles"
+        ln -s "$src" "$dest"
+      else
+        ln -s "$src" "$dest"
+      fi
+    done
+  fi
 
   report "Installing repositories..."
   clone_repo() {
