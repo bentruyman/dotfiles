@@ -25,3 +25,5 @@ common_dotfiles
 common_packages
 "${platform}_postpackages"
 common_tooling
+
+report "Setup complete. Open a new shell (or run 'exec fish') to load your environment."
