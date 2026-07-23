@@ -236,15 +236,19 @@ common_shell() {
 
   TERM="${TERM:-xterm-256color}" "$fish_bin" -c "tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='${tide_icons}' --transient=No"
 
-  # Tide bakes the resolved Cellar path (status fish-path) into fish_prompt, so
-  # `brew upgrade fish` breaks already-running sessions once the old Cellar dir is
-  # removed. Rewrite it to use the stable Homebrew symlink, which always points at
-  # the current version. Idempotent: a no-op once patched or if the template changes.
+  # Tide resolves the async worker's fish binary via `status fish-path`, which on
+  # macOS returns the versioned Cellar path; `brew upgrade fish` then breaks
+  # already-running sessions once that dir is removed. Rewrite it to prefer the
+  # stable Homebrew symlink on $PATH, but fall back to `status fish-path` when
+  # fish isn't on $PATH (e.g. a fresh Linux login before linuxbrew is on PATH) so
+  # $fish_path is never empty — an empty value collapses `$fish_path -c ...` to a
+  # bare `-c`, breaking the prompt. Idempotent: a no-op once patched or if the
+  # template changes.
   # shellcheck disable=SC2016  # fish (not bash) expands these single-quoted vars
   "$fish_bin" -c '
     set -l f $HOME/.config/fish/functions/fish_prompt.fish
     test -f $f; or exit 0
-    set -l patched (string replace "status fish-path | read -l fish_path" "command -v fish | read -l fish_path" <$f)
+    set -l patched (string replace "status fish-path | read -l fish_path" "begin command -v fish; or status fish-path; end | read -l fish_path" <$f)
     printf "%s\n" $patched >$f'
 }
 
