@@ -1,4 +1,12 @@
-local tea_parser_path = "/Users/bentruyman/Development/src/github.com/bentruyman/tea-lang/tree-sitter-tea"
+-- The tea parser is built from a local checkout of the tea-lang repo, which is
+-- not present on every machine. Skip it entirely when the checkout is missing.
+local tea_parser_path = vim.fs.normalize("~/Development/src/github.com/bentruyman/tea-lang/tree-sitter-tea")
+
+local function has_tea_parser_source()
+  local uv = vim.uv or vim.loop
+  local stat = uv and uv.fs_stat and uv.fs_stat(tea_parser_path) or nil
+  return stat ~= nil and stat.type == "directory"
+end
 
 local ensure_installed = {
   "bash",
@@ -11,7 +19,6 @@ local ensure_installed = {
   "markdown_inline",
   "query",
   "regex",
-  "tea",
   "tsx",
   "typescript",
   "vim",
@@ -28,7 +35,12 @@ local function register_tea_parser()
   }
 end
 
-register_tea_parser()
+local tea_available = has_tea_parser_source()
+
+if tea_available then
+  table.insert(ensure_installed, "tea")
+  register_tea_parser()
+end
 
 local treesitter = require("nvim-treesitter")
 local has_new_api = type(treesitter.install) == "function"
@@ -36,10 +48,12 @@ local has_new_api = type(treesitter.install) == "function"
 treesitter.setup()
 
 if has_new_api then
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "TSUpdate",
-    callback = register_tea_parser,
-  })
+  if tea_available then
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "TSUpdate",
+      callback = register_tea_parser,
+    })
+  end
 
   treesitter.install(ensure_installed)
 
