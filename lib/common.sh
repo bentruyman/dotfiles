@@ -121,6 +121,11 @@ common_packages() {
   fi
 
   report "Installing Homebrew packages..."
+  # Force serial downloads. Homebrew 4.6+ enables concurrent downloads by
+  # default, whose threads can race on the same bottle-manifest download lock
+  # during `brew bundle` (e.g. a shared dep like libcap), aborting the install
+  # with a spurious "process has already locked" error. Reliability > speed here.
+  export HOMEBREW_DOWNLOAD_CONCURRENCY=1
   brew update
   brew upgrade
   brew bundle install --file="${dotfiles_dir}/Brewfile"
