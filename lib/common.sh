@@ -144,8 +144,15 @@ common_tooling() {
     current_value=$(git config user."$1" 2>/dev/null || true)
 
     if [[ -z "$current_value" ]]; then
-      read -rp "Enter your git user $1: " config_value
-      git config -f ~/.gitconfig_user user."$1" "$config_value"
+      # Read from the controlling terminal, not the script's stdin: when
+      # bootstrapped via `curl … | bash`, stdin is the pipe and a bare `read`
+      # hits EOF, returning non-zero and killing the script under `set -e`.
+      if [[ -r /dev/tty ]]; then
+        read -rp "Enter your git user $1: " config_value </dev/tty
+        git config -f ~/.gitconfig_user user."$1" "$config_value"
+      else
+        echo "No terminal available; skipping git user.$1 (set it later in ~/.gitconfig_user)." >&2
+      fi
     fi
   }
   configure_git_user "email"
